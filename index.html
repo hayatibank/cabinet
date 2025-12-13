@@ -1,35 +1,64 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Авторизация / Регистрация</title>
-    
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-    <script type="module" src="./app.js"></script>
-    
-    </head>
+  <meta charset="UTF-8">
+  <title>Hayati Auth</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Telegram -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #0e0e11;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      width: 300px;
+    }
+    input, button {
+      width: 100%;
+      margin: 6px 0;
+      padding: 10px;
+    }
+    button {
+      background: #4caf50;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+    .toggle {
+      margin-top: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  </style>
+</head>
 <body>
-    <h1>Вход / Регистрация (MVP)</h1>
-    
-    <div id="auth-form-container">
-        <form id="login-form" onsubmit="event.preventDefault(); window.handleLogin(document.getElementById('login-email').value, document.getElementById('login-password').value);">
-            <h2>Вход</h2>
-            <input type="email" id="login-email" placeholder="Email" required><br>
-            <input type="password" id="login-password" placeholder="Пароль" required><br>
-            <button type="submit">Войти</button>
-        </form>
 
-        <hr>
+<div class="box">
+  <h3 id="title">Вход</h3>
 
-        <form id="registration-form" onsubmit="event.preventDefault(); window.handleRegistration(document.getElementById('reg-email').value, document.getElementById('reg-password').value);">
-            <h2>Регистрация</h2>
-            <input type="email" id="reg-email" placeholder="Email" required><br>
-            <input type="password" id="reg-password" placeholder="Пароль" required><br>
-            <button type="submit">Зарегистрироваться</button>
-        </form>
-    </div>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Пароль">
 
-    <p id="status-message" style="color: blue; margin-top: 15px;"></p>
+  <button id="submit">Войти</button>
+
+  <div class="toggle" id="toggle">
+    Нет аккаунта? Зарегистрироваться
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
