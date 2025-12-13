@@ -1,4 +1,6 @@
-// app.js
+// app.js - ИСПРАВЛЕННАЯ ВЕРСИЯ
+// Заменить только блок onAuthStateChanged (строки 248-313)
+
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { 
   getAuth, 
@@ -27,7 +29,6 @@ const firebaseConfig = {
   measurementId: "G-BYXEPGS2LM"
 };
 
-// Инициализация
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -37,16 +38,17 @@ const tg = window.Telegram?.WebApp;
 if (tg) {
   tg.ready();
   tg.expand();
-  console.log('Telegram WebApp initialized');
-  console.log('Init data:', tg.initDataUnsafe);
+  console.log('🔥 Telegram WebApp initialized');
+  console.log('📱 Init data:', tg.initDataUnsafe);
+  console.log('👤 User:', tg.initDataUnsafe?.user);
 }
 
 // Проверяем параметр mode в URL
 const urlParams = new URLSearchParams(window.location.search);
 const mode = urlParams.get('mode');
 
-console.log('URL params:', window.location.search);
-console.log('Mode:', mode);
+console.log('📋 URL params:', window.location.search);
+console.log('🎯 Mode:', mode);
 
 // DOM элементы
 const loginForm = document.getElementById('loginForm');
@@ -57,37 +59,28 @@ const loader = document.getElementById('loader');
 // Кнопки переключения форм
 document.getElementById('showRegisterLink').addEventListener('click', (e) => {
   e.preventDefault();
-  console.log('Switching to register form');
   showForm('register');
 });
 
 document.getElementById('showLoginLink').addEventListener('click', (e) => {
   e.preventDefault();
-  console.log('Switching to login form');
   showForm('login');
 });
 
 document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
   e.preventDefault();
-  console.log('Switching to reset form');
   showForm('reset');
 });
 
 document.getElementById('backToLoginLink').addEventListener('click', (e) => {
   e.preventDefault();
-  console.log('Switching to login form');
   showForm('login');
 });
 
-// Переключение между формами
 function showForm(formType) {
-  console.log('showForm called with:', formType);
-  
   loginForm.classList.add('hidden');
   registerForm.classList.add('hidden');
   resetForm.classList.add('hidden');
-  
-  // Очищаем ошибки
   clearErrors();
   
   if (formType === 'login') {
@@ -99,9 +92,7 @@ function showForm(formType) {
   }
 }
 
-// Показываем нужную форму при загрузке
 window.addEventListener('DOMContentLoaded', () => {
-  console.log('Page loaded, showing initial form');
   if (mode === 'register') {
     showForm('register');
   } else {
@@ -149,8 +140,7 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
   
   try {
     document.getElementById('loginBtn').disabled = true;
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    
+    await signInWithEmailAndPassword(auth, email, password);
     // Успешный вход - обрабатывается в onAuthStateChanged
   } catch (error) {
     document.getElementById('loginBtn').disabled = false;
@@ -198,6 +188,8 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
+    console.log('🎉 Registration successful:', user.uid);
+    
     // Создаём запись в Firestore
     await setDoc(doc(db, 'users', user.uid), {
       uid: user.uid,
@@ -207,6 +199,8 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
       accounts: [],
       telegramAccounts: []
     });
+    
+    console.log('✅ Firestore document created');
     
     // Успешная регистрация - обрабатывается в onAuthStateChanged
   } catch (error) {
@@ -258,46 +252,62 @@ document.getElementById('resetBtn').addEventListener('click', async () => {
   }
 });
 
-// Отслеживание состояния авторизации
+// ==========================================
+// 🔥 КЛЮЧЕВОЙ БЛОК: ОБРАБОТКА АВТОРИЗАЦИИ
+// ==========================================
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // Пользователь авторизован
+    console.log('🔥 User authenticated:', user.uid);
     showLoader();
     
     try {
       // Получаем ID token
       const token = await user.getIdToken();
+      console.log('✅ Token received');
+      
+      // Создаём payload для бота
+      const authPayload = {
+        type: 'auth_success',
+        uid: user.uid,
+        email: user.email,
+        token: token,
+        timestamp: Date.now()
+      };
+      
+      console.log('📦 Auth payload:', authPayload);
       
       // Проверяем запущен ли WebApp внутри Telegram
-      if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        console.log('Running in Telegram WebApp');
+      const isInTelegram = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
+      
+      if (isInTelegram) {
+        console.log('✅ Running in Telegram WebApp');
+        console.log('👤 Telegram user:', tg.initDataUnsafe.user);
         
-        // Запущен в Telegram - отправляем данные боту
-        tg.sendData(JSON.stringify({
-          type: 'auth_success',
-          uid: user.uid,
-          email: user.email,
-          token: token
-        }));
+        // 🔥 ОТПРАВЛЯЕМ ДАННЫЕ БОТУ
+        console.log('📤 Sending data to bot via tg.sendData()...');
         
-        // Закрываем WebApp через 500ms
+        try {
+          tg.sendData(JSON.stringify(authPayload));
+          console.log('✅ Data sent successfully');
+        } catch (sendError) {
+          console.error('❌ Error sending data:', sendError);
+        }
+        
+        // Закрываем WebApp через 1 секунду (даём время на отправку)
         setTimeout(() => {
+          console.log('🔒 Closing WebApp...');
           tg.close();
-        }, 500);
+        }, 1000);
+        
       } else {
-        console.log('Running in browser, not Telegram');
+        console.log('🌐 Running in browser (not Telegram)');
         
         // Запущен в браузере - используем Deep Link
-        // Создаём параметр для бота
-        const authPayload = btoa(JSON.stringify({
-          uid: user.uid,
-          email: user.email,
-          token: token
-        }));
+        const authPayloadB64 = btoa(JSON.stringify(authPayload));
+        const botUsername = 'HayatiBankBot';
+        const deepLink = `https://t.me/${botUsername}?start=auth_${authPayloadB64}`;
         
-        // Ссылка на бота с параметром
-        const botUsername = 'HayatiBankBot'; // Замени на свой username бота
-        const deepLink = `https://t.me/${botUsername}?start=auth_${authPayload}`;
+        console.log('🔗 Deep link generated:', deepLink.substring(0, 50) + '...');
         
         loader.innerHTML = `
           <div style="text-align: center; padding: 20px;">
@@ -320,7 +330,7 @@ onAuthStateChanged(auth, async (user) => {
         `;
       }
     } catch (error) {
-      console.error('Error getting token:', error);
+      console.error('❌ Error in auth handler:', error);
       showError('loginError', 'Ошибка получения токена');
       showForm('login');
     }
