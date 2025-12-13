@@ -1,245 +1,13 @@
+<!-- https://github.com/BusinessProcessLLC/HayatiBankBotAuth/tree/main. -->
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🔐 Авторизация</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --primary: #2563eb;
-      --primary-dark: #1e40af;
-      --success: #16a34a;
-      --error: #dc2626;
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --border: #334155;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 420px;
-      animation: fadeIn 0.3s ease-in;
-    }
-
-    .logo {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .logo h1 {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    .form-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-      animation: slideUp 0.3s ease-out;
-    }
-
-    .form-card h2 {
-      font-size: 24px;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-
-    .input-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 8px;
-      color: var(--text-muted);
-    }
-
-    input {
-      width: 100%;
-      padding: 12px 16px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-size: 16px;
-      transition: all 0.2s;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    button {
-      width: 100%;
-      padding: 12px 24px;
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 8px;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none !important;
-    }
-
-    .links {
-      display: flex;
-      justify-content: center;
-      margin-top: 16px;
-      gap: 16px;
-    }
-
-    .links a {
-      color: var(--primary);
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.2s;
-    }
-
-    .links a:hover {
-      color: var(--primary-dark);
-      text-decoration: underline;
-    }
-
-    .message {
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      display: none;
-    }
-
-    .message.success {
-      background: rgba(22, 163, 74, 0.1);
-      border: 1px solid var(--success);
-      color: #86efac;
-    }
-
-    .message.error {
-      background: rgba(220, 38, 38, 0.1);
-      border: 1px solid var(--error);
-      color: #fca5a5;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .loader {
-      text-align: center;
-      padding: 40px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-    }
-
-    .spinner {
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 16px;
-      border: 4px solid var(--border);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .form-card {
-        padding: 24px;
-      }
-      
-      .logo h1 {
-        font-size: 28px;
-      }
-    }
-
-    .debug {
-      margin-top: 20px;
-      padding: 12px;
-      background: #f5f5f5;
-      border-radius: 8px;
-      font-size: 12px;
-      color: #666;
-      font-family: monospace;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-  </style>
+  <title>🏦 ФД «Хаяти» — Вход</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
@@ -249,12 +17,10 @@
       <p class="subtitle">Управление капиталом</p>
     </div>
 
-    <!-- ФОРМА ВХОДА -->
+    <!-- Форма входа -->
     <div id="loginForm" class="form-card">
       <h2>Вход в систему</h2>
-
-      <div id="loginMessage" class="message"></div>
-
+      
       <div class="input-group">
         <label for="loginEmail">Email</label>
         <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email">
@@ -266,18 +32,19 @@
       </div>
 
       <button id="loginBtn" class="btn btn-primary">Войти</button>
-
+      
       <div class="links">
-        <a href="#" id="showRegister">Регистрация</a>
+        <a href="#" id="forgotPasswordLink">Забыли пароль?</a>
+        <a href="#" id="showRegisterLink">Регистрация</a>
       </div>
+
+      <div id="loginError" class="error hidden"></div>
     </div>
 
-    <!-- ФОРМА РЕГИСТРАЦИИ -->
+    <!-- Форма регистрации -->
     <div id="registerForm" class="form-card hidden">
       <h2>Регистрация</h2>
-
-      <div id="registerMessage" class="message"></div>
-
+      
       <div class="input-group">
         <label for="registerEmail">Email</label>
         <input type="email" id="registerEmail" placeholder="your@email.com" autocomplete="email">
@@ -294,20 +61,40 @@
       </div>
 
       <button id="registerBtn" class="btn btn-primary">Создать аккаунт</button>
-
+      
       <div class="links">
-        <a href="#" id="showLogin">Уже есть аккаунт? Войти</a>
+        <a href="#" id="showLoginLink">Уже есть аккаунт? Войти</a>
       </div>
+
+      <div id="registerError" class="error hidden"></div>
     </div>
 
-    <!-- ЗАГРУЗЧИК -->
+    <!-- Форма сброса пароля -->
+    <div id="resetForm" class="form-card hidden">
+      <h2>Сброс пароля</h2>
+      
+      <p class="info-text">Введите ваш email, и мы отправим ссылку для сброса пароля</p>
+      
+      <div class="input-group">
+        <label for="resetEmail">Email</label>
+        <input type="email" id="resetEmail" placeholder="your@email.com" autocomplete="email">
+      </div>
+
+      <button id="resetBtn" class="btn btn-primary">Отправить ссылку</button>
+      
+      <div class="links">
+        <a href="#" id="backToLoginLink">Назад к входу</a>
+      </div>
+
+      <div id="resetError" class="error hidden"></div>
+      <div id="resetSuccess" class="success hidden"></div>
+    </div>
+
+    <!-- Индикатор загрузки -->
     <div id="loader" class="loader hidden">
       <div class="spinner"></div>
       <p>Загрузка...</p>
     </div>
-
-    <!-- DEBUG INFO (только для разработки) -->
-    <div id="debug" class="debug"></div>
   </div>
 
   <!-- Firebase SDK -->
