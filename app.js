@@ -1,4 +1,5 @@
-// app.js - Полностью готовый WebApp для аутентификации
+// app.js
+
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { 
   getAuth, 
@@ -10,18 +11,21 @@ import {
 import { 
   getFirestore, 
   doc, 
-  setDoc,
+  setDoc, 
+  getDoc,
   serverTimestamp 
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// ВАЖНО: Замени эти данные на СВОИ из Firebase проекта
+// Firebase конфигурация
 const firebaseConfig = {
   apiKey: "AIzaSyB5CJlw23KPmN5HbY6S9gQKbUgb41_RxMw",
   authDomain: "tms-test-nlyynt.firebaseapp.com",
+  databaseURL: "https://tms-test-nlyynt.firebaseio.com",
   projectId: "tms-test-nlyynt",
   storageBucket: "tms-test-nlyynt.appspot.com",
   messagingSenderId: "1036707590928",
-  appId: "1:1036707590928:web:3519c03e00297347d0eb95"
+  appId: "1:1036707590928:web:3519c03e00297347d0eb95",
+  measurementId: "G-BYXEPGS2LM"
 };
 
 // Инициализация
@@ -29,20 +33,21 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Telegram WebApp
+// Получаем Telegram WebApp данные
 const tg = window.Telegram?.WebApp;
 if (tg) {
   tg.ready();
   tg.expand();
-  console.log('Telegram WebApp инициализирован');
+  console.log('Telegram WebApp initialized');
+  console.log('Init data:', tg.initDataUnsafe);
 }
 
-// Получаем параметры из URL
+// Проверяем параметр mode в URL
 const urlParams = new URLSearchParams(window.location.search);
-const mode = urlParams.get('mode') || 'login';
-const tgId = urlParams.get('tg_id'); // ID из Telegram бота
+const mode = urlParams.get('mode');
 
-console.log('Mode:', mode, 'Telegram ID:', tgId);
+console.log('URL params:', window.location.search);
+console.log('Mode:', mode);
 
 // DOM элементы
 const loginForm = document.getElementById('loginForm');
@@ -50,44 +55,61 @@ const registerForm = document.getElementById('registerForm');
 const resetForm = document.getElementById('resetForm');
 const loader = document.getElementById('loader');
 
-// === ПЕРЕКЛЮЧЕНИЕ ФОРМ ===
-document.getElementById('showRegisterLink')?.addEventListener('click', (e) => {
+// Кнопки переключения форм
+document.getElementById('showRegisterLink').addEventListener('click', (e) => {
   e.preventDefault();
+  console.log('Switching to register form');
   showForm('register');
 });
 
-document.getElementById('showLoginLink')?.addEventListener('click', (e) => {
+document.getElementById('showLoginLink').addEventListener('click', (e) => {
   e.preventDefault();
+  console.log('Switching to login form');
   showForm('login');
 });
 
-document.getElementById('forgotPasswordLink')?.addEventListener('click', (e) => {
+document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
   e.preventDefault();
+  console.log('Switching to reset form');
   showForm('reset');
 });
 
-document.getElementById('backToLoginLink')?.addEventListener('click', (e) => {
+document.getElementById('backToLoginLink').addEventListener('click', (e) => {
   e.preventDefault();
+  console.log('Switching to login form');
   showForm('login');
 });
 
-// Функция показа формы
+// Переключение между формами
 function showForm(formType) {
-  loginForm?.classList.add('hidden');
-  registerForm?.classList.add('hidden');
-  resetForm?.classList.add('hidden');
+  console.log('showForm called with:', formType);
+  
+  loginForm.classList.add('hidden');
+  registerForm.classList.add('hidden');
+  resetForm.classList.add('hidden');
+  
+  // Очищаем ошибки
   clearErrors();
   
-  if (formType === 'login' && loginForm) {
+  if (formType === 'login') {
     loginForm.classList.remove('hidden');
-  } else if (formType === 'register' && registerForm) {
+  } else if (formType === 'register') {
     registerForm.classList.remove('hidden');
-  } else if (formType === 'reset' && resetForm) {
+  } else if (formType === 'reset') {
     resetForm.classList.remove('hidden');
   }
 }
 
-// Очистка ошибок
+// Показываем нужную форму при загрузке
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('Page loaded, showing initial form');
+  if (mode === 'register') {
+    showForm('register');
+  } else {
+    showForm('login');
+  }
+});
+
 function clearErrors() {
   document.querySelectorAll('.error, .success').forEach(el => {
     el.classList.add('hidden');
@@ -95,34 +117,27 @@ function clearErrors() {
   });
 }
 
-// Показать ошибку
 function showError(elementId, message) {
   const el = document.getElementById(elementId);
-  if (el) {
-    el.textContent = message;
-    el.classList.remove('hidden');
-  }
+  el.textContent = message;
+  el.classList.remove('hidden');
 }
 
-// Показать успех
 function showSuccess(elementId, message) {
   const el = document.getElementById(elementId);
-  if (el) {
-    el.textContent = message;
-    el.classList.remove('hidden');
-  }
+  el.textContent = message;
+  el.classList.remove('hidden');
 }
 
-// Показать загрузку
 function showLoader() {
-  loginForm?.classList.add('hidden');
-  registerForm?.classList.add('hidden');
-  resetForm?.classList.add('hidden');
-  loader?.classList.remove('hidden');
+  loginForm.classList.add('hidden');
+  registerForm.classList.add('hidden');
+  resetForm.classList.add('hidden');
+  loader.classList.remove('hidden');
 }
 
-// === ВХОД ===
-document.getElementById('loginBtn')?.addEventListener('click', async () => {
+// ВХОД
+document.getElementById('loginBtn').addEventListener('click', async () => {
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
   
@@ -136,31 +151,28 @@ document.getElementById('loginBtn')?.addEventListener('click', async () => {
   try {
     document.getElementById('loginBtn').disabled = true;
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log('Вход успешен:', userCredential.user.uid);
-    // Дальше обработается в onAuthStateChanged
+    
+    // Успешный вход - обрабатывается в onAuthStateChanged
   } catch (error) {
     document.getElementById('loginBtn').disabled = false;
     let errorMessage = 'Ошибка входа';
     
-    switch (error.code) {
-      case 'auth/invalid-credential':
-      case 'auth/user-not-found':
-      case 'auth/wrong-password':
-        errorMessage = 'Неверный email или пароль';
-        break;
-      case 'auth/too-many-requests':
-        errorMessage = 'Слишком много попыток. Попробуйте позже';
-        break;
-      default:
-        errorMessage = error.message;
+    if (error.code === 'auth/invalid-credential') {
+      errorMessage = 'Неверный email или пароль';
+    } else if (error.code === 'auth/user-not-found') {
+      errorMessage = 'Пользователь не найден';
+    } else if (error.code === 'auth/wrong-password') {
+      errorMessage = 'Неверный пароль';
+    } else if (error.code === 'auth/too-many-requests') {
+      errorMessage = 'Слишком много попыток. Попробуйте позже';
     }
     
     showError('loginError', errorMessage);
   }
 });
 
-// === РЕГИСТРАЦИЯ ===
-document.getElementById('registerBtn')?.addEventListener('click', async () => {
+// РЕГИСТРАЦИЯ
+document.getElementById('registerBtn').addEventListener('click', async () => {
   const email = document.getElementById('registerEmail').value.trim();
   const password = document.getElementById('registerPassword').value;
   const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
@@ -173,7 +185,7 @@ document.getElementById('registerBtn')?.addEventListener('click', async () => {
   }
   
   if (password.length < 6) {
-    showError('registerError', 'Пароль минимум 6 символов');
+    showError('registerError', 'Пароль должен быть минимум 6 символов');
     return;
   }
   
@@ -187,40 +199,35 @@ document.getElementById('registerBtn')?.addEventListener('click', async () => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
-    // Создаем запись пользователя в Firestore
+    // Создаём запись в Firestore
     await setDoc(doc(db, 'users', user.uid), {
       uid: user.uid,
       email: user.email,
       createdAt: serverTimestamp(),
-      telegramIds: tgId ? [tgId] : [],
-      status: 'active'
+      status: 'active',
+      accounts: [],
+      telegramAccounts: []
     });
     
-    console.log('Регистрация успешна:', user.uid);
+    // Успешная регистрация - обрабатывается в onAuthStateChanged
   } catch (error) {
     document.getElementById('registerBtn').disabled = false;
     let errorMessage = 'Ошибка регистрации';
     
-    switch (error.code) {
-      case 'auth/email-already-in-use':
-        errorMessage = 'Email уже используется';
-        break;
-      case 'auth/invalid-email':
-        errorMessage = 'Неверный формат email';
-        break;
-      case 'auth/weak-password':
-        errorMessage = 'Слабый пароль';
-        break;
-      default:
-        errorMessage = error.message;
+    if (error.code === 'auth/email-already-in-use') {
+      errorMessage = 'Этот email уже зарегистрирован';
+    } else if (error.code === 'auth/invalid-email') {
+      errorMessage = 'Неверный формат email';
+    } else if (error.code === 'auth/weak-password') {
+      errorMessage = 'Слишком простой пароль';
     }
     
     showError('registerError', errorMessage);
   }
 });
 
-// === СБРОС ПАРОЛЯ ===
-document.getElementById('resetBtn')?.addEventListener('click', async () => {
+// СБРОС ПАРОЛЯ
+document.getElementById('resetBtn').addEventListener('click', async () => {
   const email = document.getElementById('resetEmail').value.trim();
   
   clearErrors();
@@ -234,7 +241,7 @@ document.getElementById('resetBtn')?.addEventListener('click', async () => {
     document.getElementById('resetBtn').disabled = true;
     await sendPasswordResetEmail(auth, email);
     
-    showSuccess('resetSuccess', 'Ссылка для сброса отправлена на email');
+    showSuccess('resetSuccess', 'Ссылка для сброса пароля отправлена на ваш email');
     document.getElementById('resetEmail').value = '';
     
     setTimeout(() => showForm('login'), 3000);
@@ -243,7 +250,7 @@ document.getElementById('resetBtn')?.addEventListener('click', async () => {
     let errorMessage = 'Ошибка отправки';
     
     if (error.code === 'auth/user-not-found') {
-      errorMessage = 'Пользователь не найден';
+      errorMessage = 'Пользователь с таким email не найден';
     } else if (error.code === 'auth/invalid-email') {
       errorMessage = 'Неверный формат email';
     }
@@ -252,114 +259,71 @@ document.getElementById('resetBtn')?.addEventListener('click', async () => {
   }
 });
 
-// === ОСНОВНАЯ ФУНКЦИЯ - ОТПРАВКА ДАННЫХ В БОТА ===
-async function sendAuthToBot(user, token) {
-  console.log('Отправляем данные в бота...');
-  
-  // Данные для отправки
-  const authData = {
-    type: 'auth_success',
-    uid: user.uid,
-    email: user.email,
-    token: token,
-    telegram_id: tgId || (tg?.initDataUnsafe?.user?.id) || null,
-    timestamp: new Date().toISOString()
-  };
-  
-  console.log('Данные для отправки:', authData);
-  
-  // Проверяем, запущен ли в Telegram WebApp
-  if (tg && tg.sendData) {
-    console.log('Отправляем через Telegram WebApp...');
-    tg.sendData(JSON.stringify(authData));
-    
-    // Закрываем WebApp через 1 секунду
-    setTimeout(() => {
-      if (tg.close) tg.close();
-    }, 1000);
-    
-    return true;
-  } else {
-    console.log('Запущен в браузере, показываем deep link...');
-    // Кодируем данные в base64 для передачи через URL
-    const encodedData = btoa(JSON.stringify(authData));
-    const botUsername = 'HayatiHodlBot'; // ЗАМЕНИ НА СВОЙ
-    const deepLink = `https://t.me/${botUsername}?start=auth_${encodedData}`;
-    
-    // Показываем пользователю ссылку
-    showDeepLinkScreen(user.email, deepLink);
-    return false;
-  }
-}
-
-// Экран с deep link для браузера
-function showDeepLinkScreen(email, deepLink) {
-  if (!loader) return;
-  
-  loader.innerHTML = `
-    <div style="text-align: center; padding: 20px;">
-      <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
-      <h2 style="color: #16a34a; margin-bottom: 16px;">Авторизация успешна!</h2>
-      <p style="color: #94a3b8; margin-bottom: 24px;">
-        Вы вошли как:<br>
-        <strong style="color: #f1f5f9;">${email}</strong>
-      </p>
-      <p style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">
-        Чтобы продолжить в боте, нажмите кнопку ниже:
-      </p>
-      <a href="${deepLink}" 
-         style="display: inline-block; background: #2563eb; color: white; 
-                padding: 12px 24px; border-radius: 8px; text-decoration: none;
-                font-weight: 600; margin-bottom: 16px;">
-        Открыть в Telegram боте
-      </a>
-      <p style="color: #94a3b8; font-size: 12px; margin-top: 16px;">
-        Или вернитесь в бота и нажмите "💼 Мой кабинет"
-      </p>
-    </div>
-  `;
-}
-
-// === СЛУШАТЕЛЬ ИЗМЕНЕНИЯ АВТОРИЗАЦИИ ===
+// Отслеживание состояния авторизации
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log('Пользователь авторизован:', user.email);
+    // Пользователь авторизован
     showLoader();
     
     try {
-      // Получаем токен
+      // Получаем ID token
       const token = await user.getIdToken();
-      console.log('Токен получен');
       
-      // Отправляем данные в бота
-      await sendAuthToBot(user, token);
-      
-    } catch (error) {
-      console.error('Ошибка получения токена:', error);
-      showError('loginError', 'Ошибка авторизации');
-      showForm('login');
-    }
-  } else {
-    console.log('Пользователь не авторизован');
-    // Показываем форму при загрузке
-    setTimeout(() => {
-      if (mode === 'register') {
-        showForm('register');
+      // Проверяем запущен ли WebApp внутри Telegram
+      if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        console.log('Running in Telegram WebApp');
+        
+        // Запущен в Telegram - отправляем данные боту
+        tg.sendData(JSON.stringify({
+          type: 'auth_success',
+          uid: user.uid,
+          email: user.email,
+          token: token
+        }));
+        
+        // Закрываем WebApp через 500ms
+        setTimeout(() => {
+          tg.close();
+        }, 500);
       } else {
-        showForm('login');
+        console.log('Running in browser, not Telegram');
+        
+        // Запущен в браузере - используем Deep Link
+        // Создаём параметр для бота
+        const authPayload = btoa(JSON.stringify({
+          uid: user.uid,
+          email: user.email,
+          token: token
+        }));
+        
+        // Ссылка на бота с параметром
+        const botUsername = 'HayatiHodlBot'; // Замени на свой username бота
+        const deepLink = `https://t.me/${botUsername}?start=auth_${authPayload}`;
+        
+        loader.innerHTML = `
+          <div style="text-align: center; padding: 20px;">
+            <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+            <h2 style="color: var(--success); margin-bottom: 16px;">Успешно!</h2>
+            <p style="color: var(--text-muted); margin-bottom: 24px;">
+              Вы авторизованы как:<br>
+              <strong style="color: var(--text);">${user.email}</strong>
+            </p>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">
+              Теперь откройте бота в Telegram, нажав кнопку ниже:
+            </p>
+            <a href="${deepLink}" class="btn btn-primary" style="display: inline-block; text-decoration: none;">
+              Открыть бота
+            </a>
+            <p style="color: var(--text-muted); font-size: 12px; margin-top: 16px;">
+              Или вернитесь в бота и нажмите "💼 Мой кабинет"
+            </p>
+          </div>
+        `;
       }
-    }, 500);
-  }
-});
-
-// Показываем нужную форму при загрузке
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('Страница загружена');
-  setTimeout(() => {
-    if (mode === 'register') {
-      showForm('register');
-    } else {
+    } catch (error) {
+      console.error('Error getting token:', error);
+      showError('loginError', 'Ошибка получения токена');
       showForm('login');
     }
-  }, 100);
+  }
 });
