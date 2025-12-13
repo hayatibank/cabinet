@@ -2,63 +2,235 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Hayati Auth</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Telegram -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
+  <title>🔐 Авторизация</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: sans-serif;
-      background: #0e0e11;
-      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
+      justify-content: center;
+      padding: 20px;
     }
-    .box {
-      width: 300px;
-    }
-    input, button {
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 400px;
       width: 100%;
-      margin: 6px 0;
-      padding: 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
-    button {
-      background: #4caf50;
-      border: none;
-      color: #fff;
-      cursor: pointer;
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #333;
     }
-    .toggle {
-      margin-top: 10px;
+
+    .subtitle {
+      color: #666;
       font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      opacity: 0.8;
+      transition: transform 0.2s;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .toggle {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .toggle a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .toggle a:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .loader {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      border: 4px solid #e0e0e0;
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .debug {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #666;
+      font-family: monospace;
+      max-height: 200px;
+      overflow-y: auto;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <!-- ФОРМА ВХОДА -->
+    <div id="loginForm">
+      <h1>🔐 Вход</h1>
+      <p class="subtitle">Войдите в систему</p>
 
-<div class="box">
-  <h3 id="title">Вход</h3>
+      <div id="loginMessage" class="message"></div>
 
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Пароль">
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email">
+      </div>
 
-  <button id="submit">Войти</button>
+      <div class="form-group">
+        <label for="loginPassword">Пароль</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+      </div>
 
-  <div class="toggle" id="toggle">
-    Нет аккаунта? Зарегистрироваться
+      <button id="loginBtn">Войти</button>
+
+      <div class="toggle">
+        Нет аккаунта? <a href="#" id="showRegister">Зарегистрироваться</a>
+      </div>
+    </div>
+
+    <!-- ФОРМА РЕГИСТРАЦИИ -->
+    <div id="registerForm" class="hidden">
+      <h1>✏️ Регистрация</h1>
+      <p class="subtitle">Создайте новый аккаунт</p>
+
+      <div id="registerMessage" class="message"></div>
+
+      <div class="form-group">
+        <label for="registerEmail">Email</label>
+        <input type="email" id="registerEmail" placeholder="your@email.com" autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label for="registerPassword">Пароль</label>
+        <input type="password" id="registerPassword" placeholder="Минимум 6 символов" autocomplete="new-password">
+      </div>
+
+      <div class="form-group">
+        <label for="registerPasswordConfirm">Подтвердите пароль</label>
+        <input type="password" id="registerPasswordConfirm" placeholder="••••••••" autocomplete="new-password">
+      </div>
+
+      <button id="registerBtn">Зарегистрироваться</button>
+
+      <div class="toggle">
+        Уже есть аккаунт? <a href="#" id="showLogin">Войти</a>
+      </div>
+    </div>
+
+    <!-- ЗАГРУЗЧИК -->
+    <div id="loader" class="hidden">
+      <div class="spinner"></div>
+      <p style="text-align: center; color: #666;">Обработка...</p>
+    </div>
+
+    <!-- DEBUG INFO (только для разработки) -->
+    <div id="debug" class="debug"></div>
   </div>
-</div>
 
-<script src="app.js"></script>
+  <!-- Firebase SDK -->
+  <script type="module" src="app.js"></script>
 </body>
 </html>
