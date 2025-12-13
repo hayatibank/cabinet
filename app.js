@@ -39,6 +39,17 @@ if (tg) {
   tg.expand();
 }
 
+// Проверяем параметр mode в URL
+const urlParams = new URLSearchParams(window.location.search);
+const mode = urlParams.get('mode');
+
+// Показываем нужную форму при загрузке
+if (mode === 'register') {
+  showForm('register');
+} else {
+  showForm('login');
+}
+
 // DOM элементы
 const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
