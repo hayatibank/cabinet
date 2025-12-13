@@ -37,18 +37,16 @@ const tg = window.Telegram?.WebApp;
 if (tg) {
   tg.ready();
   tg.expand();
+  console.log('Telegram WebApp initialized');
+  console.log('Init data:', tg.initDataUnsafe);
 }
 
 // Проверяем параметр mode в URL
 const urlParams = new URLSearchParams(window.location.search);
 const mode = urlParams.get('mode');
 
-// Показываем нужную форму при загрузке
-if (mode === 'register') {
-  showForm('register');
-} else {
-  showForm('login');
-}
+console.log('URL params:', window.location.search);
+console.log('Mode:', mode);
 
 // DOM элементы
 const loginForm = document.getElementById('loginForm');
@@ -59,26 +57,32 @@ const loader = document.getElementById('loader');
 // Кнопки переключения форм
 document.getElementById('showRegisterLink').addEventListener('click', (e) => {
   e.preventDefault();
+  console.log('Switching to register form');
   showForm('register');
 });
 
 document.getElementById('showLoginLink').addEventListener('click', (e) => {
   e.preventDefault();
+  console.log('Switching to login form');
   showForm('login');
 });
 
 document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
   e.preventDefault();
+  console.log('Switching to reset form');
   showForm('reset');
 });
 
 document.getElementById('backToLoginLink').addEventListener('click', (e) => {
   e.preventDefault();
+  console.log('Switching to login form');
   showForm('login');
 });
 
 // Переключение между формами
 function showForm(formType) {
+  console.log('showForm called with:', formType);
+  
   loginForm.classList.add('hidden');
   registerForm.classList.add('hidden');
   resetForm.classList.add('hidden');
@@ -94,6 +98,16 @@ function showForm(formType) {
     resetForm.classList.remove('hidden');
   }
 }
+
+// Показываем нужную форму при загрузке
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('Page loaded, showing initial form');
+  if (mode === 'register') {
+    showForm('register');
+  } else {
+    showForm('login');
+  }
+});
 
 function clearErrors() {
   document.querySelectorAll('.error, .success').forEach(el => {
