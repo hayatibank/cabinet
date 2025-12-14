@@ -1,34 +1,25 @@
-// webapp/app.js v1.3 FINAL
-// Fetches API_URL from backend config endpoint
+// webapp/app.js v1.4 - Modular structure, fixed session persistence
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { 
-  getFirestore, 
-  doc, 
-  setDoc,
-  serverTimestamp 
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyB5CJlw23KPmN5HbY6S9gQKbUgb41_RxMw",
-  authDomain: "tms-test-nlyynt.firebaseapp.com",
-  databaseURL: "https://tms-test-nlyynt.firebaseio.com",
-  projectId: "tms-test-nlyynt",
-  storageBucket: "tms-test-nlyynt.appspot.com",
-  messagingSenderId: "1036707590928",
-  appId: "1:1036707590928:web:3519c03e00297347d0eb95",
-  measurementId: "G-BYXEPGS2LM"
-};
+// Import modules
+import { FIREBASE_CONFIG, fetchApiConfig } from './js/config.js';
+import { checkTelegramBinding, silentLogin, validateToken } from './js/api.js';
+import { login, register, resetPassword } from './js/auth.js';
+import { getSession, saveSession, clearSession } from './js/session.js';
+import { 
+  showLoadingScreen, 
+  showAuthScreen, 
+  showCabinet, 
+  clearErrors,
+  showError,
+  showSuccess 
+} from './js/ui.js';
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
@@ -38,144 +29,20 @@ if (tg) {
   tg.ready();
   tg.expand();
   console.log('✅ Telegram WebApp initialized');
+  console.log('📱 User:', tg.initDataUnsafe?.user);
 }
 
-// ======================
-// API_URL CONFIGURATION
-// ======================
-
-// Global variable for API_URL (will be set after fetching config)
-let API_URL = null;
-
-/**
- * Fetch API configuration from backend
- * Tries multiple possible URLs until one succeeds
- */
-async function fetchApiConfig() {
-  // Possible backend URLs to try (in order of priority)
-  const possibleUrls = [
-    // 1. From localStorage (manual override)
-    localStorage.getItem('hayati_api_url'),
-    
-    // 2. From window variable (for quick console testing)
-    window.HAYATI_API_URL,
-    
-    // 3. Production URL (if deployed)
-    'https://api.hayatibank.ru',
-    
-    // 4. LocalTunnel URL (common dev pattern)
-    'https://hayati-bank-test.loca.lt',
-    
-    // 5. Localhost (local development)
-    'http://localhost:3000'
-  ].filter(Boolean); // Remove nulls
-
-  for (const url of possibleUrls) {
-    try {
-      console.log(`🔍 Trying API URL: ${url}`);
-      
-      const response = await fetch(`${url}/api/config`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (response.ok) {
-        const config = await response.json();
-        API_URL = config.apiUrl || url;
-        
-        console.log(`✅ API config loaded from: ${url}`);
-        console.log(`🌐 Using API_URL: ${API_URL}`);
-        console.log(`🔧 Environment: ${config.environment}`);
-        console.log(`📦 Version: ${config.version}`);
-        
-        return true;
-      }
-    } catch (err) {
-      console.warn(`⚠️ Failed to fetch config from ${url}:`, err.message);
-    }
-  }
-
-  // If all failed, use fallback
-  API_URL = 'http://localhost:3000';
-  console.error('❌ All config URLs failed, using fallback:', API_URL);
-  return false;
-}
-
-// Helper functions for manual URL management (backwards compatibility)
-window.setApiUrl = function(url) {
-  localStorage.setItem('hayati_api_url', url);
-  console.log('✅ API_URL saved to localStorage:', url);
-  console.log('🔄 Reload page to apply');
-};
-
-window.getApiUrl = function() {
-  return API_URL;
-};
-
-window.clearApiUrl = function() {
-  localStorage.removeItem('hayati_api_url');
-  console.log('✅ API_URL cleared');
-  console.log('🔄 Reload page to fetch from backend');
-};
-
-// DOM Elements
-const loadingScreen = document.getElementById('loadingScreen');
-const authScreen = document.getElementById('authScreen');
-const cabinetScreen = document.getElementById('cabinetScreen');
-
-// Auth forms
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-const resetForm = document.getElementById('resetForm');
-
-// ======================
-// SCREEN MANAGEMENT
-// ======================
-
-function showScreen(screenId) {
-  [loadingScreen, authScreen, cabinetScreen].forEach(screen => {
-    if (screen) screen.classList.add('hidden');
-  });
-  
-  const targetScreen = document.getElementById(screenId);
-  if (targetScreen) {
-    targetScreen.classList.remove('hidden');
-  }
-}
-
-function showLoadingScreen(message = 'Загрузка...') {
-  showScreen('loadingScreen');
-  const loadingText = loadingScreen.querySelector('p');
-  if (loadingText) loadingText.textContent = message;
-}
-
-function showAuthScreen(mode = 'login') {
-  showScreen('authScreen');
-  
-  if (loginForm) loginForm.classList.add('hidden');
-  if (registerForm) registerForm.classList.add('hidden');
-  if (resetForm) resetForm.classList.add('hidden');
-  
-  if (mode === 'login' && loginForm) {
-    loginForm.classList.remove('hidden');
-  } else if (mode === 'register' && registerForm) {
-    registerForm.classList.remove('hidden');
-  } else if (mode === 'reset' && resetForm) {
-    resetForm.classList.remove('hidden');
+// Telegram data helper
+function getTelegramData() {
+  if (!tg || !tg.initDataUnsafe?.user) {
+    return null;
   }
   
-  clearErrors();
-}
-
-function showCabinet(userData) {
-  showScreen('cabinetScreen');
-  
-  const userEmailEl = document.querySelector('.user-email');
-  if (userEmailEl) {
-    userEmailEl.textContent = userData.email || 'Unknown';
-  }
-  
-  console.log('✅ Cabinet opened for:', userData.email);
+  return {
+    chatId: tg.initDataUnsafe.user.id,
+    initData: tg.initData,
+    user: tg.initDataUnsafe.user
+  };
 }
 
 // ======================
@@ -189,57 +56,55 @@ async function initMiniApp() {
     // STEP 0: Fetch API configuration
     await fetchApiConfig();
     
-    if (!API_URL) {
-      throw new Error('Failed to load API configuration');
-    }
-    
     showLoadingScreen('Проверка авторизации...');
     
-    const chatId = tg?.initDataUnsafe?.user?.id;
-    const initData = tg?.initData;
+    const telegramData = getTelegramData();
+    const chatId = telegramData?.chatId;
+    const initData = telegramData?.initData;
     
     console.log('📱 Mini App started');
-    console.log('Chat ID:', chatId);
+    if (chatId) {
+      console.log('👤 Telegram User ID:', chatId);
+    }
     
     // STEP 1: Check localStorage for existing session
-    const session = localStorage.getItem('hayati_session');
+    const session = getSession();
     
     if (session) {
-      console.log('🔍 Found session in localStorage');
-      const { authToken, tokenExpiry, uid, email } = JSON.parse(session);
+      console.log('🔍 Found valid session in localStorage');
+      console.log('👤 User:', session.email);
       
-      if (Date.now() < tokenExpiry) {
-        console.log('✅ Token still valid, validating...');
-        
-        const isValid = await validateToken(authToken, uid);
-        
-        if (isValid) {
-          console.log('✅ Token validated, showing cabinet');
-          return showCabinet({ uid, email });
-        } else {
-          console.log('⚠️ Token invalid, clearing session');
-          localStorage.removeItem('hayati_session');
-        }
+      // Validate token with backend
+      const isValid = await validateToken(session.authToken, session.uid);
+      
+      if (isValid) {
+        console.log('✅ Token validated, showing cabinet');
+        return showCabinet({ 
+          uid: session.uid, 
+          email: session.email 
+        });
       } else {
-        console.log('⏰ Token expired, clearing session');
-        localStorage.removeItem('hayati_session');
+        console.log('⚠️ Token invalid, clearing session');
+        clearSession();
       }
     }
     
-    // STEP 2: Check Telegram binding
+    // STEP 2: Check Telegram binding (silent login)
     if (chatId && initData) {
       console.log('🔍 Checking Telegram binding...');
       
       const binding = await checkTelegramBinding(chatId, initData);
       
       if (binding && binding.bound && binding.uid) {
-        console.log('✅ Found Telegram binding, attempting silent login...');
+        console.log('✅ Found Telegram binding');
+        console.log('🔐 Attempting silent login...');
         
         const loginResult = await silentLogin(binding.uid, chatId, initData);
         
         if (loginResult && loginResult.success) {
           console.log('✅ Silent login successful');
           
+          // Save session to localStorage
           saveSession({
             authToken: loginResult.authToken,
             tokenExpiry: loginResult.tokenExpiry,
@@ -251,12 +116,16 @@ async function initMiniApp() {
             uid: loginResult.uid, 
             email: loginResult.email 
           });
+        } else {
+          console.warn('⚠️ Silent login failed');
         }
+      } else {
+        console.log('ℹ️ No Telegram binding found');
       }
     }
     
-    // STEP 3: Show auth screen
-    console.log('🔓 No session found, showing auth screen');
+    // STEP 3: No session and no binding - show auth screen
+    console.log('🔓 No authentication found, showing login screen');
     showAuthScreen('login');
     
   } catch (err) {
@@ -266,121 +135,8 @@ async function initMiniApp() {
 }
 
 // ======================
-// API CALLS
+// EVENT HANDLERS
 // ======================
-
-async function checkTelegramBinding(chatId, initData) {
-  try {
-    const response = await fetch(`${API_URL}/api/check-telegram-binding`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chatId, initData })
-    });
-    
-    if (!response.ok) return null;
-    return await response.json();
-  } catch (err) {
-    console.error('❌ Error checking binding:', err);
-    return null;
-  }
-}
-
-async function silentLogin(uid, chatId, initData) {
-  try {
-    const response = await fetch(`${API_URL}/api/silent-login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ uid, chatId, initData })
-    });
-    
-    if (!response.ok) return null;
-    return await response.json();
-  } catch (err) {
-    console.error('❌ Error during silent login:', err);
-    return null;
-  }
-}
-
-async function validateToken(authToken, uid) {
-  try {
-    const response = await fetch(`${API_URL}/api/validate-token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ authToken, uid })
-    });
-    
-    if (!response.ok) return false;
-    const result = await response.json();
-    return result.valid === true;
-  } catch (err) {
-    console.error('❌ Error validating token:', err);
-    return false;
-  }
-}
-
-async function linkTelegramAccount(uid, authToken) {
-  try {
-    const chatId = tg?.initDataUnsafe?.user?.id;
-    const initData = tg?.initData;
-    const telegramUser = tg?.initDataUnsafe?.user;
-    
-    if (!chatId || !initData) return false;
-    
-    const response = await fetch(`${API_URL}/api/link-telegram`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ uid, chatId, initData, telegramUser, authToken })
-    });
-    
-    if (!response.ok) return false;
-    const result = await response.json();
-    return result.success === true;
-  } catch (err) {
-    console.error('❌ Error linking Telegram:', err);
-    return false;
-  }
-}
-
-// ======================
-// SESSION MANAGEMENT
-// ======================
-
-function saveSession(sessionData) {
-  localStorage.setItem('hayati_session', JSON.stringify(sessionData));
-  console.log('💾 Session saved');
-}
-
-function clearSession() {
-  localStorage.removeItem('hayati_session');
-  console.log('🗑️ Session cleared');
-}
-
-// ======================
-// AUTH FORMS
-// ======================
-
-function clearErrors() {
-  document.querySelectorAll('.error, .success').forEach(el => {
-    el.classList.add('hidden');
-    el.textContent = '';
-  });
-}
-
-function showError(elementId, message) {
-  const el = document.getElementById(elementId);
-  if (el) {
-    el.textContent = message;
-    el.classList.remove('hidden');
-  }
-}
-
-function showSuccess(elementId, message) {
-  const el = document.getElementById(elementId);
-  if (el) {
-    el.textContent = message;
-    el.classList.remove('hidden');
-  }
-}
 
 // LOGIN
 document.getElementById('loginBtn')?.addEventListener('click', async () => {
@@ -394,35 +150,14 @@ document.getElementById('loginBtn')?.addEventListener('click', async () => {
     return;
   }
   
-  try {
-    document.getElementById('loginBtn').disabled = true;
-    showLoadingScreen('Вход в систему...');
-    
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    const token = await user.getIdToken();
-    
-    await linkTelegramAccount(user.uid, token);
-    
-    saveSession({
-      authToken: token,
-      tokenExpiry: Date.now() + (30 * 24 * 60 * 60 * 1000),
-      uid: user.uid,
-      email: user.email
-    });
-    
-    showCabinet({ uid: user.uid, email: user.email });
-    
-  } catch (error) {
-    document.getElementById('loginBtn').disabled = false;
-    
-    let errorMessage = 'Ошибка входа';
-    if (error.code === 'auth/invalid-credential') {
-      errorMessage = 'Неверный email или пароль';
-    }
-    
-    showAuthScreen('login');
-    showError('loginError', errorMessage);
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  
+  const telegramData = getTelegramData();
+  const result = await login(auth, email, password, telegramData);
+  
+  if (!result.success) {
+    btn.disabled = false;
   }
 });
 
@@ -434,116 +169,14 @@ document.getElementById('registerBtn')?.addEventListener('click', async () => {
   
   clearErrors();
   
-  if (!email || !password || !passwordConfirm) {
-    showError('registerError', 'Заполните все поля');
-    return;
-  }
+  const btn = document.getElementById('registerBtn');
+  btn.disabled = true;
   
-  if (password.length < 6) {
-    showError('registerError', 'Пароль должен быть минимум 6 символов');
-    return;
-  }
+  const telegramData = getTelegramData();
+  const result = await register(auth, db, email, password, passwordConfirm, telegramData);
   
-  if (password !== passwordConfirm) {
-    showError('registerError', 'Пароли не совпадают');
-    return;
-  }
-  
-  try {
-    document.getElementById('registerBtn').disabled = true;
-    showLoadingScreen('Регистрация...');
-    
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    const token = await user.getIdToken();
-    
-    // Get Telegram data if available
-    const tgUser = tg?.initDataUnsafe?.user;
-    const tgChatId = tgUser?.id;
-    
-    // Create user document in Firestore with full structure
-    await setDoc(doc(db, 'users', user.uid), {
-      // SSOT: Firebase Auth UID
-      uid: user.uid,
-      email: user.email,
-      
-      // Timestamps
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-      
-      // Status
-      status: 'active',
-      createdBy: tgChatId ? 'telegram-mini-app' : 'web',
-      
-      // Profile
-      profile: {
-        createdAt: serverTimestamp(),
-        userType: tgChatId ? 'telegram' : 'web',
-        riskLevel: 'unknown',
-        segment: 'registered'
-      },
-      
-      // Contacts
-      contacts: {
-        email: user.email,
-        phone: null,
-        telegram: tgUser?.username ? `https://t.me/${tgUser.username}` : null
-      },
-      
-      // Telegram metadata (if registered from Telegram)
-      ...(tgUser && {
-        tgId: tgUser.id,
-        tgUsername: tgUser.username || null,
-        tgLanguage: tgUser.language_code || null,
-        tgIsPremium: tgUser.is_premium || false,
-        nameFirst: tgUser.first_name || null,
-        nameLast: tgUser.last_name || null,
-        nameFull: `${tgUser.first_name || ''}${tgUser.last_name ? ' ' + tgUser.last_name : ''}`.trim() || null
-      }),
-      
-      // Arrays
-      telegramAccounts: [],
-      userAccessIDs: tgChatId ? [String(tgChatId), tgChatId] : [],
-      userActionCasesPermitted: [
-        'balanceShow',
-        'paymentsShow',
-        'expenseItemsShowAll'
-      ]
-    });
-    
-    console.log('✅ User document created in Firestore');
-    console.log('✅ Registration successful:', user.email);
-    
-    // Link Telegram if opened from Telegram
-    if (tgChatId) {
-      await linkTelegramAccount(user.uid, token);
-    }
-    
-    // Save session
-    saveSession({
-      authToken: token,
-      tokenExpiry: Date.now() + (30 * 24 * 60 * 60 * 1000),
-      uid: user.uid,
-      email: user.email
-    });
-    
-    // Show cabinet
-    showCabinet({ uid: user.uid, email: user.email });
-    
-  } catch (error) {
-    document.getElementById('registerBtn').disabled = false;
-    
-    let errorMessage = 'Ошибка регистрации';
-    if (error.code === 'auth/email-already-in-use') {
-      errorMessage = 'Этот email уже зарегистрирован';
-    } else if (error.code === 'auth/invalid-email') {
-      errorMessage = 'Неверный формат email';
-    } else if (error.code === 'auth/weak-password') {
-      errorMessage = 'Слишком простой пароль';
-    }
-    
-    showAuthScreen('register');
-    showError('registerError', errorMessage);
+  if (!result.success) {
+    btn.disabled = false;
   }
 });
 
@@ -553,30 +186,21 @@ document.getElementById('resetBtn')?.addEventListener('click', async () => {
   
   clearErrors();
   
-  if (!email) {
-    showError('resetError', 'Введите email');
-    return;
-  }
+  const btn = document.getElementById('resetBtn');
+  btn.disabled = true;
   
-  try {
-    document.getElementById('resetBtn').disabled = true;
-    await sendPasswordResetEmail(auth, email);
-    
+  const result = await resetPassword(auth, email);
+  
+  if (result.success) {
     showSuccess('resetSuccess', 'Ссылка для сброса пароля отправлена на ваш email');
     document.getElementById('resetEmail').value = '';
     
-    setTimeout(() => showAuthScreen('login'), 3000);
-  } catch (error) {
-    document.getElementById('resetBtn').disabled = false;
-    
-    let errorMessage = 'Ошибка отправки';
-    if (error.code === 'auth/user-not-found') {
-      errorMessage = 'Пользователь с таким email не найден';
-    } else if (error.code === 'auth/invalid-email') {
-      errorMessage = 'Неверный формат email';
-    }
-    
-    showError('resetError', errorMessage);
+    setTimeout(() => {
+      btn.disabled = false;
+      showAuthScreen('login');
+    }, 3000);
+  } else {
+    btn.disabled = false;
   }
 });
 
@@ -601,11 +225,19 @@ document.getElementById('backToLoginLink')?.addEventListener('click', (e) => {
   showAuthScreen('login');
 });
 
+// LOGOUT (if you add a logout button)
+window.logout = function() {
+  clearSession();
+  showAuthScreen('login');
+  console.log('👋 Logged out');
+};
+
 // ======================
 // START APP
 // ======================
 
 window.addEventListener('DOMContentLoaded', () => {
   console.log('🚀 Mini App DOM loaded');
+  console.log('📦 Version: 1.4 (modular)');
   initMiniApp();
 });
