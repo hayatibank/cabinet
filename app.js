@@ -42,7 +42,8 @@ if (tg) {
 }
 
 // API URL (change this to your ngrok URL during development)
-const API_URL = 'http://localhost:3000'; // TODO: Change to ngrok URL
+// const API_URL = 'http://localhost:3000'; // TODO: Change to ngrok URL
+const API_URL = 'https://c4c6f193f4c5.ngrok-free.app'
 
 // DOM Elements
 const loadingScreen = document.getElementById('loadingScreen');
