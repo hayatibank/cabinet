@@ -149,3 +149,30 @@ export async function deleteUserAccount(uid, authToken) {
     return false;
   }
 }
+
+/**
+ * Delete telegram_sessions (logout)
+ */
+export async function deleteTelegramSession(chatId, uid, authToken) {
+  try {
+    console.log('🗑️ Deleting telegram_sessions...');
+    
+    const response = await fetch(`${API_URL}/api/logout-telegram`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chatId, uid, authToken })
+    });
+    
+    if (!response.ok) {
+      console.error('❌ Session deletion failed:', response.status);
+      return false;
+    }
+    
+    const result = await response.json();
+    console.log('✅ telegram_sessions deleted');
+    return result.success === true;
+  } catch (err) {
+    console.error('❌ Error deleting telegram_sessions:', err);
+    return false;
+  }
+}
