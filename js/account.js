@@ -4,7 +4,7 @@
 import { getAuth, deleteUser as firebaseDeleteUser } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { clearSession, getSession } from './session.js';
 import { showAuthScreen, showLoadingScreen } from './ui.js';
-import { deleteUserAccount } from './api.js';
+import { deleteUserAccount, deleteTelegramSession } from './api.js';
 
 /**
  * Logout user
@@ -13,14 +13,36 @@ export async function logout() {
   try {
     console.log('👋 Logging out...');
     
-    // Clear session from localStorage
+    // Get current session before clearing
+    const session = getSession();
+    
+    // FORCE clear session from localStorage
     clearSession();
+    localStorage.removeItem('hayati_session'); // Double clear
     
     // Sign out from Firebase Auth
     const auth = getAuth();
     await auth.signOut();
     
+    // Delete telegram_sessions from backend
+    if (session && session.uid) {
+      console.log('🗑️ Deleting telegram_sessions from backend...');
+      
+      const tg = window.Telegram?.WebApp;
+      const chatId = tg?.initDataUnsafe?.user?.id;
+      
+      if (chatId) {
+        try {
+          await deleteTelegramSession(chatId, session.uid, session.authToken);
+          console.log('✅ telegram_sessions deleted');
+        } catch (err) {
+          console.warn('⚠️ Failed to delete telegram_sessions:', err);
+        }
+      }
+    }
+    
     console.log('✅ Logged out successfully');
+    console.log('🔍 localStorage after logout:', localStorage.getItem('hayati_session'));
     
     // Show auth screen
     showAuthScreen('login');
@@ -29,6 +51,8 @@ export async function logout() {
     console.error('❌ Error during logout:', err);
     // Force clear and reload
     clearSession();
+    localStorage.removeItem('hayati_session');
+    localStorage.clear(); // Nuclear option
     location.reload();
   }
 }
