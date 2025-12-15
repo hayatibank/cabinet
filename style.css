@@ -1,5 +1,4 @@
-/* webapp/style.css v1.1 */
-/* Updated with multi-screen and cabinet styles */
+/* style.css v1.2.2 - Updated with cabinet and buttons */
 
 * {
   margin: 0;
@@ -10,8 +9,10 @@
 :root {
   --primary: #2563eb;
   --primary-dark: #1e40af;
+  --secondary: #64748b;
   --success: #16a34a;
   --error: #dc2626;
+  --danger: #dc2626;
   --bg: #0f172a;
   --card-bg: #1e293b;
   --text: #f1f5f9;
@@ -20,7 +21,7 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   color: var(--text);
   min-height: 100vh;
@@ -36,22 +37,40 @@ body {
   animation: fadeIn 0.3s ease-in;
 }
 
-/* ===============================
-   SCREEN MANAGEMENT
-   =============================== */
-
 .screen {
   display: block;
-  animation: slideUp 0.3s ease-out;
 }
 
-.screen.hidden {
+.hidden {
   display: none !important;
 }
 
-/* ===============================
-   LOGO
-   =============================== */
+/* ======================== */
+/* LOADING SCREEN */
+/* ======================== */
+
+#loadingScreen {
+  text-align: center;
+  padding: 40px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ======================== */
+/* AUTH SCREEN */
+/* ======================== */
 
 .logo {
   text-align: center;
@@ -72,10 +91,6 @@ body {
   color: var(--text-muted);
   font-size: 14px;
 }
-
-/* ===============================
-   FORM CARD (Auth screens)
-   =============================== */
 
 .form-card {
   background: var(--card-bg);
@@ -144,7 +159,26 @@ body {
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
 }
 
-.btn-primary:active {
+.btn-secondary {
+  background: var(--secondary);
+  color: white;
+  margin-bottom: 12px;
+}
+
+.btn-secondary:hover {
+  background: #475569;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn:active {
   transform: translateY(0);
 }
 
@@ -203,102 +237,58 @@ body {
   text-align: center;
 }
 
-.hidden {
-  display: none !important;
-}
+/* ======================== */
+/* CABINET SCREEN */
+/* ======================== */
 
-/* ===============================
-   LOADING SCREEN
-   =============================== */
-
-.loader {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.spinner {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 16px;
-  border: 4px solid var(--border);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-.loader p {
-  color: var(--text-muted);
-  font-size: 14px;
-}
-
-/* ===============================
-   CABINET SCREEN
-   =============================== */
-
-.cabinet-header {
+.cabinet-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 20px;
+  padding: 32px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
 }
 
-.cabinet-header h1 {
-  font-size: 24px;
-  margin-bottom: 16px;
+.cabinet-header {
   text-align: center;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
 }
 
-.user-info {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px 16px;
-}
-
-.user-label {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 4px;
+.cabinet-header h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
 }
 
 .user-email {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text);
+  color: var(--text-muted);
+  font-size: 14px;
 }
 
 .cabinet-content {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-}
-
-.info-message {
-  text-align: center;
+  margin-bottom: 24px;
   padding: 20px;
+  background: var(--bg);
+  border-radius: 8px;
+  text-align: center;
 }
 
-.info-message p {
-  margin-bottom: 12px;
-  font-size: 16px;
+.cabinet-content p {
+  margin-bottom: 8px;
+  line-height: 1.6;
 }
 
-.info-message .info-text {
-  font-size: 14px;
-  color: var(--text-muted);
+.cabinet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* ===============================
-   ANIMATIONS
-   =============================== */
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+/* ======================== */
+/* ANIMATIONS */
+/* ======================== */
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -316,12 +306,12 @@ body {
   }
 }
 
-/* ===============================
-   RESPONSIVE
-   =============================== */
+/* ======================== */
+/* RESPONSIVE */
+/* ======================== */
 
 @media (max-width: 480px) {
-  .form-card, .cabinet-header, .cabinet-content {
+  .form-card, .cabinet-card {
     padding: 24px;
   }
   
