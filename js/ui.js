@@ -1,5 +1,5 @@
 // webapp/js/ui.js
-// UI management (screens, errors, etc.)
+// UI management (screens, errors, buttons)
 
 // DOM Elements
 const loadingScreen = document.getElementById('loadingScreen');
@@ -11,7 +11,7 @@ const registerForm = document.getElementById('registerForm');
 const resetForm = document.getElementById('resetForm');
 
 /**
- * Show specific screen and hide others
+ * Show specific screen
  */
 export function showScreen(screenId) {
   [loadingScreen, authScreen, cabinetScreen].forEach(screen => {
@@ -25,7 +25,7 @@ export function showScreen(screenId) {
 }
 
 /**
- * Show loading screen with message
+ * Show loading screen
  */
 export function showLoadingScreen(message = 'Загрузка...') {
   showScreen('loadingScreen');
