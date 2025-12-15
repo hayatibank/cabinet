@@ -42,7 +42,7 @@ if (tg) {
 }
 
 // API URL
-const API_URL = 'https://eb5449fd59fb.ngrok-free.app'; // Update this to your ngrok URL
+const API_URL = 'https://octopus-noble-kangaroo.ngrok-free.app'; // Update this to your ngrok URL
 
 // DOM Elements
 const loadingScreen = document.getElementById('loadingScreen');
