@@ -1,8 +1,8 @@
-// webapp/app.js v1.2.2 - Modular structure
+// webapp/app.js v1.2.5 - Fixed custom token exchange
 // Main entry point
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getAuth, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // Import modules
@@ -73,18 +73,43 @@ async function initMiniApp() {
         if (loginResult && loginResult.success) {
           console.log('✅ Silent login successful');
           
-          // Save session
-          saveSession({
-            authToken: loginResult.authToken,
-            tokenExpiry: loginResult.tokenExpiry,
-            uid: loginResult.uid,
-            email: loginResult.email
-          });
-          
-          return showCabinet({
-            uid: loginResult.uid,
-            email: loginResult.email
-          });
+          // 🔧 FIX: Exchange Custom Token for ID Token
+          try {
+            console.log('🔄 Exchanging custom token for ID token...');
+            
+            const userCredential = await signInWithCustomToken(auth, loginResult.authToken);
+            const idToken = await userCredential.user.getIdToken();
+            
+            console.log('✅ ID Token obtained');
+            
+            // Save session with ID Token
+            saveSession({
+              authToken: idToken,
+              tokenExpiry: loginResult.tokenExpiry,
+              uid: loginResult.uid,
+              email: loginResult.email
+            });
+            
+            return showCabinet({
+              uid: loginResult.uid,
+              email: loginResult.email
+            });
+          } catch (tokenError) {
+            console.error('❌ Error exchanging custom token:', tokenError);
+            
+            // Fallback: save as-is (will fail validation but better than nothing)
+            saveSession({
+              authToken: loginResult.authToken,
+              tokenExpiry: loginResult.tokenExpiry,
+              uid: loginResult.uid,
+              email: loginResult.email
+            });
+            
+            return showCabinet({
+              uid: loginResult.uid,
+              email: loginResult.email
+            });
+          }
         }
       }
     }

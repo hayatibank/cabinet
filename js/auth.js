@@ -1,4 +1,4 @@
-// webapp/js/auth.js
+// webapp/js/auth.js v1.2.5 - Always get ID tokens
 // Authentication handlers (Login, Register, Reset Password)
 
 import { 
@@ -43,9 +43,12 @@ export function setupLoginHandler(auth) {
       
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+      
+      // 🔧 FIX: Get ID Token (not custom token)
       const token = await user.getIdToken();
       
       console.log('✅ Login successful:', user.email);
+      console.log('✅ ID Token obtained');
       
       // Link Telegram if opened from Telegram
       const telegramData = getTelegramData();
@@ -53,7 +56,7 @@ export function setupLoginHandler(auth) {
         await linkTelegramAccount(user.uid, token, telegramData);
       }
       
-      // Save session
+      // Save session with ID Token
       saveSession({
         authToken: token,
         tokenExpiry: Date.now() + (30 * 24 * 60 * 60 * 1000),
@@ -115,7 +118,12 @@ export function setupRegisterHandler(auth, db) {
       
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+      
+      // 🔧 FIX: Get ID Token (not custom token)
       const token = await user.getIdToken();
+      
+      console.log('✅ Registration successful:', user.email);
+      console.log('✅ ID Token obtained');
       
       // Get Telegram data if available
       const tgUser = tg?.initDataUnsafe?.user;
@@ -163,7 +171,6 @@ export function setupRegisterHandler(auth, db) {
       });
       
       console.log('✅ User document created in Firestore');
-      console.log('✅ Registration successful:', user.email);
       
       // Link Telegram if opened from Telegram
       const telegramData = getTelegramData();
@@ -171,7 +178,7 @@ export function setupRegisterHandler(auth, db) {
         await linkTelegramAccount(user.uid, token, telegramData);
       }
       
-      // Save session
+      // Save session with ID Token
       saveSession({
         authToken: token,
         tokenExpiry: Date.now() + (30 * 24 * 60 * 60 * 1000),
