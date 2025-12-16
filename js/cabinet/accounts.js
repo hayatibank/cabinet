@@ -1,5 +1,5 @@
-// webapp/js/cabinet/accounts.js v1.2.7
-// Account management logic
+// webapp/js/cabinet/accounts.js v1.2.8
+// Account management logic - Fixed for ngrok
 
 import { API_URL } from '../config.js';
 import { getSession } from '../session.js';
@@ -26,30 +26,28 @@ export async function getUserAccounts() {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
       }
     });
     
     console.log('📨 Response status:', response.status);
-    console.log('📨 Response headers:', response.headers);
+    console.log('📨 Content-Type:', response.headers.get('content-type'));
     
-    // Log response text for debugging
-    const responseText = await response.text();
-    console.log('📨 Response text (first 200 chars):', responseText.substring(0, 200));
-    
-    if (!response.ok) {
-      // Try to parse as JSON
-      try {
-        const errorData = JSON.parse(responseText);
-        throw new Error(errorData.error || `Failed to fetch accounts: ${response.status}`);
-      } catch (parseError) {
-        // If not JSON, show the HTML error
-        throw new Error(`Server returned HTML instead of JSON. Status: ${response.status}`);
-      }
+    // Check if response is JSON
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error('❌ Server returned non-JSON response:', text.substring(0, 200));
+      throw new Error('Server returned HTML instead of JSON. Check ngrok or backend logs.');
     }
     
-    // Parse response
-    const result = JSON.parse(responseText);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `Failed to fetch accounts: ${response.status}`);
+    }
+    
+    const result = await response.json();
     console.log(`✅ Fetched ${result.accounts.length} accounts`);
     
     return result.accounts;
@@ -77,7 +75,8 @@ export async function getAccountById(accountId) {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
         }
       }
     );
@@ -115,7 +114,8 @@ export async function createAccount(type, profile) {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
       },
       body: JSON.stringify({
         type,
@@ -159,7 +159,8 @@ export async function deleteAccount(accountId) {
       method: 'DELETE',
       headers: { 
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
       },
       body: JSON.stringify({
         authToken: session.authToken

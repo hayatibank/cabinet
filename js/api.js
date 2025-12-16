@@ -1,5 +1,5 @@
-// webapp/js/api.js
-// All backend API calls
+// webapp/js/api.js v1.2.8
+// All backend API calls - Fixed for ngrok
 
 import { API_URL } from './config.js';
 
@@ -12,7 +12,10 @@ export async function checkTelegramBinding(chatId, initData) {
     
     const response = await fetch(`${API_URL}/api/check-telegram-binding`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
+      },
       body: JSON.stringify({ chatId, initData })
     });
     
@@ -39,7 +42,10 @@ export async function silentLogin(uid, chatId, initData) {
     
     const response = await fetch(`${API_URL}/api/silent-login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
+      },
       body: JSON.stringify({ uid, chatId, initData })
     });
     
@@ -64,7 +70,10 @@ export async function validateToken(authToken, uid) {
   try {
     const response = await fetch(`${API_URL}/api/validate-token`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
+      },
       body: JSON.stringify({ authToken, uid })
     });
     
@@ -100,7 +109,10 @@ export async function linkTelegramAccount(uid, authToken, telegramData) {
     
     const response = await fetch(`${API_URL}/api/link-telegram`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
+      },
       body: JSON.stringify({
         uid,
         chatId,
@@ -132,7 +144,10 @@ export async function deleteUserAccount(uid, authToken) {
     
     const response = await fetch(`${API_URL}/api/delete-account`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
+      },
       body: JSON.stringify({ uid, authToken })
     });
     
@@ -159,7 +174,10 @@ export async function deleteTelegramSession(chatId, uid, authToken) {
     
     const response = await fetch(`${API_URL}/api/logout-telegram`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
+      },
       body: JSON.stringify({ chatId, uid, authToken })
     });
     
