@@ -61,7 +61,7 @@ export async function getAccountById(accountId) {
     throw err;
   }
 }
-
+   
 /**
  * Create new account
  */
