@@ -217,7 +217,7 @@ function renderStep4(account) {
         <div class="level-card">
           <div class="level-header">
             <h4>📊 Уровень №1</h4>
-            <span class="level-badge">Трейдинг</span>
+            <span class="level-badge">Цифровые активы</span>
           </div>
           <p>Торговля на финансовых рынках</p>
           <button class="btn btn-secondary btn-small">Скоро</button>
