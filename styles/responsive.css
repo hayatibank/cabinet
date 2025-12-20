@@ -1,25 +1,30 @@
-/* styles/responsive.css v2.0.0 */
-@media (max-width: 768px) {
-  .accounts-list {
-    grid-template-columns: 1fr;
-  }
-  
-  .dashboard-nav {
-    gap: var(--space-xs);
-  }
-  
-  .nav-step {
-    min-width: 80px;
-    padding: var(--space-md);
-  }
-}
+/* styles/responsive.css */
+/* Responsive styles */
 
 @media (max-width: 480px) {
-  .logo h1 {
-    font-size: var(--font-size-3xl);
+  .form-card, 
+  .cabinet-card {
+    padding: 24px;
   }
   
-  .form-card, .cabinet-card {
-    padding: var(--space-3xl);
+  .logo h1 {
+    font-size: 28px;
+  }
+  
+  .links {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .type-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .account-actions {
+    flex-direction: column;
+  }
+
+  .btn-small {
+    width: 100%;
   }
 }

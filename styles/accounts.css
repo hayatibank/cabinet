@@ -1,0 +1,80 @@
+/* styles/accounts.css */
+/* Accounts list and cards */
+
+.accounts-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  text-align: left;
+}
+
+.account-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s;
+}
+
+.account-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.account-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.account-type {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.btn-icon:hover {
+  color: var(--text);
+}
+
+.account-body {
+  margin-bottom: 16px;
+}
+
+.account-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.account-balance {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.balance-label {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.balance-amount {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.account-actions {
+  display: flex;
+  gap: 8px;
+}

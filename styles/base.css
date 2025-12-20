@@ -1,90 +1,64 @@
-/* styles/base.css v2.0.0 */
-/* Base Layout & Typography */
+/* styles/base.css */
+/* Base styles and resets */
 
-/* ==================== */
-/* LOADING SCREEN */
-/* ==================== */
-
-#loadingScreen {
-  text-align: center;
-  padding: var(--space-4xl);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.spinner {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto var(--space-lg);
-  border: 4px solid var(--border-default);
-  border-top-color: var(--neon-blue);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  box-shadow: var(--glow-blue);
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-#loadingScreen p {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
+.container {
+  width: 100%;
+  max-width: 420px;
+  animation: fadeIn 0.3s ease-in;
 }
 
-/* ==================== */
-/* LOGO & BRANDING */
-/* ==================== */
+.screen {
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}
 
 .logo {
   text-align: center;
-  margin-bottom: var(--space-4xl);
-  animation: slideDown 0.8s var(--ease-default);
+  margin-bottom: 32px;
 }
 
 .logo h1 {
-  font-size: var(--font-size-5xl);
-  font-weight: var(--font-weight-extrabold);
-  margin-bottom: var(--space-md);
-  background: var(--gradient-cyberpunk);
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 40px rgba(0, 240, 255, 0.5);
-  letter-spacing: 2px;
-  position: relative;
-  animation: neonFlicker 8s infinite;
 }
 
 .subtitle {
   color: var(--text-muted);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  text-transform: uppercase;
-  letter-spacing: 3px;
+  font-size: 14px;
 }
 
-/* ==================== */
-/* TEXT UTILITIES */
-/* ==================== */
-
-.text-gradient {
-  background: var(--gradient-cyberpunk);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.error-message {
+  text-align: center;
+  padding: 40px 20px;
 }
 
-.text-glow {
-  text-shadow: 0 0 20px currentColor;
-}
-
-.text-neon-blue {
-  color: var(--neon-blue);
-  text-shadow: var(--glow-blue);
-}
-
-.text-neon-pink {
-  color: var(--neon-pink);
-  text-shadow: var(--glow-pink);
-}
-
-.text-neon-green {
-  color: var(--neon-green);
-  text-shadow: var(--glow-green);
+.error-message p {
+  font-size: 16px;
+  margin-bottom: 16px;
+  color: var(--error);
 }
