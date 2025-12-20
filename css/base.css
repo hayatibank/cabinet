@@ -1,0 +1,61 @@
+/* base.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Original colors */
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --secondary: #64748b;
+  --success: #16a34a;
+  --error: #dc2626;
+  --danger: #dc2626;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  
+  /* Ferrari/Cyberpunk colors */
+  --ferrari-red: #dc0000;
+  --ferrari-red-dark: #a00000;
+  --ferrari-yellow: #ffd700;
+  --neon-blue: #00f0ff;
+  --neon-pink: #ff006e;
+  --neon-green: #00ff9f;
+  --metallic-silver: #c0c0d0;
+  --metallic-gold: #ffd700;
+  --glass-bg: rgba(30, 41, 59, 0.8);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  animation: fadeIn 0.3s ease-in;
+  position: relative;
+  z-index: 1;
+}
+
+.screen {
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}

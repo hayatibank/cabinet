@@ -1,2 +1,1 @@
-# HayatiBankBotAuth
-Firebase Auth WebApp for HayatiBank Bot
+хочу разбить styles.css и сделать киберпанк.
