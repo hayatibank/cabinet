@@ -1,0 +1,12 @@
+/* styles/main.css - Main Styles Entry Point */
+
+/* Import all CSS modules */
+@import './variables.css';
+@import './base.css';
+@import './animations.css';
+@import './loading.css';
+@import './auth.css';
+@import './cabinet.css';
+@import './accounts.css';
+@import './create-account.css';
+@import './responsive.css';

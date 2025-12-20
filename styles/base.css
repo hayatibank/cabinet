@@ -1,0 +1,130 @@
+/* styles/base.css - Base Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.screen {
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: white;
+  margin-bottom: 12px;
+}
+
+.btn-secondary:hover {
+  background: #475569;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* Error & Success Messages */
+.error {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid var(--error);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 14px;
+  text-align: center;
+}
+
+.success {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(22, 163, 74, 0.1);
+  border: 1px solid var(--success);
+  border-radius: 8px;
+  color: #86efac;
+  font-size: 14px;
+  text-align: center;
+}
+
+.info-text {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+  line-height: 1.5;
+}

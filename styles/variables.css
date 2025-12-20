@@ -1,0 +1,15 @@
+/* styles/variables.css - CSS Variables */
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --secondary: #64748b;
+  --success: #16a34a;
+  --error: #dc2626;
+  --danger: #dc2626;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #334155;
+}

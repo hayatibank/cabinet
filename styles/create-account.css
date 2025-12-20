@@ -1,0 +1,92 @@
+/* styles/create-account.css - Create Account Form */
+
+.create-account-form {
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.create-account-form h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: var(--text-muted);
+}
+
+.account-type-selector {
+  margin-bottom: 32px;
+}
+
+.type-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.type-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.type-card:hover:not(.disabled) {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.type-card.active {
+  border-color: var(--primary);
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.type-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.type-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.type-card h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.type-card p {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.account-form {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.account-form h3 {
+  margin-bottom: 20px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.form-actions .btn {
+  flex: 1;
+}

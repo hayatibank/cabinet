@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🏦 ФД «Хаяти» — Вход</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles/main.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -121,49 +121,9 @@
             🚪 Выйти
           </button>
           
-          <button onclick="showProfileMenu()" class="btn btn-secondary">
-            ⚙️ Настройки
+          <button onclick="deleteAccount()" class="btn btn-danger">
+            🗑️ Удалить аккаунт
           </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================== -->
-    <!-- PROFILE MENU MODAL -->
-    <!-- ======================== -->
-    <div id="profileMenu" class="modal hidden">
-      <div class="modal-overlay" onclick="closeProfileMenu()"></div>
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>⚙️ Настройки профиля</h3>
-          <button onclick="closeProfileMenu()" class="btn-close">×</button>
-        </div>
-        <div class="modal-body">
-          <div class="setting-item">
-            <h4>👤 Профиль</h4>
-            <p class="setting-description">Управление профилем и персональными данными</p>
-            <button class="btn btn-secondary btn-small" onclick="alert('🚧 В разработке')">
-              Редактировать профиль
-            </button>
-          </div>
-          
-          <div class="setting-item">
-            <h4>🔔 Уведомления</h4>
-            <p class="setting-description">Настройки уведомлений и оповещений</p>
-            <button class="btn btn-secondary btn-small" onclick="alert('🚧 В разработке')">
-              Настроить
-            </button>
-          </div>
-          
-          <div class="setting-item danger-zone">
-            <h4>⚠️ Опасная зона</h4>
-            <p class="setting-description warning-text">
-              Удаление учетной записи безвозвратно удалит все ваши данные из системы ФД «Хаяти»
-            </p>
-            <button onclick="deleteAccount()" class="btn btn-danger btn-small">
-              🗑️ Удалиться из ФД «Хаяти»
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -172,25 +132,5 @@
 
   <!-- Firebase & App -->
   <script type="module" src="app.js"></script>
-  
-  <!-- Profile Menu Functions -->
-  <script>
-    function showProfileMenu() {
-      document.getElementById('profileMenu').classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
-    
-    function closeProfileMenu() {
-      document.getElementById('profileMenu').classList.add('hidden');
-      document.body.style.overflow = 'auto';
-    }
-    
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeProfileMenu();
-      }
-    });
-  </script>
 </body>
 </html>

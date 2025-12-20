@@ -1,0 +1,16 @@
+/* styles/responsive.css - Responsive Design */
+
+@media (max-width: 480px) {
+  .form-card, .cabinet-card {
+    padding: 24px;
+  }
+  
+  .logo h1 {
+    font-size: 28px;
+  }
+  
+  .links {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
