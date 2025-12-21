@@ -8,16 +8,6 @@
  * - Metallic surfaces and gradient effects
  */
 
-/* ======================== */
-/* IMPORTS */
-/* ======================== */
-@import './animations.css';
-@import './responsive.css';
-
-/* ======================== */
-/* CSS VARIABLES */
-/* ======================== */
-
 * {
   margin: 0;
   padding: 0;
@@ -206,10 +196,9 @@ body::before {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #00b8ff 0%, var(--primary-dark) 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   color: white;
-  font-weight: 700;
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
 }
 
 .btn-primary:hover {
@@ -260,9 +249,9 @@ body::before {
 /* ======================== */
 
 .ferrari-style {
-  background: linear-gradient(135deg, var(--neon-green) 0%, #00c47a 100%);
-  color: #0f172a;
-  font-weight: 800;
+  background: linear-gradient(135deg, var(--ferrari-red) 0%, var(--ferrari-red-dark) 100%);
+  color: white;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 14px 28px;
@@ -270,9 +259,9 @@ body::before {
   position: relative;
   overflow: hidden;
   box-shadow: 
-    0 4px 15px rgba(0, 255, 159, 0.4),
-    0 0 30px rgba(0, 255, 159, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 4px 15px rgba(220, 0, 0, 0.4),
+    0 0 30px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -294,9 +283,9 @@ body::before {
 .ferrari-style:hover {
   transform: translateY(-2px) scale(1.02);
   box-shadow: 
-    0 6px 20px rgba(0, 255, 159, 0.6),
-    0 0 40px rgba(0, 255, 159, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    0 6px 20px rgba(220, 0, 0, 0.6),
+    0 0 40px rgba(255, 215, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .ferrari-style:hover::before {
@@ -520,8 +509,6 @@ body::before {
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
-  max-width: 100%;
-  width: 100%;
 }
 
 .account-card::before {
@@ -1216,3 +1203,57 @@ body::before {
 /* ======================== */
 /* RESPONSIVE */
 /* ======================== */
+
+@media (max-width: 768px) {
+  .accounts-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-nav {
+    gap: 4px;
+  }
+  
+  .nav-step {
+    min-width: 80px;
+    padding: 12px 8px;
+  }
+  
+  .step-label {
+    font-size: 10px;
+  }
+  
+  .balance-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .report-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-card, .cabinet-card {
+    padding: 24px;
+  }
+  
+  .logo h1 {
+    font-size: 28px;
+  }
+  
+  .links {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .account-card {
+    padding: 16px;
+  }
+  
+  .dashboard-header h2 {
+    font-size: 22px;
+  }
+  
+  .balance-item .amount {
+    font-size: 20px;
+  }
+}
