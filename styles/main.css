@@ -8,16 +8,47 @@
  * - Metallic surfaces and gradient effects
  */
 
+/* ======================== */
+/* IMPORTS */
+/* ======================== */
+@import './animations.css';
+@import './responsive.css';
+
+/* ======================== */
+/* CSS VARIABLES */
+/* ======================== */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
-/* Import modules */
-@import './variables.css';
-@import './animations.css';
+:root {
+  /* Original colors */
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --secondary: #64748b;
+  --success: #16a34a;
+  --error: #dc2626;
+  --danger: #dc2626;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  
+  /* Ferrari/Cyberpunk colors */
+  --ferrari-red: #dc0000;
+  --ferrari-red-dark: #a00000;
+  --ferrari-yellow: #ffd700;
+  --neon-blue: #00f0ff;
+  --neon-pink: #ff006e;
+  --neon-green: #00ff9f;
+  --metallic-silver: #c0c0d0;
+  --metallic-gold: #ffd700;
+  --glass-bg: rgba(30, 41, 59, 0.8);
+}
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -83,6 +114,9 @@ body::before {
   box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
 }
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 
 /* ======================== */
 /* AUTH SCREEN */
@@ -289,6 +323,10 @@ body::before {
   animation: shine 3s infinite;
 }
 
+@keyframes shine {
+  0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
 
 .btn-text {
   position: relative;
@@ -1033,6 +1071,21 @@ body::before {
 /* ANIMATIONS */
 /* ======================== */
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* ======================== */
 /* PROFILE MENU MODAL */
@@ -1162,56 +1215,3 @@ body::before {
 /* RESPONSIVE */
 /* ======================== */
 
-@media (max-width: 768px) {
-  .accounts-list {
-    grid-template-columns: 1fr;
-  }
-  
-  .dashboard-nav {
-    gap: 4px;
-  }
-  
-  .nav-step {
-    min-width: 80px;
-    padding: 12px 8px;
-  }
-  
-  .step-label {
-    font-size: 10px;
-  }
-  
-  .balance-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .report-actions {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .form-card, .cabinet-card {
-    padding: 24px;
-  }
-  
-  .logo h1 {
-    font-size: 28px;
-  }
-  
-  .links {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .account-card {
-    padding: 16px;
-  }
-  
-  .dashboard-header h2 {
-    font-size: 22px;
-  }
-  
-  .balance-item .amount {
-    font-size: 20px;
-  }
-}
