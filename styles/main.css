@@ -520,6 +520,8 @@ body::before {
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 
 .account-card::before {
@@ -1214,4 +1216,3 @@ body::before {
 /* ======================== */
 /* RESPONSIVE */
 /* ======================== */
-
