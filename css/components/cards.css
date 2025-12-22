@@ -1,0 +1,14 @@
+.form-card,
+.cabinet-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 32px;
+  animation: slideUp .3s ease-out;
+}
+
+.account-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+}

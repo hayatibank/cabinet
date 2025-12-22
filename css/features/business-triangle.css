@@ -1,0 +1,7 @@
+.business-triangle-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* остальной треугольник — БЕЗ ИЗМЕНЕНИЙ, 1:1 */

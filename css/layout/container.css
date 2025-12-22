@@ -1,0 +1,11 @@
+.container {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.screen {
+  display: block;
+}

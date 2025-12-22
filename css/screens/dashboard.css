@@ -1,0 +1,5 @@
+.dashboard-nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}

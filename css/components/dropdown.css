@@ -1,0 +1,16 @@
+.account-menu { position: relative; }
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--card-bg);
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+}

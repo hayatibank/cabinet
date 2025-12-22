@@ -1,0 +1,23 @@
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --secondary: #64748b;
+  --success: #16a34a;
+  --error: #dc2626;
+  --danger: #dc2626;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #334155;
+
+  --ferrari-red: #dc0000;
+  --ferrari-red-dark: #a00000;
+  --ferrari-yellow: #ffd700;
+  --neon-blue: #00f0ff;
+  --neon-pink: #ff006e;
+  --neon-green: #00ff9f;
+  --metallic-silver: #c0c0d0;
+  --metallic-gold: #ffd700;
+  --glass-bg: rgba(30, 41, 59, 0.8);
+}
