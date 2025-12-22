@@ -292,7 +292,7 @@ function renderStepContent(stepNumber, account) {
     case 6: 
       // Render Business Triangle
       setTimeout(() => renderBusinessTriangle('#dashboardContent'), 0);
-      return ''; // Triangle will be rendered by JS
+      return renderComingSoon(6, '📊 Биз. управление'); // Triangle will be rendered by JS
     case 7: return renderComingSoon(7, '🚀 IPO');
     default: return renderStep1(account);
   }
