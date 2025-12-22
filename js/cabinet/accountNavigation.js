@@ -1,5 +1,7 @@
-// webapp/js/cabinet/accountNavigation.js v1.0.0
+// webapp/js/cabinet/accountNavigation.js v1.1.0
 // Account dashboard navigation (7 steps for individual accounts)
+// CHANGELOG v1.1.0:
+// - Added Business Triangle for step 6
 // CHANGELOG v1.0.0:
 // - Initial implementation
 // - 7-step navigation for individual accounts
@@ -7,6 +9,7 @@
 // - Steps 2-7: Goals, Cash Flow, Investments, Business, Management, IPO
 
 import { getAccountById } from './accounts.js';
+import { renderBusinessTriangle } from './businessTriangle.js';
 
 /**
  * Show account dashboard with 7-step navigation
@@ -286,7 +289,10 @@ function renderStepContent(stepNumber, account) {
     case 3: return renderStep3(account);
     case 4: return renderStep4(account);
     case 5: return renderComingSoon(5, '🏢 Бизнес');
-    case 6: return renderComingSoon(6, '📊 Биз. управление');
+    case 6: 
+      // Render Business Triangle
+      setTimeout(() => renderBusinessTriangle('#dashboardContent'), 0);
+      return ''; // Triangle will be rendered by JS
     case 7: return renderComingSoon(7, '🚀 IPO');
     default: return renderStep1(account);
   }

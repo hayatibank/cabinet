@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🏦 ФД «Хаяти» — Вход</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- <link rel="stylesheet" href="styles/main.css"> -->
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="businessTriangle.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="i18n.js"></script>
 </head>
 <body>
   <div class="container">
@@ -42,7 +43,10 @@
           <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
         </div>
 
-        <button id="loginBtn" class="btn btn-primary">Войти</button>
+        <button id="loginBtn" class="btn btn-enter">
+          <span class="btn-enter-shine"></span>
+          Войти
+        </button>
         
         <div class="links">
           <a href="#" id="forgotPasswordLink">Забыли пароль?</a>
@@ -71,7 +75,7 @@
           <input type="password" id="registerPasswordConfirm" placeholder="••••••••" autocomplete="new-password">
         </div>
 
-        <button id="registerBtn" class="btn btn-primary">Создать аккаунт</button>
+        <button id="registerBtn" class="btn btn-primary">+ Создать аккаунт</button>
         
         <div class="links">
           <a href="#" id="showLoginLink">Уже есть аккаунт? Войти</a>
