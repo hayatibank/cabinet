@@ -13,7 +13,7 @@
   position: relative;
   width: 100%;
   max-width: 500px;
-  aspect-ratio: 1 / 0.866; /* Equilateral triangle ratio */
+  aspect-ratio: 1 / 0.866;
   margin: 0 auto;
 }
 
@@ -49,45 +49,47 @@
   transform: scale(0.98);
 }
 
+/* MISSION - bottom edge */
 .area-mission {
   bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 10%;
-  background: linear-gradient(180deg, transparent 0%, #1a1a1a 50%);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  height: 12%;
+  background: transparent;
   color: #ffd700;
   font-size: 18px;
-  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
 }
 
+/* TEAM - left edge text */
 .area-team {
-  top: 0;
-  left: 0;
-  width: 15%;
-  height: 100%;
-  background: linear-gradient(135deg, #1a1a1a 0%, transparent 100%);
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%) rotate(-60deg);
+  background: transparent;
   color: #ffd700;
   font-size: 14px;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  clip-path: polygon(0% 0%, 50% 0%, 10% 100%, 0% 100%);
-  padding-top: 40px;
+  writing-mode: horizontal-tb;
+  width: auto;
+  height: auto;
+  padding: 0;
 }
 
+/* LEADERSHIP - right edge text */
 .area-leadership {
-  top: 0;
-  right: 0;
-  width: 15%;
-  height: 100%;
-  background: linear-gradient(225deg, #1a1a1a 0%, transparent 100%);
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%) rotate(60deg);
+  background: transparent;
   color: #ffd700;
   font-size: 14px;
-  writing-mode: vertical-lr;
-  text-orientation: mixed;
-  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 90% 100%);
-  padding-top: 40px;
+  writing-mode: horizontal-tb;
+  width: auto;
+  height: auto;
+  padding: 0;
 }
 
+/* PURPLE LEVELS */
 .purple-level {
   background: linear-gradient(135deg, #7b4397 0%, #5e3370 100%);
   color: white;

@@ -1,4 +1,5 @@
-// businessTriangle.js - Business Management Triangle Component
+// webapp/js/cabinet/businessTriangle.js
+// Business Management Triangle Component
 
 /**
  * Render Business Triangle
@@ -22,10 +23,8 @@ export function renderBusinessTriangle(containerId = '.cabinet-content') {
         ${t('backToAccount')}
       </button>
       
-      <h2 class="triangle-title">${t('businessManagement')}</h2>
-      
       <div class="triangle-wrapper">
-        <!-- SVG Background Triangle -->
+        <!-- SVG Background Triangle with edges -->
         <svg class="triangle-svg" viewBox="0 0 500 433" xmlns="http://www.w3.org/2000/svg">
           <!-- Main triangle outline -->
           <polygon 
@@ -34,21 +33,38 @@ export function renderBusinessTriangle(containerId = '.cabinet-content') {
             stroke="#333" 
             stroke-width="2"
           />
+          
+          <!-- Left edge (КОМАНДА) -->
+          <line 
+            x1="250" y1="20" 
+            x2="20" y2="413" 
+            stroke="#ffd700" 
+            stroke-width="3"
+          />
+          
+          <!-- Right edge (ЛИДЕРСТВО) -->
+          <line 
+            x1="250" y1="20" 
+            x2="480" y2="413" 
+            stroke="#ffd700" 
+            stroke-width="3"
+          />
         </svg>
         
         <!-- Clickable Areas -->
         
-        <!-- BLACK EDGES -->
-        <div class="triangle-area area-mission" data-area="mission" title="${t('mission')}">
-          ${t('mission')}
-        </div>
-        
+        <!-- BLACK EDGES TEXT -->
         <div class="triangle-area area-team" data-area="team" title="${t('team')}">
           ${t('team')}
         </div>
         
         <div class="triangle-area area-leadership" data-area="leadership" title="${t('leadership')}">
           ${t('leadership')}
+        </div>
+        
+        <!-- BOTTOM EDGE TEXT -->
+        <div class="triangle-area area-mission" data-area="mission" title="${t('mission')}">
+          ${t('mission')}
         </div>
         
         <!-- PURPLE LEVELS -->
