@@ -1,5 +1,21 @@
-.type-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-  gap: 12px;
+.create-account-form {
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.create-account-form h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.error-message {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.error-message p {
+  font-size: 16px;
+  margin-bottom: 16px;
+  color: var(--error);
 }

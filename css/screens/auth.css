@@ -3,9 +3,52 @@
   margin-bottom: 32px;
 }
 
-.logo h1 {
-  font-size: 36px;
-  background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.links a {
+  color: var(--neon-blue);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.links a:hover {
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
+}
+
+.info-text {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.error {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid var(--error);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 14px;
+  text-align: center;
+}
+
+.success {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(0, 255, 159, 0.1);
+  border: 1px solid var(--neon-green);
+  border-radius: 8px;
+  color: var(--neon-green);
+  font-size: 14px;
+  text-align: center;
 }

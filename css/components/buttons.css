@@ -3,37 +3,192 @@
   padding: 12px 24px;
   font-size: 16px;
   font-weight: 600;
-  border-radius: 8px;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
+  margin-top: 8px;
   position: relative;
   overflow: hidden;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: #fff;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4),
+              0 0 30px rgba(0, 240, 255, 0.3);
 }
 
 .btn-secondary {
   background: var(--secondary);
-  color: #fff;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.btn-secondary:hover {
+  background: #475569;
+  transform: translateY(-1px);
 }
 
 .btn-danger {
-  background: linear-gradient(135deg, var(--danger), #b91c1c);
-  color: #fff;
+  background: linear-gradient(135deg, var(--danger) 0%, #b91c1c 100%);
+  color: white;
 }
 
-/* Ferrari */
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 14px;
+  width: auto;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+
+.btn-back:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--neon-blue);
+}
+
 .ferrari-style {
-  background: linear-gradient(135deg, var(--ferrari-red), var(--ferrari-red-dark));
+  background: linear-gradient(135deg, var(--ferrari-red) 0%, var(--ferrari-red-dark) 100%);
+  color: white;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-weight: 700;
+  padding: 14px 28px;
   border-radius: 12px;
-  box-shadow:
-    0 4px 15px rgba(220,0,0,.4),
-    0 0 30px rgba(255,215,0,.2);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 15px rgba(220, 0, 0, 0.4),
+    0 0 30px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ferrari-style::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.ferrari-style:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 6px 20px rgba(220, 0, 0, 0.6),
+    0 0 40px rgba(255, 215, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.ferrari-style:hover::before {
+  left: 100%;
+}
+
+.ferrari-style:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: rotate(45deg);
+  animation: shine 3s infinite;
+}
+
+.btn-text {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-arrow {
+  display: inline-block;
+  transition: transform 0.3s;
+}
+
+.ferrari-style:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.btn-enter {
+  flex: 1;
+  margin: 0;
+}
+
+.btn-create-account {
+  margin-bottom: 16px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+.btn-menu-toggle {
+  width: 32px;
+  height: 32px;
 }
