@@ -16,13 +16,14 @@ export function renderBusinessTriangle(containerId = '.cabinet-content') {
   
   container.innerHTML = `
     <div class="business-triangle-container">
+    '<!--
       <button class="triangle-back-btn" onclick="window.accountNavigation.goBack()">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
           <path d="M10 20L0 10 10 0l2 2-6 6h14v4H6l6 6-2 2z"/>
         </svg>
         ${t('backToAccount')}
       </button>
-      
+    -->'
       <div class="triangle-wrapper">
         <!-- SVG Background Triangle with edges -->
         <svg class="triangle-svg" viewBox="0 0 500 433" xmlns="http://www.w3.org/2000/svg">
