@@ -1,0 +1,242 @@
+/* /webapp/css/screens/financial-report.css v1.0.0 */
+
+.financial-report {
+  width: 100%;
+}
+
+.financial-report-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 20px;
+}
+
+/* Year Selector */
+.year-selector {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.year-selector-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.year-btn {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.year-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--neon-blue);
+}
+
+.year-btn.active {
+  background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-pink) 100%);
+  border-color: var(--neon-blue);
+  color: white;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+}
+
+/* Report Grid */
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.report-grid .analysis-section {
+  grid-column: 1 / -1;
+}
+
+/* Report Section */
+.report-section {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s;
+}
+
+.report-section:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+.report-section h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  cursor: pointer;
+  user-select: none;
+}
+
+.report-section h3:hover {
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
+}
+
+/* Report Table */
+.report-table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.report-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 16px;
+  padding: 12px 16px;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 4px;
+  align-items: center;
+}
+
+.report-row.header-row {
+  background: rgba(0, 240, 255, 0.1);
+  font-weight: 600;
+  color: var(--neon-blue);
+  border-bottom: 2px solid var(--neon-blue);
+}
+
+.report-row.category-row {
+  transition: all 0.2s;
+}
+
+.report-row.category-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.report-row.total-row {
+  background: rgba(0, 240, 255, 0.15);
+  font-weight: 700;
+  margin-top: 8px;
+  border-top: 2px solid var(--neon-blue);
+}
+
+.report-cell {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.report-cell.category-cell {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.report-cell.amount-cell {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.total-amount {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px rgba(0, 255, 159, 0.5);
+  font-size: 16px;
+}
+
+.empty-state {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Analysis Table */
+.analysis-table .report-row {
+  grid-template-columns: 2fr 2fr 1fr;
+}
+
+.metric-cell,
+.formula-cell,
+.value-cell {
+  font-size: 14px;
+}
+
+.formula {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: 'Courier New', monospace;
+}
+
+.formula-note {
+  display: block;
+  font-style: italic;
+  color: var(--neon-pink);
+  margin-top: 4px;
+}
+
+.value-cell.positive {
+  color: var(--neon-green);
+  font-weight: 700;
+}
+
+.value-cell.negative {
+  color: var(--error);
+  font-weight: 700;
+}
+
+.value-cell.warning {
+  color: var(--ferrari-yellow);
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .year-selector-buttons {
+    gap: 6px;
+  }
+  
+  .year-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .report-section {
+    padding: 16px;
+  }
+  
+  .report-section h3 {
+    font-size: 18px;
+  }
+  
+  .report-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  
+  .analysis-table .report-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .report-cell.amount-cell {
+    text-align: left;
+  }
+  
+  .formula {
+    font-size: 12px;
+  }
+}

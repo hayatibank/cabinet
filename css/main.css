@@ -1,3 +1,5 @@
+/* /webapp/css/main.css v1.0.1 */
+
 @import "./base/reset.css";
 @import "./base/variables.css";
 @import "./base/typography.css";
@@ -21,6 +23,7 @@
 @import "./screens/cabinet.css";
 @import "./screens/dashboard.css";
 @import "./screens/create-account.css";
+@import "./screens/financial-report.css"; /* 🆕 NEW */
 
 @import "./features/business-triangle.css";
 
