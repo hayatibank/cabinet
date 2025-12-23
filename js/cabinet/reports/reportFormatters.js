@@ -82,7 +82,9 @@ export function formatIncomeSection(incomeData) {
     // Subcategories
     group.items.forEach(item => {
       html += `
-        <div class="report-row subcategory-row">
+        <div class="report-row subcategory-row editable-row" 
+             onclick="window.reportManager.showEditModal('income', '${item.code}')"
+             title="Нажмите для редактирования">
           <div class="report-cell subcategory-cell">${item.label}</div>
           <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
         </div>
@@ -158,7 +160,9 @@ export function formatExpensesSection(expensesData, totalIncome = 0) {
     // Subcategories
     group.items.forEach(item => {
       html += `
-        <div class="report-row subcategory-row">
+        <div class="report-row subcategory-row editable-row"
+             onclick="window.reportManager.showEditModal('expenses', '${item.code}')"
+             title="Нажмите для редактирования">
           <div class="report-cell subcategory-cell">${item.label}</div>
           <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
         </div>
@@ -243,7 +247,9 @@ export function formatAssetsSection(assetsData) {
   
   groups['N'].items.forEach(item => {
     html += `
-      <div class="report-row subcategory-row">
+      <div class="report-row subcategory-row editable-row"
+           onclick="window.reportManager.showEditModal('assets', '${item.code}')"
+           title="Нажмите для редактирования">
         <div class="report-cell subcategory-cell">${item.label}</div>
         <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
       </div>
@@ -267,7 +273,9 @@ export function formatAssetsSection(assetsData) {
   
   groups['P'].items.forEach(item => {
     html += `
-      <div class="report-row subcategory-row">
+      <div class="report-row subcategory-row editable-row"
+           onclick="window.reportManager.showEditModal('assets', '${item.code}')"
+           title="Нажмите для редактирования">
         <div class="report-cell subcategory-cell">${item.label}</div>
         <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
       </div>
@@ -306,14 +314,18 @@ export function formatAssetsSection(assetsData) {
 }
 
 /**
- * Format liabilities section with hierarchy
+ * Format liabilities section with hierarchy + net worth
  */
-export function formatLiabilitiesSection(liabilitiesData) {
+export function formatLiabilitiesSection(liabilitiesData, assetsByBanker = 0, assetsFactual = 0) {
   let total = 0;
   
   liabilitiesData.forEach(item => {
     total += Number(item.amount) || 0;
   });
+  
+  // Calculate net worth
+  const netWorthByBanker = assetsByBanker - total; // V = R - U
+  const netWorthFactual = assetsFactual - total;   // W = S - U
   
   let html = `
     <div class="report-section liabilities-section">
@@ -327,17 +339,38 @@ export function formatLiabilitiesSection(liabilitiesData) {
   
   liabilitiesData.forEach(item => {
     html += `
-      <div class="report-row subcategory-row">
+      <div class="report-row subcategory-row editable-row"
+           onclick="window.reportManager.showEditModal('liabilities', '${item.code}')"
+           title="Нажмите для редактирования">
         <div class="report-cell subcategory-cell">${item.label}</div>
         <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
       </div>
     `;
   });
   
+  // U. ПАССИВЫ ИТОГО
   html += `
     <div class="report-row grand-total-row liabilities-total">
       <div class="report-cell">U. ПАССИВЫ ИТОГО</div>
       <div class="report-cell amount-cell grand-total-amount">${formatCurrency(total)}</div>
+    </div>
+  `;
+  
+  // V. СОСТОЯНИЕ по банкиру (R - U)
+  const vPositive = netWorthByBanker >= 0;
+  html += `
+    <div class="report-row grand-total-row net-worth-row ${vPositive ? 'positive-net-worth' : 'negative-net-worth'}">
+      <div class="report-cell">V. СОСТОЯНИЕ по банкиру (R - U)</div>
+      <div class="report-cell amount-cell grand-total-amount">${formatCurrency(netWorthByBanker)}</div>
+    </div>
+  `;
+  
+  // W. СОСТОЯНИЕ факт (S - U)
+  const wPositive = netWorthFactual >= 0;
+  html += `
+    <div class="report-row grand-total-row net-worth-row ${wPositive ? 'positive-net-worth' : 'negative-net-worth'}">
+      <div class="report-cell">W. СОСТОЯНИЕ факт (S - U)</div>
+      <div class="report-cell amount-cell grand-total-amount">${formatCurrency(netWorthFactual)}</div>
     </div>
   `;
   

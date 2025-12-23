@@ -1,9 +1,9 @@
-/* /webapp/js/cabinet/reports/financialReport.js v1.1.0 */
-// CHANGELOG v1.1.0:
-// - Added M. ЧИСТЫЙ ДЕНЕЖНЫЙ ПОТОК section
-// - Added formatCashFlowSection import
+/* /webapp/js/cabinet/reports/financialReport.js v1.1.1 */
+// CHANGELOG v1.1.1:
+// - Added reportManager integration for CRUD
 
 import { getFinancialReport, calculateAnalysis } from './reportService.js';
+import { initReportManager, showEditModal } from './reportManager.js';
 import { 
   formatIncomeSection, 
   formatExpensesSection,
@@ -37,6 +37,12 @@ export async function renderFinancialReport(accountId, year = new Date().getFull
     const reportData = await getFinancialReport(accountId, year);
     const analysis = calculateAnalysis(reportData);
     
+    // Initialize report manager
+    initReportManager(accountId, year);
+    
+    // Expose showEditModal globally for onclick handlers
+    window.reportManager = { showEditModal };
+    
     // Render report
     container.innerHTML = `
       <div class="financial-report">
@@ -50,7 +56,7 @@ export async function renderFinancialReport(accountId, year = new Date().getFull
           ${formatIncomeSection(reportData.income)}
           ${formatExpensesSection(reportData.expenses, analysis.totalIncome)}
           ${formatAssetsSection(reportData.assets)}
-          ${formatLiabilitiesSection(reportData.liabilities)}
+          ${formatLiabilitiesSection(reportData.liabilities, analysis.assetsByBanker, analysis.assetsFactual)}
           ${formatAnalysisSection(analysis)}
         </div>
       </div>

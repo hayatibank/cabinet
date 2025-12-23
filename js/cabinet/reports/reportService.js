@@ -167,13 +167,18 @@ export function calculateAnalysis(reportData) {
   // Calculate totals
   const totalIncome = sumField(income, 'amount');
   const totalExpenses = sumField(expenses, 'amount');
-  const totalAssets = sumField(assets, 'amount');
   const totalLiabilities = sumField(liabilities, 'amount');
+  
+  // Calculate asset totals (needed for V and W)
+  const activesTotal = sumByGroup(assets, 'group', 'Активы'); // N group
+  const luxuryTotal = sumByGroup(assets, 'group', 'Роскошь'); // P group
+  const assetsByBanker = activesTotal + luxuryTotal; // R = O + Q
+  const assetsFactual = activesTotal; // S = O
+  const totalAssets = assetsByBanker; // For other calculations
   
   // Get specific values for formulas
   const taxes = findValue(expenses, 'code', '0.6') || 0;
   const housingExpenses = findValue(expenses, 'code', '1.3') || 0;
-  const luxuryTotal = sumByGroup(assets, 'group', 'Роскошь');
   
   // Calculate metrics
   const cashFlow = totalIncome - totalExpenses;
@@ -210,6 +215,8 @@ export function calculateAnalysis(reportData) {
     totalExpenses,
     totalAssets,
     totalLiabilities,
+    assetsByBanker,    // R - for V calculation
+    assetsFactual,     // S - for W calculation
     cashFlow,
     moneyWorking,
     taxRate,

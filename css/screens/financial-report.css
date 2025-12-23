@@ -241,6 +241,35 @@
   text-shadow: 0 0 15px rgba(220, 38, 38, 0.6) !important;
 }
 
+/* Net Worth rows (V. СОСТОЯНИЕ по банкиру, W. СОСТОЯНИЕ факт) */
+.net-worth-row {
+  font-size: 18px;
+  padding: 16px;
+  margin-top: 8px;
+}
+
+/* Positive net worth - green (you have more assets than liabilities!) */
+.net-worth-row.positive-net-worth {
+  border-color: var(--neon-green) !important;
+  background: rgba(0, 255, 159, 0.2) !important;
+}
+
+.net-worth-row.positive-net-worth .grand-total-amount {
+  color: var(--neon-green) !important;
+  text-shadow: 0 0 15px rgba(0, 255, 159, 0.6) !important;
+}
+
+/* Negative net worth - red (you owe more than you have!) */
+.net-worth-row.negative-net-worth {
+  border-color: var(--error) !important;
+  background: rgba(220, 38, 38, 0.2) !important;
+}
+
+.net-worth-row.negative-net-worth .grand-total-amount {
+  color: var(--error) !important;
+  text-shadow: 0 0 15px rgba(220, 38, 38, 0.6) !important;
+}
+
 .report-cell {
   font-size: 14px;
   color: var(--text);
@@ -307,6 +336,79 @@
 .value-cell.warning {
   color: var(--ferrari-yellow);
   font-weight: 700;
+}
+
+/* Report Edit Modal */
+.report-edit-modal .modal-content {
+  max-width: 500px;
+}
+
+.report-modal-content .category-info {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: rgba(0, 240, 255, 0.1);
+  border-left: 4px solid var(--neon-blue);
+  border-radius: 8px;
+}
+
+.category-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.category-code {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: 'Courier New', monospace;
+}
+
+.amount-input {
+  width: 100%;
+  padding: 16px;
+  font-size: 20px;
+  font-weight: 700;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: var(--neon-green);
+  text-align: right;
+  transition: all 0.3s;
+}
+
+.amount-input:focus {
+  outline: none;
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+/* Editable rows */
+.editable-row {
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.editable-row::before {
+  content: '✏️';
+  position: absolute;
+  left: 8px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.editable-row:hover {
+  background: rgba(0, 240, 255, 0.15) !important;
+  transform: translateX(4px);
+}
+
+.editable-row:hover::before {
+  opacity: 0.6;
+}
+
+.editable-row:active {
+  transform: translateX(2px);
 }
 
 /* Responsive */
