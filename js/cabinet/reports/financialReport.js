@@ -1,9 +1,9 @@
-/* /webapp/js/cabinet/reports/financialReport.js v1.1.1 */
-// CHANGELOG v1.1.1:
-// - Added reportManager integration for CRUD
+/* /webapp/js/cabinet/reports/financialReport.js v1.1.2 */
+// CHANGELOG v1.1.2:
+// - Fixed duplicate showEditModal import
 
 import { getFinancialReport, calculateAnalysis } from './reportService.js';
-import { initReportManager, showEditModal } from './reportManager.js';
+import { initReportManager } from './reportManager.js';
 import { 
   formatIncomeSection, 
   formatExpensesSection,
@@ -40,7 +40,8 @@ export async function renderFinancialReport(accountId, year = new Date().getFull
     // Initialize report manager
     initReportManager(accountId, year);
     
-    // Expose showEditModal globally for onclick handlers
+    // Import and expose showEditModal dynamically
+    const { showEditModal } = await import('./reportManager.js');
     window.reportManager = { showEditModal };
     
     // Render report
