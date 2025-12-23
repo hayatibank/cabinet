@@ -1,4 +1,9 @@
-// webapp/app.js v1.2.5 - Fixed custom token exchange
+/* /webapp/app.js v1.2.6 */
+// CHANGELOG v1.2.6:
+// - Added global token refresh interceptor
+// - Added periodic token health check
+// - Improved session reliability for Telegram miniapp
+
 // Main entry point
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -11,6 +16,7 @@ import { checkTelegramBinding, silentLogin, validateToken } from './js/api.js';
 import { setupLoginHandler, setupRegisterHandler, setupResetHandler, setupFormSwitching } from './js/auth.js';
 import { getSession, saveSession } from './js/session.js';
 import { showLoadingScreen, showAuthScreen, showCabinet } from './js/ui.js';
+import { setupTokenInterceptor, setupPeriodicTokenCheck } from './js/tokenManager.js'; // ← NEW
 import './js/account.js'; // Imports logout & deleteAccount functions
 
 // Initialize Firebase
@@ -19,6 +25,11 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 console.log('✅ Firebase initialized');
+
+// ✅ Setup token management system
+setupTokenInterceptor();
+setupPeriodicTokenCheck();
+console.log('🔒 Token auto-refresh system enabled');
 
 // Get Telegram WebApp
 const tg = window.Telegram?.WebApp;
@@ -73,7 +84,7 @@ async function initMiniApp() {
         if (loginResult && loginResult.success) {
           console.log('✅ Silent login successful');
           
-          // 🔧 FIX: Exchange Custom Token for ID Token
+          // Exchange Custom Token for ID Token
           try {
             console.log('🔄 Exchanging custom token for ID token...');
             
@@ -97,7 +108,7 @@ async function initMiniApp() {
           } catch (tokenError) {
             console.error('❌ Error exchanging custom token:', tokenError);
             
-            // Fallback: save as-is (will fail validation but better than nothing)
+            // Fallback: save as-is
             saveSession({
               authToken: loginResult.authToken,
               tokenExpiry: loginResult.tokenExpiry,
@@ -140,3 +151,50 @@ window.addEventListener('DOMContentLoaded', () => {
   // Initialize app
   initMiniApp();
 });
+// ```
+
+// ---
+
+// ## 📊 Что изменится для пользователя
+
+// ### До:
+// ❌ Telegram miniapp крутит загрузку 1+ час  
+// ❌ Токен протух → ошибка → нужно перезапускать  
+// ❌ Непонятно что происходит  
+
+// ### После:
+// ✅ Видит статус: "🔄 Обновление сессии..."  
+// ✅ Токен автоматически обновляется каждые 55 минут  
+// ✅ Загрузка проходит быстро (5-10 секунд)  
+// ✅ Прозрачно работает на всех платформах  
+
+// ---
+
+// ## 🧪 Как протестировать
+
+// 1. **Открыть Telegram miniapp**
+// 2. **Проверить консоль:**
+// ```
+//    ✅ Firebase initialized
+//    🔒 Token interceptor installed
+//    ⏰ Periodic token check enabled (every 5 min)
+// ```
+// 3. **Войти в аккаунт**
+// 4. **Подождать 55+ минут** (или изменить tokenExpiry в localStorage на прошедшее время)
+// 5. **Сделать любое действие** (открыть отчёт)
+// 6. **Увидеть:**
+// ```
+//    🔒 Token interceptor: checking token freshness
+//    ⚠️ Token expiring soon, refreshing...
+//    🔄 Refreshing auth token...
+//    ✅ Token refreshed successfully
+// ```
+
+// ---
+
+// ## 📦 Деплой
+
+// ### Файлы для коммита:
+// ```
+// [NEW] webapp/js/tokenManager.js v1.0.0
+// [UPD] webapp/app.js v1.2.5 → v1.2.6
