@@ -1,5 +1,9 @@
-/* /webapp/js/cabinet/reports/reportFormatters.js v1.0.0 */
-// Formatters for financial report data
+/* /webapp/js/cabinet/reports/reportFormatters.js v1.1.0 */
+// CHANGELOG v1.1.0:
+// - Added category/subcategory hierarchy
+// - Added visual indentation
+// - Added color coding (green totals, red expenses)
+// - Show all categories even if amount = 0
 
 /**
  * Format currency
@@ -29,240 +33,302 @@ export function formatMonths(value) {
 }
 
 /**
- * Format income section
+ * Format income section with hierarchy
  */
 export function formatIncomeSection(incomeData) {
-  if (!incomeData || incomeData.length === 0) {
-    return `
-      <div class="report-section income-section">
-        <h3>Доходы</h3>
-        <div class="report-table">
-          <div class="report-row header-row">
-            <div class="report-cell">Категория</div>
-            <div class="report-cell">Подкатегория</div>
-            <div class="report-cell amount-cell">Сумма (₽)</div>
-          </div>
-          <div class="empty-state">Нет данных</div>
-        </div>
+  // Group by parent category
+  const groups = {
+    'A': { label: 'Найм', items: [] },
+    'C': { label: 'Активы', items: [] },
+    'E': { label: 'Портфолио', items: [] }
+  };
+  
+  let grandTotal = 0;
+  
+  incomeData.forEach(item => {
+    const groupKey = item.code.charAt(0);
+    if (groups[groupKey]) {
+      groups[groupKey].items.push(item);
+      grandTotal += Number(item.amount) || 0;
+    }
+  });
+  
+  let html = `
+    <div class="report-section income-section">
+      <h3>💰 Доходы</h3>
+      <div class="report-table">
+  `;
+  
+  // Render each group
+  Object.entries(groups).forEach(([key, group]) => {
+    const groupTotal = group.items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+    
+    // Group header
+    html += `
+      <div class="report-row group-header-row">
+        <div class="report-cell">${key}. ${group.label}</div>
+        <div class="report-cell amount-cell"></div>
       </div>
     `;
-  }
-  
-  // Group by category
-  const grouped = groupByCategory(incomeData);
-  
-  let rows = '';
-  let total = 0;
-  
-  Object.entries(grouped).forEach(([categoryCode, items]) => {
-    const category = items[0];
-    const categoryTotal = items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-    total += categoryTotal;
     
-    rows += `
-      <div class="report-row category-row">
-        <div class="report-cell category-cell">${category.group || categoryCode}</div>
-        <div class="report-cell">${category.label}</div>
-        <div class="report-cell amount-cell">${formatCurrency(categoryTotal)}</div>
+    // Subcategories
+    group.items.forEach(item => {
+      html += `
+        <div class="report-row subcategory-row">
+          <div class="report-cell subcategory-cell">${item.label}</div>
+          <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
+        </div>
+      `;
+    });
+    
+    // Group total
+    const nextLetter = String.fromCharCode(key.charCodeAt(0) + 1);
+    html += `
+      <div class="report-row group-total-row">
+        <div class="report-cell">${nextLetter}. ${group.label} итого</div>
+        <div class="report-cell amount-cell group-total-amount">${formatCurrency(groupTotal)}</div>
       </div>
     `;
   });
   
-  return `
-    <div class="report-section income-section">
-      <h3>Доходы</h3>
-      <div class="report-table">
-        <div class="report-row header-row">
-          <div class="report-cell">Категория</div>
-          <div class="report-cell">Подкатегория</div>
-          <div class="report-cell amount-cell">Сумма (₽)</div>
-        </div>
-        ${rows}
-        <div class="report-row total-row">
-          <div class="report-cell">ИТОГО</div>
-          <div class="report-cell"></div>
-          <div class="report-cell amount-cell total-amount">${formatCurrency(total)}</div>
-        </div>
+  // Grand total
+  html += `
+    <div class="report-row grand-total-row income-total">
+      <div class="report-cell">G. ДОХОДЫ ИТОГО</div>
+      <div class="report-cell amount-cell grand-total-amount">${formatCurrency(grandTotal)}</div>
+    </div>
+  `;
+  
+  html += `
       </div>
     </div>
   `;
+  
+  return html;
 }
 
 /**
- * Format expenses section
+ * Format expenses section with hierarchy
  */
 export function formatExpensesSection(expensesData) {
-  if (!expensesData || expensesData.length === 0) {
-    return `
-      <div class="report-section expenses-section">
-        <h3>Расходы</h3>
-        <div class="report-table">
-          <div class="report-row header-row">
-            <div class="report-cell">Категория</div>
-            <div class="report-cell">Подкатегория</div>
-            <div class="report-cell amount-cell">Сумма (₽)</div>
-          </div>
-          <div class="empty-state">Нет данных</div>
-        </div>
+  // Group by parent category
+  const groups = {
+    '0': { label: 'Предварительные', items: [], letter: 'H' },
+    '1': { label: 'Основные', items: [], letter: 'J' }
+  };
+  
+  let grandTotal = 0;
+  
+  expensesData.forEach(item => {
+    const groupKey = item.code.charAt(0);
+    if (groups[groupKey]) {
+      groups[groupKey].items.push(item);
+      grandTotal += Number(item.amount) || 0;
+    }
+  });
+  
+  let html = `
+    <div class="report-section expenses-section">
+      <h3>💸 Расходы</h3>
+      <div class="report-table">
+  `;
+  
+  // Render each group
+  Object.entries(groups).forEach(([key, group]) => {
+    const groupTotal = group.items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+    
+    // Group header
+    html += `
+      <div class="report-row group-header-row">
+        <div class="report-cell">${group.letter}. ${group.label}</div>
+        <div class="report-cell amount-cell"></div>
       </div>
     `;
-  }
-  
-  const grouped = groupByCategory(expensesData);
-  
-  let rows = '';
-  let total = 0;
-  
-  Object.entries(grouped).forEach(([categoryCode, items]) => {
-    const category = items[0];
-    const categoryTotal = items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-    total += categoryTotal;
     
-    rows += `
-      <div class="report-row category-row">
-        <div class="report-cell category-cell">${category.group || categoryCode}</div>
-        <div class="report-cell">${category.label}</div>
-        <div class="report-cell amount-cell">${formatCurrency(categoryTotal)}</div>
+    // Subcategories
+    group.items.forEach(item => {
+      html += `
+        <div class="report-row subcategory-row">
+          <div class="report-cell subcategory-cell">${item.label}</div>
+          <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
+        </div>
+      `;
+    });
+    
+    // Group total
+    const nextLetter = String.fromCharCode(group.letter.charCodeAt(0) + 1);
+    html += `
+      <div class="report-row group-total-row">
+        <div class="report-cell">${nextLetter}. ${group.label} итого</div>
+        <div class="report-cell amount-cell group-total-amount">${formatCurrency(groupTotal)}</div>
       </div>
     `;
   });
   
-  return `
-    <div class="report-section expenses-section">
-      <h3>Расходы</h3>
-      <div class="report-table">
-        <div class="report-row header-row">
-          <div class="report-cell">Категория</div>
-          <div class="report-cell">Подкатегория</div>
-          <div class="report-cell amount-cell">Сумма (₽)</div>
-        </div>
-        ${rows}
-        <div class="report-row total-row">
-          <div class="report-cell">ИТОГО</div>
-          <div class="report-cell"></div>
-          <div class="report-cell amount-cell total-amount">${formatCurrency(total)}</div>
-        </div>
+  // Grand total
+  html += `
+    <div class="report-row grand-total-row expenses-total">
+      <div class="report-cell">L. РАСХОДЫ ИТОГО</div>
+      <div class="report-cell amount-cell grand-total-amount">${formatCurrency(grandTotal)}</div>
+    </div>
+  `;
+  
+  html += `
       </div>
     </div>
   `;
+  
+  return html;
 }
 
 /**
- * Format assets section
+ * Format assets section with hierarchy
  */
 export function formatAssetsSection(assetsData) {
-  if (!assetsData || assetsData.length === 0) {
-    return `
-      <div class="report-section assets-section">
-        <h3>Активы</h3>
-        <div class="report-table">
-          <div class="report-row header-row">
-            <div class="report-cell">Категория</div>
-            <div class="report-cell">Подкатегория</div>
-            <div class="report-cell amount-cell">Сумма (₽)</div>
-          </div>
-          <div class="empty-state">Нет данных</div>
-        </div>
-      </div>
-    `;
-  }
+  // Group by parent category
+  const groups = {
+    'N': { label: 'Активы', items: [] },
+    'P': { label: 'Роскошь', items: [] }
+  };
   
-  const grouped = groupByCategory(assetsData);
+  let activesTotal = 0;
+  let luxuryTotal = 0;
   
-  let rows = '';
-  let total = 0;
+  assetsData.forEach(item => {
+    const groupKey = item.code.charAt(0);
+    if (groups[groupKey]) {
+      groups[groupKey].items.push(item);
+      if (groupKey === 'N') {
+        activesTotal += Number(item.amount) || 0;
+      } else if (groupKey === 'P') {
+        luxuryTotal += Number(item.amount) || 0;
+      }
+    }
+  });
   
-  Object.entries(grouped).forEach(([categoryCode, items]) => {
-    const category = items[0];
-    const categoryTotal = items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-    total += categoryTotal;
-    
-    rows += `
-      <div class="report-row category-row">
-        <div class="report-cell category-cell">${category.group || categoryCode}</div>
-        <div class="report-cell">${category.label}</div>
-        <div class="report-cell amount-cell">${formatCurrency(categoryTotal)}</div>
+  const assetsByBanker = activesTotal + luxuryTotal; // R
+  const assetsFactual = activesTotal; // S
+  
+  let html = `
+    <div class="report-section assets-section">
+      <h3>📊 Активы</h3>
+      <div class="report-table">
+  `;
+  
+  // N. Активы group
+  html += `
+    <div class="report-row group-header-row">
+      <div class="report-cell">N. Активы</div>
+      <div class="report-cell amount-cell"></div>
+    </div>
+  `;
+  
+  groups['N'].items.forEach(item => {
+    html += `
+      <div class="report-row subcategory-row">
+        <div class="report-cell subcategory-cell">${item.label}</div>
+        <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
       </div>
     `;
   });
   
-  return `
-    <div class="report-section assets-section">
-      <h3>Активы</h3>
-      <div class="report-table">
-        <div class="report-row header-row">
-          <div class="report-cell">Категория</div>
-          <div class="report-cell">Подкатегория</div>
-          <div class="report-cell amount-cell">Сумма (₽)</div>
-        </div>
-        ${rows}
-        <div class="report-row total-row">
-          <div class="report-cell">ИТОГО</div>
-          <div class="report-cell"></div>
-          <div class="report-cell amount-cell total-amount">${formatCurrency(total)}</div>
-        </div>
+  html += `
+    <div class="report-row group-total-row">
+      <div class="report-cell">O. Активы подытог</div>
+      <div class="report-cell amount-cell group-total-amount">${formatCurrency(activesTotal)}</div>
+    </div>
+  `;
+  
+  // P. Роскошь group
+  html += `
+    <div class="report-row group-header-row">
+      <div class="report-cell">P. Роскошь</div>
+      <div class="report-cell amount-cell"></div>
+    </div>
+  `;
+  
+  groups['P'].items.forEach(item => {
+    html += `
+      <div class="report-row subcategory-row">
+        <div class="report-cell subcategory-cell">${item.label}</div>
+        <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
+      </div>
+    `;
+  });
+  
+  html += `
+    <div class="report-row group-total-row">
+      <div class="report-cell">Q. Роскошь итого</div>
+      <div class="report-cell amount-cell group-total-amount">${formatCurrency(luxuryTotal)}</div>
+    </div>
+  `;
+  
+  // R. АКТИВЫ ИТОГО по банкиру
+  html += `
+    <div class="report-row grand-total-row assets-total">
+      <div class="report-cell">R. АКТИВЫ ИТОГО по банкиру</div>
+      <div class="report-cell amount-cell grand-total-amount">${formatCurrency(assetsByBanker)}</div>
+    </div>
+  `;
+  
+  // S. АКТИВЫ ИТОГО факт
+  html += `
+    <div class="report-row grand-total-row assets-factual">
+      <div class="report-cell">S. АКТИВЫ ИТОГО факт</div>
+      <div class="report-cell amount-cell grand-total-amount">${formatCurrency(assetsFactual)}</div>
+    </div>
+  `;
+  
+  html += `
       </div>
     </div>
   `;
+  
+  return html;
 }
 
 /**
- * Format liabilities section
+ * Format liabilities section with hierarchy
  */
 export function formatLiabilitiesSection(liabilitiesData) {
-  if (!liabilitiesData || liabilitiesData.length === 0) {
-    return `
-      <div class="report-section liabilities-section">
-        <h3>Пассивы</h3>
-        <div class="report-table">
-          <div class="report-row header-row">
-            <div class="report-cell">Категория</div>
-            <div class="report-cell">Подкатегория</div>
-            <div class="report-cell amount-cell">Сумма (₽)</div>
-          </div>
-          <div class="empty-state">Нет данных</div>
-        </div>
-      </div>
-    `;
-  }
-  
-  const grouped = groupByCategory(liabilitiesData);
-  
-  let rows = '';
   let total = 0;
   
-  Object.entries(grouped).forEach(([categoryCode, items]) => {
-    const category = items[0];
-    const categoryTotal = items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-    total += categoryTotal;
-    
-    rows += `
-      <div class="report-row category-row">
-        <div class="report-cell category-cell">${category.group || categoryCode}</div>
-        <div class="report-cell">${category.label}</div>
-        <div class="report-cell amount-cell">${formatCurrency(categoryTotal)}</div>
+  liabilitiesData.forEach(item => {
+    total += Number(item.amount) || 0;
+  });
+  
+  let html = `
+    <div class="report-section liabilities-section">
+      <h3>📉 Пассивы</h3>
+      <div class="report-table">
+        <div class="report-row group-header-row">
+          <div class="report-cell">T. Пассивы</div>
+          <div class="report-cell amount-cell"></div>
+        </div>
+  `;
+  
+  liabilitiesData.forEach(item => {
+    html += `
+      <div class="report-row subcategory-row">
+        <div class="report-cell subcategory-cell">${item.label}</div>
+        <div class="report-cell amount-cell">${formatCurrency(item.amount || 0)}</div>
       </div>
     `;
   });
   
-  return `
-    <div class="report-section liabilities-section">
-      <h3>Пассивы</h3>
-      <div class="report-table">
-        <div class="report-row header-row">
-          <div class="report-cell">Категория</div>
-          <div class="report-cell">Подкатегория</div>
-          <div class="report-cell amount-cell">Сумма (₽)</div>
-        </div>
-        ${rows}
-        <div class="report-row total-row">
-          <div class="report-cell">ИТОГО</div>
-          <div class="report-cell"></div>
-          <div class="report-cell amount-cell total-amount">${formatCurrency(total)}</div>
-        </div>
+  html += `
+    <div class="report-row grand-total-row liabilities-total">
+      <div class="report-cell">U. ПАССИВЫ ИТОГО</div>
+      <div class="report-cell amount-cell grand-total-amount">${formatCurrency(total)}</div>
+    </div>
+  `;
+  
+  html += `
       </div>
     </div>
   `;
+  
+  return html;
 }
 
 /**
@@ -271,7 +337,7 @@ export function formatLiabilitiesSection(liabilitiesData) {
 export function formatAnalysisSection(analysis) {
   return `
     <div class="report-section analysis-section">
-      <h3>Анализ</h3>
+      <h3>📈 Анализ</h3>
       <div class="report-table analysis-table">
         <div class="report-row header-row">
           <div class="report-cell metric-cell">📊 Метрика</div>
@@ -350,21 +416,4 @@ export function formatAnalysisSection(analysis) {
       </div>
     </div>
   `;
-}
-
-/**
- * Group data by category
- */
-function groupByCategory(data) {
-  const grouped = {};
-  
-  data.forEach(item => {
-    const code = item.code || 'unknown';
-    if (!grouped[code]) {
-      grouped[code] = [];
-    }
-    grouped[code].push(item);
-  });
-  
-  return grouped;
 }

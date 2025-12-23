@@ -1,4 +1,9 @@
-/* /webapp/css/screens/financial-report.css v1.0.0 */
+/* /webapp/css/screens/financial-report.css v1.1.0 */
+/* CHANGELOG v1.1.0:
+ * - Added hierarchy styles (group headers, subcategories)
+ * - Added visual indentation
+ * - Added color coding (green income, red expenses)
+ */
 
 .financial-report {
   width: 100%;
@@ -81,52 +86,130 @@
   margin-bottom: 20px;
   color: var(--neon-blue);
   text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-  cursor: pointer;
   user-select: none;
-}
-
-.report-section h3:hover {
-  color: var(--neon-pink);
-  text-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
 }
 
 /* Report Table */
 .report-table {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .report-row {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: 1fr auto;
   gap: 16px;
-  padding: 12px 16px;
+  padding: 10px 16px;
   background: rgba(15, 23, 42, 0.5);
   border-radius: 4px;
   align-items: center;
-}
-
-.report-row.header-row {
-  background: rgba(0, 240, 255, 0.1);
-  font-weight: 600;
-  color: var(--neon-blue);
-  border-bottom: 2px solid var(--neon-blue);
-}
-
-.report-row.category-row {
   transition: all 0.2s;
 }
 
-.report-row.category-row:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.report-row.total-row {
+/* Group Header Row (A. Найм, C. Активы, etc) */
+.report-row.group-header-row {
   background: rgba(0, 240, 255, 0.15);
   font-weight: 700;
+  color: var(--neon-blue);
+  border-left: 4px solid var(--neon-blue);
+  padding-left: 12px;
   margin-top: 8px;
-  border-top: 2px solid var(--neon-blue);
+  font-size: 15px;
+}
+
+/* Subcategory Row (indented) */
+.report-row.subcategory-row {
+  padding-left: 32px;
+  background: rgba(15, 23, 42, 0.3);
+  border-left: 2px solid var(--border);
+  margin-left: 12px;
+}
+
+.report-row.subcategory-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--neon-blue);
+}
+
+.report-cell.subcategory-cell {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Group Total Row (B. Найм итого) */
+.report-row.group-total-row {
+  background: rgba(0, 240, 255, 0.1);
+  font-weight: 600;
+  border-left: 3px solid var(--neon-blue);
+  padding-left: 12px;
+  margin-bottom: 4px;
+}
+
+.group-total-amount {
+  color: var(--neon-blue);
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+}
+
+/* Grand Total Row (G. ДОХОДЫ ИТОГО, L. РАСХОДЫ ИТОГО) */
+.report-row.grand-total-row {
+  background: rgba(0, 240, 255, 0.2);
+  font-weight: 700;
+  font-size: 16px;
+  border: 2px solid var(--neon-blue);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 12px;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+.grand-total-amount {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Income section - green totals */
+.income-section .grand-total-row {
+  border-color: var(--neon-green);
+  background: rgba(0, 255, 159, 0.15);
+}
+
+.income-section .grand-total-amount {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px rgba(0, 255, 159, 0.5);
+}
+
+/* Expenses section - red totals */
+.expenses-section .grand-total-row {
+  border-color: var(--error);
+  background: rgba(220, 38, 38, 0.15);
+}
+
+.expenses-section .grand-total-amount {
+  color: var(--error);
+  text-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+}
+
+/* Assets section - blue/cyan totals */
+.assets-section .grand-total-row {
+  border-color: var(--neon-blue);
+  background: rgba(0, 240, 255, 0.15);
+}
+
+.assets-section .grand-total-amount {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+/* Liabilities section - orange/red totals */
+.liabilities-section .grand-total-row {
+  border-color: var(--ferrari-yellow);
+  background: rgba(255, 215, 0, 0.15);
+}
+
+.liabilities-section .grand-total-amount {
+  color: var(--ferrari-yellow);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .report-cell {
@@ -134,21 +217,11 @@
   color: var(--text);
 }
 
-.report-cell.category-cell {
-  color: var(--text-muted);
-  font-size: 13px;
-}
-
 .report-cell.amount-cell {
   text-align: right;
   font-weight: 600;
   white-space: nowrap;
-}
-
-.total-amount {
-  color: var(--neon-green);
-  text-shadow: 0 0 10px rgba(0, 255, 159, 0.5);
-  font-size: 16px;
+  font-variant-numeric: tabular-nums;
 }
 
 .empty-state {
@@ -161,6 +234,14 @@
 /* Analysis Table */
 .analysis-table .report-row {
   grid-template-columns: 2fr 2fr 1fr;
+  gap: 12px;
+}
+
+.analysis-table .header-row {
+  background: rgba(0, 240, 255, 0.1);
+  font-weight: 600;
+  color: var(--neon-blue);
+  border-bottom: 2px solid var(--neon-blue);
 }
 
 .metric-cell,
@@ -173,6 +254,7 @@
   font-size: 13px;
   color: var(--text-muted);
   font-family: 'Courier New', monospace;
+  line-height: 1.4;
 }
 
 .formula-note {
@@ -180,6 +262,7 @@
   font-style: italic;
   color: var(--neon-pink);
   margin-top: 4px;
+  font-size: 12px;
 }
 
 .value-cell.positive {
@@ -223,13 +306,17 @@
   }
   
   .report-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 10px 12px;
+    padding: 8px 12px;
+  }
+  
+  .report-row.subcategory-row {
+    padding-left: 24px;
+    margin-left: 8px;
   }
   
   .analysis-table .report-row {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
   
   .report-cell.amount-cell {
@@ -238,5 +325,13 @@
   
   .formula {
     font-size: 12px;
+  }
+  
+  .grand-total-row {
+    font-size: 14px;
+  }
+  
+  .grand-total-amount {
+    font-size: 16px;
   }
 }
