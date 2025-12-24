@@ -123,20 +123,19 @@ export function renderBusinessTriangle(containerId = '.cabinet-content') {
 
 /**
  * Fallback render without i18n
- */
-function renderTriangleFallback(container) {
-  container.innerHTML = `
-    <div class="business-triangle-container">
-
-    <!-- 
-      <button class="triangle-back-btn" onclick="window.accountNavigation.goBack()">
+ *       <button class="triangle-back-btn" onclick="window.accountNavigation.goBack()">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
           <path d="M10 20L0 10 10 0l2 2-6 6h14v4H6l6 6-2 2z"/>
         </svg>
         Назад к аккаунту
       </button>
-      -->
+ */
+function renderTriangleFallback(container) {
+  container.innerHTML = `
+    <div class="business-triangle-container">
+    
 
+      
       <h2 class="triangle-title">📊 Биз. управление</h2>
       
       <div class="triangle-wrapper">
