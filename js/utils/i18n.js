@@ -60,6 +60,18 @@ const translations = {
     'error.loadingData': 'Ошибка загрузки данных',
     'error.noSession': 'Нет активной сессии',
     
+    // Business Triangle
+    'businessManagement': 'Биз. управление',
+    'backToAccount': 'Назад к аккаунту',
+    'mission': 'МИССИЯ',
+    'team': 'КОМАНДА',
+    'leadership': 'ЛИДЕРСТВО',
+    'product': 'Продукт',
+    'legal': 'Юридическое',
+    'systems': 'Системы',
+    'communications': 'Коммуникации',
+    'cashFlow': 'Денежный поток',
+    
     // Common
     'common.loading': 'Загрузка...',
     'common.save': 'Сохранить',
@@ -125,6 +137,18 @@ const translations = {
     // Errors
     'error.loadingData': 'Error loading data',
     'error.noSession': 'No active session',
+    
+    // Business Triangle
+    'businessManagement': 'Business Management',
+    'backToAccount': 'Back to Account',
+    'mission': 'MISSION',
+    'team': 'TEAM',
+    'leadership': 'LEADERSHIP',
+    'product': 'Product',
+    'legal': 'Legal',
+    'systems': 'Systems',
+    'communications': 'Communications',
+    'cashFlow': 'Cash Flow',
     
     // Common
     'common.loading': 'Loading...',
