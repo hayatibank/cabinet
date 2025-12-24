@@ -63,88 +63,8 @@
   gap: 24px;
 }
 
-/* Grid positioning for desktop alignment:
-   Income (col 1, row 1) | Expenses (col 2, row 1)
-   Assets (col 1, row 2) | Liabilities (col 2, row 2)
-   Analysis (full width, row 3) */
-
-.income-section {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.expenses-section {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.assets-section {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.liabilities-section {
-  grid-column: 2;
-  grid-row: 2;
-  
-  /* Make section a flex container to enable V/W alignment */
-  display: flex;
-  flex-direction: column;
-}
-
-/* Liabilities section inner container (the report-table) */
-.liabilities-section .report-table {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 0; /* Remove gap to enable margin-top: auto */
-}
-
-/* Add manual spacing between rows in liabilities */
-.liabilities-section .report-row {
-  margin-bottom: 2px;
-}
-
-/* Remove margin from last row */
-.liabilities-section .report-row:last-child {
-  margin-bottom: 0;
-}
-
-/* Push V down to align with R */
-.liabilities-section .net-worth-row:first-of-type {
-  margin-top: auto !important; /* Override any other margins */
-  margin-bottom: 0; /* Remove spacing before W */
-}
-
-/* Keep W directly after V */
-.liabilities-section .net-worth-row:last-of-type {
-  margin-bottom: 0;
-}
-
-/* On mobile, remove auto margin to keep natural flow */
-@media (max-width: 1024px) {
-  .liabilities-section {
-    display: block; /* Reset flex */
-  }
-  
-  .liabilities-section .report-table {
-    display: flex;
-    flex-direction: column;
-    gap: 2px; /* Restore gap on mobile */
-  }
-  
-  .liabilities-section .report-row {
-    margin-bottom: 0; /* Remove manual margins on mobile */
-  }
-  
-  .liabilities-section .net-worth-row:first-of-type {
-    margin-top: 12px !important; /* Normal spacing on mobile */
-  }
-}
-
 .report-grid .analysis-section {
   grid-column: 1 / -1;
-  grid-row: 3;
 }
 
 /* Report Section */
