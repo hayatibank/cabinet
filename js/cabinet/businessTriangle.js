@@ -21,14 +21,17 @@ export function renderBusinessTriangle(containerId = '.cabinet-content') {
   import('../utils/i18n.js').then(i18n => {
     const t = i18n.t;
     
-    container.innerHTML = `
-      <div class="business-triangle-container">
+/*
         <button class="triangle-back-btn" onclick="window.accountNavigation.goBack()">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <path d="M10 20L0 10 10 0l2 2-6 6h14v4H6l6 6-2 2z"/>
           </svg>
           ${t('backToAccount')}
         </button>
+*/
+
+    container.innerHTML = `
+      <div class="business-triangle-container">
         
         <h2 class="triangle-title">📊 ${t('businessManagement')}</h2>
         
