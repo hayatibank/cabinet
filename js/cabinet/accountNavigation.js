@@ -1,13 +1,12 @@
-/* /webapp/js/cabinet/accountNavigation.js v1.1.2 */
-// CHANGELOG v1.1.2:
-// - Fixed import path for i18n (../utils/i18n.js → ../../utils/i18n.js)
+/* /webapp/js/cabinet/accountNavigation.js v1.2.0 */
+// CHANGELOG v1.2.0:
+// - FIXED: Step 6 now calls showBusinessManagement() with accountId
+// - Added accountId passing to all steps
 // - Offering Zone integration confirmed
-// CHANGELOG v1.1.1:
-// - Integrated Financial Report into Step 1
-// - Replaced placeholder with real report
+// Account dashboard navigation with 7 steps
 
 import { getAccountById } from './accounts.js';
-import { renderBusinessTriangle } from './businessTriangle.js';
+import { showBusinessManagement } from './businessTriangle.js';
 import { renderFinancialReport } from './reports/financialReport.js';
 
 /**
@@ -16,6 +15,9 @@ import { renderFinancialReport } from './reports/financialReport.js';
 export async function showAccountDashboard(accountId) {
   try {
     console.log(`📊 Loading dashboard for account: ${accountId}`);
+    
+    // Set global accountId for nested components
+    window.currentAccountId = accountId;
     
     // Get account data
     const account = await getAccountById(accountId);
@@ -157,7 +159,8 @@ async function renderStepContent(stepNumber, account) {
       break;
       
     case 6:
-      setTimeout(() => renderBusinessTriangle('#dashboardContent'), 0);
+      // ✅ FIXED: Business Management with Product Selector
+      await showBusinessManagement(account.accountId, '#dashboardContent');
       break;
       
     case 7:
@@ -221,6 +224,9 @@ function renderComingSoon(stepNumber, title) {
  * Go back to accounts list
  */
 function goBack() {
+  // Clear global accountId
+  delete window.currentAccountId;
+  
   import('./accountsUI.js').then(module => {
     module.renderAccountsList();
   });

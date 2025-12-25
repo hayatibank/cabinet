@@ -1,27 +1,45 @@
-// /webapp/js/cabinet/businessTriangle.js v1.1.1
-// CHANGELOG v1.1.1:
-// - FIXED: Added missing i18n import
-// - FIXED: Added fallback texts if i18n not available
-// - Added 20L system integration for "Communications" area
+/* /webapp/js/cabinet/businessTriangle.js v1.2.0 */
+// CHANGELOG v1.2.0:
+// - Added Product Selector (like year selector in financial report)
+// - Fixed accountId passing to 20L system
+// - Triangle now opens AFTER product selection
+// - Removed broken i18n dynamic import
 // Business Management Triangle Component
 
-// Fallback localization function (if i18n not imported)
-function t(key) {
-  const fallbacks = {
-    'mission': 'МИССИЯ',
-    'team': 'КОМАНДА',
-    'leadership': 'ЛИДЕРСТВО',
-    'product': 'Продукт',
-    'legal': 'Правовое',
-    'systems': 'Системы',
-    'communications': 'Коммуникации',
-    'cashFlow': 'Ден. поток'
-  };
-  return fallbacks[key] || key;
+/**
+ * Show Business Management screen with product selector
+ * @param {string} accountId - Account ID (REQUIRED)
+ * @param {string} containerId - Container selector
+ */
+export async function showBusinessManagement(accountId, containerId = '#dashboardContent') {
+  try {
+    if (!accountId) {
+      console.error('❌ accountId is required for Business Management');
+      alert('❌ Ошибка: аккаунт не определен');
+      return;
+    }
+    
+    console.log('📊 Opening Business Management for account:', accountId);
+    
+    // Set global accountId for 20L system
+    window.currentAccountId = accountId;
+    
+    // Import and render product selector for 20L
+    const { renderProductSelector } = await import('../20L/components/productSelector.js');
+    
+    await renderProductSelector(accountId);
+    
+    console.log('✅ Business Management opened');
+    
+  } catch (err) {
+    console.error('❌ Error opening Business Management:', err);
+    alert('❌ Ошибка загрузки бизнес-управления');
+  }
 }
 
 /**
- * Render Business Triangle
+ * Render Business Triangle (legacy - called from product selector)
+ * @deprecated Use showBusinessManagement() instead
  */
 export function renderBusinessTriangle(containerId = '.cabinet-content') {
   const container = document.querySelector(containerId);
@@ -35,6 +53,9 @@ export function renderBusinessTriangle(containerId = '.cabinet-content') {
   
   container.innerHTML = `
     <div class="business-triangle-container">
+      
+      <h2 class="triangle-title">📊 Бизнес-управление</h2>
+      
       <div class="triangle-wrapper">
         <!-- SVG Background Triangle with edges -->
         <svg class="triangle-svg" viewBox="0 0 500 433" xmlns="http://www.w3.org/2000/svg">
@@ -78,38 +99,38 @@ export function renderBusinessTriangle(containerId = '.cabinet-content') {
         <!-- Clickable Areas -->
         
         <!-- BLACK EDGES TEXT -->
-        <div class="triangle-area area-team" data-area="team" title="${t('team')}">
-          ${t('team')}
+        <div class="triangle-area area-team" data-area="team" title="КОМАНДА">
+          КОМАНДА
         </div>
         
-        <div class="triangle-area area-leadership" data-area="leadership" title="${t('leadership')}">
-          ${t('leadership')}
+        <div class="triangle-area area-leadership" data-area="leadership" title="ЛИДЕРСТВО">
+          ЛИДЕРСТВО
         </div>
         
         <!-- BOTTOM EDGE TEXT -->
-        <div class="triangle-area area-mission" data-area="mission" title="${t('mission')}">
-          ${t('mission')}
+        <div class="triangle-area area-mission" data-area="mission" title="МИССИЯ">
+          МИССИЯ
         </div>
         
         <!-- PURPLE LEVELS -->
-        <div class="triangle-area purple-level area-product" data-area="product" title="${t('product')}">
-          ${t('product')}
+        <div class="triangle-area purple-level area-product" data-area="product" title="Продукт">
+          Продукт
         </div>
         
-        <div class="triangle-area purple-level area-legal" data-area="legal" title="${t('legal')}">
-          ${t('legal')}
+        <div class="triangle-area purple-level area-legal" data-area="legal" title="Юридическое">
+          Юридическое
         </div>
         
-        <div class="triangle-area purple-level area-systems" data-area="systems" title="${t('systems')}">
-          ${t('systems')}
+        <div class="triangle-area purple-level area-systems" data-area="systems" title="Системы">
+          Системы
         </div>
         
-        <div class="triangle-area purple-level area-communications" data-area="communications" title="${t('communications')}">
-          ${t('communications')}
+        <div class="triangle-area purple-level area-communications" data-area="communications" title="Коммуникации">
+          Коммуникации
         </div>
         
-        <div class="triangle-area purple-level area-cash-flow" data-area="cashFlow" title="${t('cashFlow')}">
-          ${t('cashFlow')}
+        <div class="triangle-area purple-level area-cash-flow" data-area="cashFlow" title="Денежный поток">
+          Денежный поток
         </div>
       </div>
     </div>
@@ -169,8 +190,7 @@ function handleTriangleClick(area) {
       showSystemsPanel();
       break;
     case 'communications':
-      // ✅ NEW: Open 20L system
-      show20LSystem();
+      showCommunicationsPanel();
       break;
     case 'cashFlow':
       showCashFlowPanel();
@@ -182,37 +202,37 @@ function handleTriangleClick(area) {
 
 // Panel functions (placeholders for now)
 function showMissionPanel() {
-  alert(`🎯 ${t('mission')}\n\nВ разработке...`);
+  alert(`🎯 МИССИЯ\n\nВ разработке...`);
 }
 
 function showTeamPanel() {
-  alert(`👥 ${t('team')}\n\nВ разработке...`);
+  alert(`👥 КОМАНДА\n\nВ разработке...`);
 }
 
 function showLeadershipPanel() {
-  alert(`👑 ${t('leadership')}\n\nВ разработке...`);
+  alert(`👑 ЛИДЕРСТВО\n\nВ разработке...`);
 }
 
 function showProductPanel() {
-  alert(`📦 ${t('product')}\n\nВ разработке...`);
+  alert(`📦 Продукт\n\nВ разработке...`);
 }
 
 function showLegalPanel() {
-  alert(`⚖️ ${t('legal')}\n\nВ разработке...`);
+  alert(`⚖️ Юридическое\n\nВ разработке...`);
 }
 
 function showSystemsPanel() {
-  alert(`⚙️ ${t('systems')}\n\nВ разработке...`);
+  alert(`⚙️ Системы\n\nВ разработке...`);
 }
 
 /**
- * Show 20L Lead Management System
+ * Show Communications Panel → 20L System
  */
-async function show20LSystem() {
+async function showCommunicationsPanel() {
   try {
-    console.log('📞 Opening 20L system...');
+    console.log('📞 Opening Communications...');
     
-    // Get current account ID from context
+    // Get accountId
     const accountId = window.currentAccountId;
     
     if (!accountId) {
@@ -220,7 +240,7 @@ async function show20LSystem() {
       return;
     }
     
-    // Import and show product selector
+    // Import and show product selector for 20L
     const { renderProductSelector } = await import('../20L/components/productSelector.js');
     
     // Get container
@@ -233,20 +253,21 @@ async function show20LSystem() {
     // Render product selector
     await renderProductSelector(accountId);
     
-    console.log('✅ 20L system opened');
+    console.log('✅ Communications (20L) opened');
     
   } catch (err) {
-    console.error('❌ Error opening 20L system:', err);
-    alert('❌ Ошибка загрузки системы 20L');
+    console.error('❌ Error opening Communications:', err);
+    alert('❌ Ошибка загрузки системы Коммуникаций');
   }
 }
 
 function showCashFlowPanel() {
-  alert(`💰 ${t('cashFlow')}\n\nВ разработке...`);
+  alert(`💰 Денежный поток\n\nВ разработке...`);
 }
 
 // Make functions globally accessible
 if (typeof window !== 'undefined') {
   window.renderBusinessTriangle = renderBusinessTriangle;
+  window.showBusinessManagement = showBusinessManagement;
   window.handleTriangleClick = handleTriangleClick;
 }
