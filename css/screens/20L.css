@@ -1,5 +1,7 @@
-/* /webapp/css/screens/20L.css v1.0.0 */
-/* CHANGELOG v1.0.0:
+/* /webapp/css/screens/20L.css v1.0.1 */
+/* CHANGELOG v1.0.1:
+ * - ADDED: .stat-counterparties hover animation (missing)
+ * CHANGELOG v1.0.0:
  * - Initial release
  * - Product selector styles
  * - Dashboard with statistics
@@ -211,6 +213,16 @@
 .stat-ic:hover {
   border-color: var(--ferrari-yellow);
   box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}
+
+/* ✅ ADDED: Counterparties card hover animation */
+.stat-counterparties {
+  border-color: rgba(128, 128, 128, 0.3);
+}
+
+.stat-counterparties:hover {
+  border-color: var(--metallic-silver);
+  box-shadow: 0 4px 12px rgba(192, 192, 208, 0.3);
 }
 
 .stat-sales {

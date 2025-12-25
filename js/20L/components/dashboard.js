@@ -1,4 +1,8 @@
-/* /webapp/js/20L/components/dashboard.js v1.0.0 */
+/* /webapp/js/20L/components/dashboard.js v1.0.1 */
+// CHANGELOG v1.0.1:
+// - FIXED: Missing t() wrapper for filter buttons (status.ic, status.lead, status.sales)
+// - FIXED: Missing t() wrapper for add counterparty button
+// - FIXED: Import counterpartyModal to expose window.showCreateCounterpartyModal
 // CHANGELOG v1.0.0:
 // - Initial release
 // - Dashboard with statistics
@@ -8,6 +12,7 @@
 import { getCounterparties, createCounterparty } from '../services/counterpartyService.js';
 import { getDashboardStats, getLeadsProgress } from '../services/dashboardService.js';
 import { t } from '../../utils/i18n.js';
+import './counterpartyModal.js'; // ✅ Import to expose global functions
 
 // Pagination state
 let currentPage = 1;
@@ -61,21 +66,21 @@ export async function renderDashboard(accountId, productId) {
           <div class="stat-card stat-leads">
             <div class="stat-header">
               <span class="stat-icon">🎯</span>
-              <span class="stat-label">${t('20L.leads')}</span>
+              <span class="stat-label">${t('20L.stats.leads')}</span>
             </div>
             <div class="stat-value">${stats.leads}/<span class="stat-target">20</span></div>
             <div class="stat-progress">
               <div class="progress-bar">
                 <div class="progress-fill" style="width: ${progress.percentage}%"></div>
               </div>
-              <span class="progress-text">${progress.remaining} ${t('20L.dashboard.remaining')}</span>
+              <span class="progress-text">${progress.remaining} ${t('20L.stats.remaining')}</span>
             </div>
           </div>
           
           <div class="stat-card stat-ic">
             <div class="stat-header">
               <span class="stat-icon">📞</span>
-              <span class="stat-label">${t('20L.ic')}</span>
+              <span class="stat-label">${t('20L.stats.ic')}</span>
             </div>
             <div class="stat-value">${stats.ic}</div>
           </div>
@@ -83,7 +88,7 @@ export async function renderDashboard(accountId, productId) {
           <div class="stat-card stat-counterparties">
             <div class="stat-header">
               <span class="stat-icon">👥</span>
-              <span class="stat-label">${t('20L.counterparties')}</span>
+              <span class="stat-label">${t('20L.stats.counterparties')}</span>
             </div>
             <div class="stat-value">${stats.counterparties}</div>
           </div>
@@ -91,7 +96,7 @@ export async function renderDashboard(accountId, productId) {
           <div class="stat-card stat-sales">
             <div class="stat-header">
               <span class="stat-icon">✅</span>
-              <span class="stat-label">${t('20L.sales')}</span>
+              <span class="stat-label">${t('20L.stats.sales')}</span>
             </div>
             <div class="stat-value">${stats.sales}</div>
           </div>
@@ -110,30 +115,30 @@ export async function renderDashboard(accountId, productId) {
               class="filter-btn status-0 ${currentFilters.status20L === '0' ? 'active' : ''}" 
               onclick="window.filterByStatus('${accountId}', '${productId}', '0')"
             >
-              ${t('20L.status.0')}
+              ${t('20L.filter.status0')}
             </button>
             <button 
               class="filter-btn status-ic ${currentFilters.status20L === 'IC' ? 'active' : ''}" 
               onclick="window.filterByStatus('${accountId}', '${productId}', 'IC')"
             >
-              ${t('20L.status.ic')}
+              ${t('20L.filter.statusIC')}
             </button>
             <button 
               class="filter-btn status-lead ${currentFilters.status20L === 'Lead' ? 'active' : ''}" 
               onclick="window.filterByStatus('${accountId}', '${productId}', 'Lead')"
             >
-              ${t('20L.status.lead')}
+              ${t('20L.filter.statusLead')}
             </button>
             <button 
               class="filter-btn status-sales ${currentFilters.status20L === 'Sales' ? 'active' : ''}" 
               onclick="window.filterByStatus('${accountId}', '${productId}', 'Sales')"
             >
-              ${t('20L.status.sales')}
+              ${t('20L.filter.statusSales')}
             </button>
           </div>
           
           <button onclick="window.showCreateCounterpartyModal('${accountId}', '${productId}')" class="btn btn-primary">
-            ➕ ${t('20L.counterparty.add')}
+            ➕ ${t('20L.dashboard.addCounterparty')}
           </button>
         </div>
         
@@ -172,7 +177,7 @@ function renderCounterpartiesList(counterparties, accountId, productId) {
         <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.3;">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
         </svg>
-        <p>${t('20L.counterparty.empty')}</p>
+        <p>${t('20L.empty.noCounterparties')}</p>
       </div>
     `;
   }
@@ -217,7 +222,7 @@ function renderPagination(totalItems, accountId, productId) {
   if (currentPage > 1) {
     buttons.push(`
       <button onclick="window.goToPage('${accountId}', '${productId}', ${currentPage - 1})" class="pagination-btn">
-        ← ${t('common.previous')}
+        ← ${t('20L.pagination.previous')}
       </button>
     `);
   }
@@ -229,7 +234,7 @@ function renderPagination(totalItems, accountId, productId) {
   if (currentPage < totalPages) {
     buttons.push(`
       <button onclick="window.goToPage('${accountId}', '${productId}', ${currentPage + 1})" class="pagination-btn">
-        ${t('common.next')} →
+        ${t('20L.pagination.next')} →
       </button>
     `);
   }

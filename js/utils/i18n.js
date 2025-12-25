@@ -1,4 +1,7 @@
-/* /webapp/js/utils/i18n.js v1.1.0 */
+/* /webapp/js/utils/i18n.js v1.1.1 */
+// CHANGELOG v1.1.1:
+// - ADDED: Missing 20L.stats.remaining key
+// - FIXED: 20L.dashboard.addCounterparty key
 // CHANGELOG v1.1.0:
 // - Added 20L system keys
 // CHANGELOG v1.0.0:
@@ -54,12 +57,20 @@ const translations = {
     // 20L System - Product Form
     '20L.product.name': 'Название продукта',
     '20L.product.nameRequired': 'Обязательное поле',
+    '20L.product.namePlaceholder': 'Например: Недвижимость в Дубае',
     '20L.product.comment': 'Комментарий',
     '20L.product.commentOptional': 'Опционально',
+    '20L.product.commentPlaceholder': 'Дополнительная информация о продукте',
     '20L.product.save': 'Сохранить продукт',
     '20L.product.saving': 'Сохранение...',
+    '20L.product.create': 'Создать продукт',
+    '20L.product.created': 'Продукт создан',
+    '20L.product.updated': 'Продукт обновлён',
     '20L.product.edit': 'Редактировать',
     '20L.product.delete': 'Удалить',
+    '20L.product.selector': 'Выбор продукта',
+    '20L.product.addNew': 'Добавить новый',
+    '20L.product.createFirstSubtitle': 'Добавьте продукт для начала работы',
     
     // 20L System - Dashboard
     '20L.dashboard.title': 'Доска лидов',
@@ -77,46 +88,59 @@ const translations = {
     '20L.stats.sales': 'Продажи',
     '20L.stats.salesTarget': 'Успешные сделки',
     '20L.stats.progress': 'Прогресс к цели',
+    '20L.stats.remaining': 'осталось до цели',
     
     // 20L System - Filters
     '20L.filter.all': 'Все',
     '20L.filter.status0': 'Серые (0)',
-    '20L.filter.statusIC': 'Желтые (IC)',
+    '20L.filter.statusIC': 'Жёлтые (IC)',
     '20L.filter.statusLead': 'Синие (Lead)',
-    '20L.filter.statusSales': 'Зеленые (Sales)',
+    '20L.filter.statusSales': 'Зелёные (Sales)',
     
     // 20L System - Counterparty Card
     '20L.counterparty.stage': 'Этап',
     '20L.counterparty.classification': 'Классификация',
     '20L.counterparty.source': 'Источник',
     '20L.counterparty.noComment': 'Без комментария',
-    
-    // 20L System - Counterparty Modal
-    '20L.modal.createTitle': 'Добавить контрагента',
-    '20L.modal.editTitle': 'Редактировать контрагента',
-    '20L.modal.name': 'Имя контрагента',
-    '20L.modal.nameRequired': 'Обязательное поле',
-    '20L.modal.status': 'Статус',
-    '20L.modal.statusHelp': 'Авто-устанавливается при создании',
-    '20L.modal.cycleStage': 'Этап цикла',
-    '20L.modal.cycleStageHelp': '1-11',
-    '20L.modal.classification': 'Классификация',
-    '20L.modal.classificationPlaceholder': 'Тип клиента',
-    '20L.modal.source': 'Источник',
-    '20L.modal.sourcePlaceholder': 'Откуда пришел',
-    '20L.modal.comment': 'Комментарий',
-    '20L.modal.commentPlaceholder': 'Заметки о контрагенте',
-    '20L.modal.moveToNext': 'Перейти на следующий этап',
-    '20L.modal.delete': 'Удалить контрагента',
-    '20L.modal.save': 'Сохранить',
-    '20L.modal.saving': 'Сохранение...',
-    '20L.modal.cancel': 'Отмена',
+    '20L.counterparty.add': 'Добавить контрагента',
+    '20L.counterparty.create': 'Создать контрагента',
+    '20L.counterparty.edit': 'Редактировать контрагента',
+    '20L.counterparty.name': 'Имя контрагента',
+    '20L.counterparty.nameRequired': 'Обязательное поле',
+    '20L.counterparty.namePlaceholder': 'Имя компании или человека',
+    '20L.counterparty.status': 'Статус',
+    '20L.counterparty.statusAuto': 'Авто-устанавливается при создании',
+    '20L.counterparty.cycleStage': 'Этап цикла',
+    '20L.counterparty.cycleStageAuto': 'Начинается с 1 (CRM)',
+    '20L.counterparty.classificationPlaceholder': 'Тип клиента',
+    '20L.counterparty.sourcePlaceholder': 'Откуда пришел',
+    '20L.counterparty.commentPlaceholder': 'Заметки о контрагенте',
+    '20L.counterparty.nextStage': 'Следующий этап',
+    '20L.counterparty.maxStage': 'Уже на последнем этапе',
+    '20L.counterparty.movedToNextStage': 'Перемещён на следующий этап',
+    '20L.counterparty.deleteConfirm': 'Удалить контрагента?',
+    '20L.counterparty.deleted': 'Контрагент удалён',
+    '20L.counterparty.created': 'Контрагент создан',
+    '20L.counterparty.updated': 'Контрагент обновлён',
     
     // 20L System - Status Names
     '20L.status.0': 'Серый (0)',
-    '20L.status.IC': 'В контакте (IC)',
-    '20L.status.Lead': 'Лид',
-    '20L.status.Sales': 'Продажа',
+    '20L.status.ic': 'В контакте (IC)',
+    '20L.status.lead': 'Лид',
+    '20L.status.sales': 'Продажа',
+    
+    // 20L System - Cycle Stages
+    '20L.cycle.1': 'CRM',
+    '20L.cycle.2': '0-й звонок',
+    '20L.cycle.3': '1-я встреча',
+    '20L.cycle.4': '2-я встреча',
+    '20L.cycle.5': '3-я встреча',
+    '20L.cycle.6': 'Подготовка ОП',
+    '20L.cycle.7': 'Отправка ОП',
+    '20L.cycle.8': 'Обсуждение ОП',
+    '20L.cycle.9': 'Контракт',
+    '20L.cycle.10': 'Оплата',
+    '20L.cycle.11': 'Доставка',
     
     // 20L System - Pagination
     '20L.pagination.previous': 'Предыдущие',
@@ -129,10 +153,6 @@ const translations = {
     '20L.empty.addFirst': 'Добавьте первого контрагента для начала работы',
     '20L.empty.noFilterResults': 'Нет контрагентов с этим статусом',
     
-    // 20L System - Confirmations
-    '20L.confirm.deleteCounterparty': 'Удалить контрагента?',
-    '20L.confirm.deleteCounterpartyText': 'Это действие нельзя отменить',
-    
     // Units
     'unit.available': 'Доступно',
     'unit.reserved': 'Зарезервировано',
@@ -143,6 +163,8 @@ const translations = {
     'error.noSession': 'Нет активной сессии',
     'error.savingFailed': 'Ошибка сохранения',
     'error.deletingFailed': 'Ошибка удаления',
+    'error.notFound': 'Не найдено',
+    'error.generic': 'Произошла ошибка',
     
     // Common
     'common.loading': 'Загрузка...',
@@ -154,7 +176,8 @@ const translations = {
     'common.next': 'Далее',
     'common.close': 'Закрыть',
     'common.yes': 'Да',
-    'common.no': 'Нет'
+    'common.no': 'Нет',
+    'common.previous': 'Назад'
   },
   
   en: {
@@ -204,12 +227,20 @@ const translations = {
     // 20L System - Product Form
     '20L.product.name': 'Product name',
     '20L.product.nameRequired': 'Required field',
+    '20L.product.namePlaceholder': 'e.g: Dubai Real Estate',
     '20L.product.comment': 'Comment',
     '20L.product.commentOptional': 'Optional',
+    '20L.product.commentPlaceholder': 'Additional product info',
     '20L.product.save': 'Save Product',
     '20L.product.saving': 'Saving...',
+    '20L.product.create': 'Create Product',
+    '20L.product.created': 'Product created',
+    '20L.product.updated': 'Product updated',
     '20L.product.edit': 'Edit',
     '20L.product.delete': 'Delete',
+    '20L.product.selector': 'Product Selection',
+    '20L.product.addNew': 'Add New',
+    '20L.product.createFirstSubtitle': 'Add a product to start working',
     
     // 20L System - Dashboard
     '20L.dashboard.title': 'Lead Board',
@@ -227,6 +258,7 @@ const translations = {
     '20L.stats.sales': 'Sales',
     '20L.stats.salesTarget': 'Successful deals',
     '20L.stats.progress': 'Progress to target',
+    '20L.stats.remaining': 'remaining to target',
     
     // 20L System - Filters
     '20L.filter.all': 'All',
@@ -240,33 +272,45 @@ const translations = {
     '20L.counterparty.classification': 'Classification',
     '20L.counterparty.source': 'Source',
     '20L.counterparty.noComment': 'No comment',
-    
-    // 20L System - Counterparty Modal
-    '20L.modal.createTitle': 'Add Counterparty',
-    '20L.modal.editTitle': 'Edit Counterparty',
-    '20L.modal.name': 'Counterparty name',
-    '20L.modal.nameRequired': 'Required field',
-    '20L.modal.status': 'Status',
-    '20L.modal.statusHelp': 'Auto-assigned on creation',
-    '20L.modal.cycleStage': 'Cycle stage',
-    '20L.modal.cycleStageHelp': '1-11',
-    '20L.modal.classification': 'Classification',
-    '20L.modal.classificationPlaceholder': 'Client type',
-    '20L.modal.source': 'Source',
-    '20L.modal.sourcePlaceholder': 'Where from',
-    '20L.modal.comment': 'Comment',
-    '20L.modal.commentPlaceholder': 'Notes about counterparty',
-    '20L.modal.moveToNext': 'Move to next stage',
-    '20L.modal.delete': 'Delete counterparty',
-    '20L.modal.save': 'Save',
-    '20L.modal.saving': 'Saving...',
-    '20L.modal.cancel': 'Cancel',
+    '20L.counterparty.add': 'Add Counterparty',
+    '20L.counterparty.create': 'Create Counterparty',
+    '20L.counterparty.edit': 'Edit Counterparty',
+    '20L.counterparty.name': 'Counterparty name',
+    '20L.counterparty.nameRequired': 'Required field',
+    '20L.counterparty.namePlaceholder': 'Company or person name',
+    '20L.counterparty.status': 'Status',
+    '20L.counterparty.statusAuto': 'Auto-assigned on creation',
+    '20L.counterparty.cycleStage': 'Cycle stage',
+    '20L.counterparty.cycleStageAuto': 'Starts at 1 (CRM)',
+    '20L.counterparty.classificationPlaceholder': 'Client type',
+    '20L.counterparty.sourcePlaceholder': 'Where from',
+    '20L.counterparty.commentPlaceholder': 'Notes about counterparty',
+    '20L.counterparty.nextStage': 'Next Stage',
+    '20L.counterparty.maxStage': 'Already at final stage',
+    '20L.counterparty.movedToNextStage': 'Moved to next stage',
+    '20L.counterparty.deleteConfirm': 'Delete counterparty?',
+    '20L.counterparty.deleted': 'Counterparty deleted',
+    '20L.counterparty.created': 'Counterparty created',
+    '20L.counterparty.updated': 'Counterparty updated',
     
     // 20L System - Status Names
     '20L.status.0': 'Gray (0)',
-    '20L.status.IC': 'In Contact (IC)',
-    '20L.status.Lead': 'Lead',
-    '20L.status.Sales': 'Sale',
+    '20L.status.ic': 'In Contact (IC)',
+    '20L.status.lead': 'Lead',
+    '20L.status.sales': 'Sale',
+    
+    // 20L System - Cycle Stages
+    '20L.cycle.1': 'CRM',
+    '20L.cycle.2': 'Initial Call',
+    '20L.cycle.3': '1st Meeting',
+    '20L.cycle.4': '2nd Meeting',
+    '20L.cycle.5': '3rd Meeting',
+    '20L.cycle.6': 'Proposal Prep',
+    '20L.cycle.7': 'Send Proposal',
+    '20L.cycle.8': 'Discuss Proposal',
+    '20L.cycle.9': 'Contract',
+    '20L.cycle.10': 'Payment',
+    '20L.cycle.11': 'Delivery',
     
     // 20L System - Pagination
     '20L.pagination.previous': 'Previous',
@@ -279,10 +323,6 @@ const translations = {
     '20L.empty.addFirst': 'Add first counterparty to start working',
     '20L.empty.noFilterResults': 'No counterparties with this status',
     
-    // 20L System - Confirmations
-    '20L.confirm.deleteCounterparty': 'Delete counterparty?',
-    '20L.confirm.deleteCounterpartyText': 'This action cannot be undone',
-    
     // Units
     'unit.available': 'Available',
     'unit.reserved': 'Reserved',
@@ -293,6 +333,8 @@ const translations = {
     'error.noSession': 'No active session',
     'error.savingFailed': 'Save failed',
     'error.deletingFailed': 'Delete failed',
+    'error.notFound': 'Not found',
+    'error.generic': 'An error occurred',
     
     // Common
     'common.loading': 'Loading...',
@@ -304,7 +346,8 @@ const translations = {
     'common.next': 'Next',
     'common.close': 'Close',
     'common.yes': 'Yes',
-    'common.no': 'No'
+    'common.no': 'No',
+    'common.previous': 'Previous'
   }
 };
 
