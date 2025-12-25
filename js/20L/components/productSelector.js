@@ -1,10 +1,14 @@
-/* /webapp/js/20L/components/productSelector.js v1.0.0 */
+/* /webapp/js/20L/components/productSelector.js v1.0.1 */
+// CHANGELOG v1.0.1:
+// - FIXED: Added missing window.showCreateProductModal function
+// - FIXED: Added window.editProduct function
+// - Modal-based product creation for existing products list
 // CHANGELOG v1.0.0:
 // - Initial release
 // - Product selection interface
 // - Create first product form
 
-import { getProducts, createProduct } from '../services/productService.js';
+import { getProducts, createProduct, updateProduct, deleteProduct } from '../services/productService.js';
 import { t } from '../../utils/i18n.js';
 
 /**
@@ -60,8 +64,8 @@ function renderCreateProductForm(container, accountId) {
   container.innerHTML = `
     <div class="product-selector">
       <div class="product-selector-header">
-        <h3>${t('20L.product.createFirst')}</h3>
-        <p class="subtitle">${t('20L.product.createFirstSubtitle')}</p>
+        <h3>${t('20L.productSelector.createFirst')}</h3>
+        <p class="subtitle">${t('20L.productSelector.createFirstDesc')}</p>
       </div>
       
       <div class="product-form">
@@ -70,7 +74,7 @@ function renderCreateProductForm(container, accountId) {
           <input 
             type="text" 
             id="productName" 
-            placeholder="${t('20L.product.namePlaceholder')}"
+            placeholder="${t('20L.product.nameRequired')}"
             required
           >
         </div>
@@ -79,13 +83,13 @@ function renderCreateProductForm(container, accountId) {
           <label for="productComment">${t('20L.product.comment')}</label>
           <textarea 
             id="productComment" 
-            placeholder="${t('20L.product.commentPlaceholder')}"
+            placeholder="${t('20L.product.commentOptional')}"
             rows="3"
           ></textarea>
         </div>
         
         <button onclick="window.saveFirstProduct('${accountId}')" class="btn btn-primary">
-          ➕ ${t('20L.product.create')}
+          ➕ ${t('20L.product.save')}
         </button>
         
         <div id="productError" class="error hidden"></div>
@@ -101,9 +105,9 @@ function renderProductList(container, accountId, products) {
   container.innerHTML = `
     <div class="product-selector">
       <div class="product-selector-header">
-        <h3>${t('20L.product.selector')}</h3>
+        <h3>${t('20L.productSelector.title')}</h3>
         <button onclick="window.showCreateProductModal('${accountId}')" class="btn btn-secondary btn-small">
-          ➕ ${t('20L.product.addNew')}
+          ➕ ${t('20L.productSelector.addProduct')}
         </button>
       </div>
       
@@ -161,7 +165,7 @@ window.saveFirstProduct = async function(accountId) {
     await renderProductSelector(accountId);
     
     // Show success
-    alert(`✅ ${t('20L.product.created')}`);
+    alert(`✅ Продукт создан!`);
     
   } catch (err) {
     console.error('❌ Error saving product:', err);
@@ -171,6 +175,187 @@ window.saveFirstProduct = async function(accountId) {
       errorEl.classList.remove('hidden');
     }
   }
+};
+
+/**
+ * Show create product modal (for adding new products when list exists)
+ */
+window.showCreateProductModal = function(accountId) {
+  console.log('➕ Opening create product modal');
+  
+  const modal = createProductModal(accountId, null);
+  document.body.appendChild(modal);
+  
+  // Focus name input
+  setTimeout(() => {
+    const nameInput = document.getElementById('modalProductName');
+    if (nameInput) nameInput.focus();
+  }, 100);
+};
+
+/**
+ * Edit product
+ */
+window.editProduct = async function(accountId, productId) {
+  try {
+    console.log('✏️ Opening edit product modal:', productId);
+    
+    // Fetch product data
+    const products = await getProducts(accountId);
+    const product = products.find(p => p.id === productId);
+    
+    if (!product) {
+      alert('❌ Продукт не найден');
+      return;
+    }
+    
+    const modal = createProductModal(accountId, product);
+    document.body.appendChild(modal);
+    
+  } catch (err) {
+    console.error('❌ Error opening edit modal:', err);
+    alert('❌ Ошибка загрузки продукта');
+  }
+};
+
+/**
+ * Create product modal HTML
+ */
+function createProductModal(accountId, product = null) {
+  const isEdit = !!product;
+  const modal = document.createElement('div');
+  modal.className = 'modal product-modal';
+  modal.id = 'productModal';
+  
+  modal.innerHTML = `
+    <div class="modal-overlay" onclick="window.closeProductModal()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>${isEdit ? '✏️ Редактировать продукт' : '➕ Добавить продукт'}</h3>
+        <button onclick="window.closeProductModal()" class="btn-close">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <form id="productModalForm" onsubmit="event.preventDefault(); window.saveProduct('${accountId}', ${isEdit ? `'${product.id}'` : 'null'})">
+          
+          <div class="input-group">
+            <label for="modalProductName">${t('20L.product.name')} *</label>
+            <input 
+              type="text" 
+              id="modalProductName" 
+              value="${isEdit ? product.name : ''}"
+              placeholder="${t('20L.product.nameRequired')}"
+              required
+            >
+          </div>
+          
+          <div class="input-group">
+            <label for="modalProductComment">${t('20L.product.comment')}</label>
+            <textarea 
+              id="modalProductComment" 
+              rows="3"
+              placeholder="${t('20L.product.commentOptional')}"
+            >${isEdit && product.comment ? product.comment : ''}</textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              💾 ${t('common.save')}
+            </button>
+            
+            ${isEdit ? `
+              <button type="button" onclick="window.deleteProductConfirm('${accountId}', '${product.id}')" class="btn btn-danger">
+                🗑️ ${t('common.delete')}
+              </button>
+            ` : ''}
+          </div>
+          
+          <div id="productModalError" class="error hidden"></div>
+          <div id="productModalSuccess" class="success hidden"></div>
+        </form>
+      </div>
+    </div>
+  `;
+  
+  return modal;
+}
+
+/**
+ * Save product (create or update)
+ */
+window.saveProduct = async function(accountId, productId) {
+  try {
+    const errorEl = document.getElementById('productModalError');
+    const successEl = document.getElementById('productModalSuccess');
+    
+    const name = document.getElementById('modalProductName').value.trim();
+    const comment = document.getElementById('modalProductComment').value.trim();
+    
+    // Validate
+    if (!name) {
+      errorEl.textContent = t('20L.product.nameRequired');
+      errorEl.classList.remove('hidden');
+      return;
+    }
+    
+    // Hide errors
+    errorEl.classList.add('hidden');
+    successEl.classList.add('hidden');
+    
+    // Create or update
+    if (productId) {
+      await updateProduct(accountId, productId, { name, comment });
+      successEl.textContent = '✅ Продукт обновлён!';
+    } else {
+      await createProduct(accountId, { name, comment });
+      successEl.textContent = '✅ Продукт создан!';
+    }
+    
+    successEl.classList.remove('hidden');
+    
+    // Close and reload
+    setTimeout(async () => {
+      window.closeProductModal();
+      await renderProductSelector(accountId);
+    }, 1000);
+    
+  } catch (err) {
+    console.error('❌ Error saving product:', err);
+    const errorEl = document.getElementById('productModalError');
+    if (errorEl) {
+      errorEl.textContent = err.message;
+      errorEl.classList.remove('hidden');
+    }
+  }
+};
+
+/**
+ * Delete product (with confirmation)
+ */
+window.deleteProductConfirm = async function(accountId, productId) {
+  const confirmed = confirm('⚠️ Удалить продукт?\n\nЭто действие нельзя отменить.');
+  if (!confirmed) return;
+  
+  try {
+    await deleteProduct(accountId, productId);
+    
+    alert('✅ Продукт удалён');
+    
+    window.closeProductModal();
+    await renderProductSelector(accountId);
+    
+  } catch (err) {
+    console.error('❌ Error deleting product:', err);
+    alert('❌ Ошибка удаления');
+  }
+};
+
+/**
+ * Close product modal
+ */
+window.closeProductModal = function() {
+  const modal = document.getElementById('productModal');
+  if (modal) modal.remove();
 };
 
 /**
@@ -186,3 +371,10 @@ window.selectProduct = async function(accountId, productId) {
   const { renderDashboard } = await import('./dashboard.js');
   await renderDashboard(accountId, productId);
 };
+
+// Escape key handler for product modal
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    window.closeProductModal();
+  }
+});
