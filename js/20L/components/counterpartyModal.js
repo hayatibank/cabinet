@@ -1,4 +1,7 @@
-/* /webapp/js/20L/components/counterpartyModal.js v1.0.0 */
+/* /webapp/js/20L/components/counterpartyModal.js v1.0.1 */
+// CHANGELOG v1.0.1:
+// - CHANGED: Classification field from input to select dropdown
+// - ADDED: Predefined classification options (ПП, IC, Lead, посетитель, покупатель, клиент, приверженец)
 // CHANGELOG v1.0.0:
 // - Initial release
 // - Create/Edit counterparty modal
@@ -58,6 +61,18 @@ function createCounterpartyModal(accountId, productId, counterparty = null) {
   const statusOptions = ['0', 'IC', 'Lead', 'Sales'];
   const cycleStages = Array.from({ length: 11 }, (_, i) => i + 1);
   
+  // ✅ NEW: Classification options
+  const classificationOptions = [
+    { value: '', label: '—' },
+    { value: 'ПП', label: 'ПП' },
+    { value: 'IC', label: 'IC' },
+    { value: 'Lead', label: 'Lead' },
+    { value: 'посетитель', label: 'посетитель' },
+    { value: 'покупатель', label: 'покупатель' },
+    { value: 'клиент', label: 'клиент' },
+    { value: 'приверженец', label: 'приверженец' }
+  ];
+  
   modal.innerHTML = `
     <div class="modal-overlay" onclick="window.closeCounterpartyModal()"></div>
     <div class="modal-content">
@@ -112,12 +127,13 @@ function createCounterpartyModal(accountId, productId, counterparty = null) {
           <div class="form-row">
             <div class="input-group">
               <label for="counterpartyClassification">${t('20L.counterparty.classification')}</label>
-              <input 
-                type="text" 
-                id="counterpartyClassification"
-                value="${isEdit && counterparty.classification ? counterparty.classification : ''}"
-                placeholder="${t('20L.counterparty.classificationPlaceholder')}"
-              >
+              <select id="counterpartyClassification">
+                ${classificationOptions.map(opt => `
+                  <option value="${opt.value}" ${isEdit && counterparty.classification === opt.value ? 'selected' : ''}>
+                    ${opt.label}
+                  </option>
+                `).join('')}
+              </select>
             </div>
             
             <div class="input-group">
@@ -182,7 +198,7 @@ window.saveCounterparty = async function(accountId, productId, counterpartyId) {
     // Get form data
     const data = {
       name: document.getElementById('counterpartyName').value.trim(),
-      classification: document.getElementById('counterpartyClassification').value.trim(),
+      classification: document.getElementById('counterpartyClassification').value,
       source: document.getElementById('counterpartySource').value.trim(),
       comment: document.getElementById('counterpartyComment').value.trim(),
       productId
