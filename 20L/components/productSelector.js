@@ -9,7 +9,7 @@
 // - Create first product form
 
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../services/productService.js';
-import { t } from '../../utils/i18n.js';
+import { t } from '../../js/utils/i18n.js';
 
 /**
  * Render product selector

@@ -4,8 +4,8 @@
 // - CRUD operations for products
 // - Centralized API calls
 
-import { getSession } from '../../session.js';
-import { API_URL } from '../../config.js';
+import { getSession } from '../../js/session.js';
+import { API_URL } from '../../js/config.js';
 
 /**
  * Get all products for account

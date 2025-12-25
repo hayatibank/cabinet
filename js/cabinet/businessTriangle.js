@@ -25,7 +25,7 @@ export async function showBusinessManagement(accountId, containerId = '#dashboar
     window.currentAccountId = accountId;
     
     // Import and render product selector for 20L
-    const { renderProductSelector } = await import('../20L/components/productSelector.js');
+    const { renderProductSelector } = await import('../../20L/components/productSelector.js');
     
     await renderProductSelector(accountId);
     
@@ -241,7 +241,7 @@ async function showCommunicationsPanel() {
     }
     
     // Import and show product selector for 20L
-    const { renderProductSelector } = await import('../20L/components/productSelector.js');
+    const { renderProductSelector } = await import('../../20L/components/productSelector.js');
     
     // Get container
     const container = document.getElementById('dashboardContent');

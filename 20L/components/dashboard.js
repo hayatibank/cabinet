@@ -11,7 +11,7 @@
 
 import { getCounterparties, createCounterparty } from '../services/counterpartyService.js';
 import { getDashboardStats, getLeadsProgress } from '../services/dashboardService.js';
-import { t } from '../../utils/i18n.js';
+import { t } from '../../js/utils/i18n.js';
 import './counterpartyModal.js'; // ✅ Import to expose global functions
 
 // Pagination state
