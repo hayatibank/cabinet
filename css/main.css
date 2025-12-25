@@ -27,5 +27,6 @@
 @import "./screens/offering-zone.css"; /* 🆕 NEW */
 
 @import "./features/business-triangle.css";
+@import "./screens/20L.css"; /* 🆕 ADD THIS */
 
 @import "./responsive.css";
