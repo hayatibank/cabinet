@@ -13,6 +13,10 @@
 import { t } from './i18n.js';
 import { getBalance, getInvestments, formatCurrency, formatCrypto } from './investmentService.js';
 
+
+
+
+
 /**
  * Render Level 1 investments dashboard
  */
@@ -75,6 +79,10 @@ export async function renderLevel1(accountId) {
   }
 }
 
+
+
+
+
 /**
  * Render balance section
  */
@@ -136,81 +144,9 @@ function renderBalanceSection(balance) {
   `;
 }
 
-/**
- * Render investments section
- */
-function renderInvestmentsSection(investments) {
-  if (!investments || investments.length === 0) {
-    return `
-      <div class="investment-section">
-        <h4>${t('level1.portfolio')}</h4>
-        <div class="empty-state">
-          <p>${t('level1.noInvestments')}</p>
-        </div>
-      </div>
-    `;
-  }
-  
-  // Sort by ROI descending
-  const sorted = [...investments].sort((a, b) => {
-    const roiA = parseFloat(a.roi) || 0;
-    const roiB = parseFloat(b.roi) || 0;
-    return roiB - roiA;
-  });
-  
-  const totalInvested = sorted.reduce((sum, inv) => sum + (parseFloat(inv.amount) || 0), 0);
-  
-  return `
-    <div class="investment-section portfolio-section">
-      <div class="section-header">
-        <h4>${t('level1.portfolio')}</h4>
-        <div class="total-invested">
-          <span class="label">${t('level1.totalInvested')}:</span>
-          <span class="amount">${formatCurrency(totalInvested, '$')}</span>
-        </div>
-      </div>
-      
-      <div class="investments-grid">
-        ${sorted.map(inv => renderInvestmentCard(inv)).join('')}
-      </div>
-    </div>
-  `;
-}
 
-/**
- * Render single investment card
- */
-function renderInvestmentCard(investment) {
-  const name = investment.name || t('level1.unknownInvestment');
-  const amount = parseFloat(investment.amount) || 0;
-  const roi = parseFloat(investment.roi) || 0;
-  const date = investment.date || '';
-  
-  const roiClass = roi > 0 ? 'positive' : roi < 0 ? 'negative' : 'neutral';
-  
-  return `
-    <div class="investment-card">
-      <div class="investment-header">
-        <h5 class="investment-name">${name}</h5>
-        ${roi !== 0 ? `<span class="investment-roi ${roiClass}">${roi > 0 ? '+' : ''}${roi}%</span>` : ''}
-      </div>
-      
-      <div class="investment-details">
-        <div class="detail-row">
-          <span class="detail-label">${t('level1.amount')}:</span>
-          <span class="detail-value">${formatCurrency(amount, '$')}</span>
-        </div>
-        
-        ${date ? `
-          <div class="detail-row">
-            <span class="detail-label">${t('level1.date')}:</span>
-            <span class="detail-value">${date}</span>
-          </div>
-        ` : ''}
-      </div>
-    </div>
-  `;
-}
+
+
 
 /**
  * Render crypto portfolio section
@@ -273,6 +209,94 @@ function renderCryptoPortfolio(balance) {
     </div>
   `;
 }
+
+
+
+
+
+/**
+ * Render investments section
+ */
+function renderInvestmentsSection(investments) {
+  if (!investments || investments.length === 0) {
+    return `
+      <div class="investment-section">
+        <h4>${t('level1.portfolio')}</h4>
+        <div class="empty-state">
+          <p>${t('level1.noInvestments')}</p>
+        </div>
+      </div>
+    `;
+  }
+  
+  // Sort by ROI descending
+  const sorted = [...investments].sort((a, b) => {
+    const roiA = parseFloat(a.roi) || 0;
+    const roiB = parseFloat(b.roi) || 0;
+    return roiB - roiA;
+  });
+  
+  const totalInvested = sorted.reduce((sum, inv) => sum + (parseFloat(inv.amount) || 0), 0);
+  
+  return `
+    <div class="investment-section portfolio-section">
+      <div class="section-header">
+        <h4>${t('level1.portfolio')}</h4>
+        <div class="total-invested">
+          <span class="label">${t('level1.totalInvested')}:</span>
+          <span class="amount">${formatCurrency(totalInvested, '$')}</span>
+        </div>
+      </div>
+      
+      <div class="investments-grid">
+        ${sorted.map(inv => renderInvestmentCard(inv)).join('')}
+      </div>
+    </div>
+  `;
+}
+
+
+
+
+
+/**
+ * Render single investment card
+ */
+function renderInvestmentCard(investment) {
+  const name = investment.name || t('level1.unknownInvestment');
+  const amount = parseFloat(investment.amount) || 0;
+  const roi = parseFloat(investment.roi) || 0;
+  const date = investment.date || '';
+  
+  const roiClass = roi > 0 ? 'positive' : roi < 0 ? 'negative' : 'neutral';
+  
+  return `
+    <div class="investment-card">
+      <div class="investment-header">
+        <h5 class="investment-name">${name}</h5>
+        ${roi !== 0 ? `<span class="investment-roi ${roiClass}">${roi > 0 ? '+' : ''}${roi}%</span>` : ''}
+      </div>
+      
+      <div class="investment-details">
+        <div class="detail-row">
+          <span class="detail-label">${t('level1.amount')}:</span>
+          <span class="detail-value">${formatCurrency(amount, '$')}</span>
+        </div>
+        
+        ${date ? `
+          <div class="detail-row">
+            <span class="detail-label">${t('level1.date')}:</span>
+            <span class="detail-value">${date}</span>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+  `;
+}
+
+
+
+
 
 // Export for global access
 if (typeof window !== 'undefined') {

@@ -20,7 +20,7 @@ const translations = {
     'level1.noBalance': 'Нет данных о балансе',
     'level1.noInvestments': 'Нет активных инвестиций',
     'level1.noCrypto': 'Нет криптоактивов',
-    'level1.cryptoPortfolio': 'Портфель ЦФА',
+    'level1.cryptoPortfolio': 'Долгосрочных инвестиций (HODL)',
     'level1.cryptoNote': 'Курсы обновляются каждые 5 минут',
     'level1.unknownInvestment': 'Неизвестная инвестиция',
     
@@ -48,7 +48,7 @@ const translations = {
     'status.pending': 'В ожидании',
     
     // Crypto Portfolio
-    'crypto.title': 'Портфель ЦФА',
+    'crypto.title': 'Долгосрочных инвестиций (HODL)',
     'crypto.empty': 'Нет криптоактивов',
     'crypto.balance': 'Баланс',
     'crypto.price': 'Цена',
@@ -85,7 +85,7 @@ const translations = {
     'level1.noBalance': 'No balance data',
     'level1.noInvestments': 'No active investments',
     'level1.noCrypto': 'No crypto assets',
-    'level1.cryptoPortfolio': 'Digital Assets Portfolio',
+    'level1.cryptoPortfolio': 'Long Term Investments (HODL)',
     'level1.cryptoNote': 'Rates update every 5 minutes',
     'level1.unknownInvestment': 'Unknown investment',
     
@@ -113,7 +113,7 @@ const translations = {
     'status.pending': 'Pending',
     
     // Crypto Portfolio
-    'crypto.title': 'Digital Assets Portfolio',
+    'crypto.title': 'Long Term Investments (HODL)',
     'crypto.empty': 'No crypto assets',
     'crypto.balance': 'Balance',
     'crypto.price': 'Price',
