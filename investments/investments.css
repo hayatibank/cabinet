@@ -1,8 +1,8 @@
-/* /webapp/investments/investments.css v1.0.6 */
-/* CHANGELOG v1.0.6:
- * - FIXED: Base grid uses minmax(min(100%, Xpx), 1fr) for true mobile adaptation
- * - Crypto and balance grids now respect container width
- * - No more 2-column layout on narrow screens
+/* /webapp/investments/investments.css v1.0.7 */
+/* CHANGELOG v1.0.7:
+ * - FIXED: Removed extra closing brace after .crypto-amount
+ * - MOBILE: Crypto cards now vertical (icon → name/symbol → amount)
+ * - Better readability on narrow screens
  * CHANGELOG v1.0.2:
  * - FIXED: Mobile adaptation for balance cards (768px: column layout, 480px: single column)
  * - Added word-break and white-space for long labels
@@ -397,25 +397,38 @@
   }
   
   .crypto-card {
-    padding: 16px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 16px;
+    gap: 12px;
   }
   
   .crypto-icon {
-    width: 48px;
-    height: 48px;
-    font-size: 32px;
+    width: 56px;
+    height: 56px;
+    font-size: 36px;
+  }
+  
+  .crypto-info {
+    width: 100%;
   }
   
   .crypto-name {
-    font-size: 15px;
+    font-size: 16px;
+    white-space: normal;
+    text-overflow: unset;
+    overflow: visible;
   }
   
   .crypto-symbol {
-    font-size: 12px;
+    font-size: 13px;
   }
   
   .crypto-amount {
-    font-size: 16px;
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
   }
   
   .section-header {
@@ -476,7 +489,11 @@
   }
   
   .crypto-card {
-    padding: 14px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 18px 14px;
+    gap: 10px;
   }
   
   .crypto-grid {
@@ -485,20 +502,29 @@
   }
   
   .crypto-icon {
-    width: 44px;
-    height: 44px;
-    font-size: 28px;
+    width: 52px;
+    height: 52px;
+    font-size: 32px;
+  }
+  
+  .crypto-info {
+    width: 100%;
   }
   
   .crypto-name {
-    font-size: 14px;
+    font-size: 15px;
+    white-space: normal;
+    text-overflow: unset;
+    overflow: visible;
   }
   
   .crypto-symbol {
-    font-size: 11px;
+    font-size: 12px;
   }
   
   .crypto-amount {
-    font-size: 15px;
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
   }
 }
