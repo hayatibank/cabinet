@@ -20,7 +20,7 @@ const translations = {
     'level1.noBalance': 'Нет данных о балансе',
     'level1.noInvestments': 'Нет активных инвестиций',
     'level1.noCrypto': 'Нет криптоактивов',
-    'level1.cryptoPortfolio': 'Долгосрочных инвестиций (HODL)',
+    'level1.cryptoPortfolio': 'Долгосрочные инвестиций (HODL)',
     'level1.cryptoNote': 'Курсы обновляются каждые 5 минут',
     'level1.unknownInvestment': 'Неизвестная инвестиция',
     
@@ -48,7 +48,7 @@ const translations = {
     'status.pending': 'В ожидании',
     
     // Crypto Portfolio
-    'crypto.title': 'Долгосрочных инвестиций (HODL)',
+    'crypto.title': 'Долгосрочные инвестиций (HODL)',
     'crypto.empty': 'Нет криптоактивов',
     'crypto.balance': 'Баланс',
     'crypto.price': 'Цена',
