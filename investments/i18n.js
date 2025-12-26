@@ -85,7 +85,7 @@ const translations = {
     'level1.noBalance': 'No balance data',
     'level1.noInvestments': 'No active investments',
     'level1.noCrypto': 'No crypto assets',
-    'level1.cryptoPortfolio': 'Long Term Investments (HODL)',
+    'level1.cryptoPortfolio': 'Long Term Investments Portfolio (HODL)',
     'level1.cryptoNote': 'Rates update every 5 minutes',
     'level1.unknownInvestment': 'Unknown investment',
     
@@ -113,7 +113,7 @@ const translations = {
     'status.pending': 'Pending',
     
     // Crypto Portfolio
-    'crypto.title': 'Long Term Investments (HODL)',
+    'crypto.title': 'Long Term Investments Portfolio (HODL)',
     'crypto.empty': 'No crypto assets',
     'crypto.balance': 'Balance',
     'crypto.price': 'Price',
