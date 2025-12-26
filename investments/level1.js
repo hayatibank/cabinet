@@ -55,8 +55,9 @@ export async function renderLevel1(accountId) {
         </div>
         
         ${renderBalanceSection(balance)}
-        ${renderInvestmentsSection(investments)}
         ${renderCryptoPortfolio(balance)}
+        ${renderInvestmentsSection(investments)}
+
       </div>
     `;
     
