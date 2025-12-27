@@ -1,0 +1,169 @@
+/* /webapp/accountDashboard/dashboard.css v1.0.0 */
+/* CHANGELOG v1.0.0:
+ * - Initial release
+ * - Extracted from css/screens/dashboard.css
+ * - Isolated for Account Dashboard module
+ */
+
+/* ==================== ACCOUNT DASHBOARD ==================== */
+
+.account-dashboard {
+  max-width: 100%;
+}
+
+.dashboard-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard-header h2 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.account-type-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 16px;
+  font-size: 13px;
+  color: var(--neon-blue);
+}
+
+/* ==================== NAVIGATION (7 STEPS) ==================== */
+
+.dashboard-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.nav-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 100px;
+  flex: 1;
+}
+
+.nav-step:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--neon-blue);
+  transform: translateY(-2px);
+}
+
+.nav-step.active {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(255, 0, 110, 0.2));
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.nav-step.active .step-number {
+  background: var(--neon-blue);
+  color: var(--bg);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+.step-label {
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ==================== DASHBOARD CONTENT ==================== */
+
+.dashboard-content {
+  min-height: 400px;
+}
+
+.step-content {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* ==================== COMING SOON ==================== */
+
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 16px;
+}
+
+.coming-soon svg {
+  opacity: 0.3;
+}
+
+.coming-soon p {
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 768px) {
+  .dashboard-nav {
+    gap: 4px;
+  }
+  
+  .nav-step {
+    min-width: 80px;
+    padding: 12px 8px;
+  }
+  
+  .step-label {
+    font-size: 10px;
+  }
+  
+  .dashboard-header h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header h2 {
+    font-size: 20px;
+  }
+  
+  .nav-step {
+    min-width: 70px;
+    padding: 10px 6px;
+  }
+  
+  .step-number {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+  
+  .step-label {
+    font-size: 9px;
+  }
+}

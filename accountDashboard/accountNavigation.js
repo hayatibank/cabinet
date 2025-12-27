@@ -1,4 +1,7 @@
-/* /webapp/cabinet/accountNavigation.js v1.3.0 */
+/* /webapp/accountDashboard/accountNavigation.js v1.4.0 */
+// CHANGELOG v1.4.0:
+// - MOVED: From /cabinet/ to /accountDashboard/ (modular)
+// - FIXED: Import paths for new module location
 // CHANGELOG v1.3.0:
 // - MOVED: From /js/cabinet/ to /cabinet/ (modular)
 // - FIXED: Import paths for finStatement module
@@ -14,7 +17,7 @@
 // - Offering Zone integration confirmed
 // Account dashboard navigation with 7 steps
 
-import { getAccountById } from './accounts.js';
+import { getAccountById } from '../cabinet/accounts.js';
 import { showBusinessManagement } from '../businessTriangle/businessTriangle.js';
 import { renderFinancialReport } from '../js/cabinet/reports/financialReport.js';
 import { renderLevel1 } from '../investments/level1.js';

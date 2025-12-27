@@ -1,11 +1,13 @@
-// webapp/js/cabinet/accountsUI.js v1.3.0
-// UI rendering for accounts list and management
+/* /webapp/cabinet/accountsUI.js v1.3.1 */
+// CHANGELOG v1.3.1:
+// - FIXED: Import accountNavigation from ../accountDashboard/ (modular)
 // CHANGELOG v1.3.0:
 // - Added three-dot menu for account actions
 // - Added "Edit" option (UI only, no backend yet)
 // - Moved "Delete" to dropdown menu
 // - Added Ferrari-style "Enter" button for accounts
 // - Improved card layout and responsiveness
+// UI rendering for accounts list and management
 
 import { getUserAccounts, deleteAccount } from './accounts.js';
 import { showCreateAccountForm } from './createAccount.js';
@@ -250,7 +252,7 @@ function handleEnterAccount(accountId) {
   console.log(`🚀 Entering account: ${accountId}`);
   
   // Import and show account navigation
-  import('./accountNavigation.js').then(module => {
+  import('../accountDashboard/accountNavigation.js').then(module => {
     module.showAccountDashboard(accountId);
   }).catch(err => {
     console.error('❌ Error loading account navigation:', err);

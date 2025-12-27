@@ -1,5 +1,8 @@
-/* /webapp/css/main.css v1.3.0 */
-/* CHANGELOG v1.3.0:
+/* /webapp/css/main.css v1.4.0 */
+/* CHANGELOG v1.4.0:
+ * - ADDED: ../accountDashboard/dashboard.css (7-step navigation)
+ * - REMOVED: ./screens/dashboard.css (merged in module)
+ * CHANGELOG v1.3.0:
  * - CHANGED: cabinet.css now imported from ../cabinet/cabinet.css (modular)
  * - REMOVED: ./screens/cabinet.css, ./screens/create-account.css (merged in module)
  * CHANGELOG v1.2.0:
@@ -28,14 +31,14 @@
 
 @import "./screens/loading.css";
 @import "./screens/auth.css";
-@import "./screens/dashboard.css";
 @import "./screens/financial-report.css";
 @import "./screens/offering-zone.css";
 
 /* Modules (isolated) */
-@import "../cabinet/cabinet.css";           /* Cabinet module */
-@import "../investments/investments.css";   /* Investment Level 1 module */
-@import "../businessTriangle/triangle.css"; /* Business Triangle module */
-@import "../20L/20L.css";                   /* 20L Lead Management System module */
+@import "../cabinet/cabinet.css";              /* Cabinet module */
+@import "../accountDashboard/dashboard.css";   /* Account Dashboard (7 steps) */
+@import "../investments/investments.css";      /* Investment Level 1 module */
+@import "../businessTriangle/triangle.css";    /* Business Triangle module */
+@import "../20L/20L.css";                      /* 20L Lead Management System module */
 
 @import "./responsive.css";
