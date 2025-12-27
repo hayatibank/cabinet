@@ -244,11 +244,15 @@
 }
 
 /* Crypto Portfolio */
-.crypto-section .subtitle {
+.crypto-section .subtitle,
+.spotbot-section .subtitle,
+.payments-section .subtitle,
+.projects-section .subtitle {
   font-size: 13px;
   color: var(--text-muted);
   font-style: italic;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .crypto-grid {

@@ -102,7 +102,7 @@ function renderBalanceSection(balance) {
       
       <div class="balance-grid">
         <div class="balance-card">
-          <div class="balance-icon">🤖</div>
+          <div class="balance-icon">🦾</div>
           <div class="balance-info">
             <div class="balance-label">${t('level1.bot')}</div>
             <div class="balance-amount">${formatCurrency(usdt, '$')}</div>
