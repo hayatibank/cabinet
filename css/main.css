@@ -33,6 +33,7 @@
 @import "../investments/investments.css"; /* Investment Level 1 module */
 
 @import "./features/business-triangle.css";
+@import "../businessTriangle/triangle.css";
 @import "../20L/20L.css"; /* 20L Lead Management System module */
 
 @import "./responsive.css";
