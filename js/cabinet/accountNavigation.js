@@ -1,4 +1,7 @@
-/* /webapp/js/cabinet/accountNavigation.js v1.2.3 */
+/* /webapp/cabinet/accountNavigation.js v1.3.0 */
+// CHANGELOG v1.3.0:
+// - MOVED: From /js/cabinet/ to /cabinet/ (modular)
+// - FIXED: Import paths for finStatement module
 // CHANGELOG v1.2.3:
 // - FIXED: Import businessTriangle from ../../businessTriangle/ (modular)
 // CHANGELOG v1.2.2:
@@ -12,9 +15,9 @@
 // Account dashboard navigation with 7 steps
 
 import { getAccountById } from './accounts.js';
-import { showBusinessManagement } from '../../businessTriangle/businessTriangle.js';
-import { renderFinancialReport } from './reports/financialReport.js';
-import { renderLevel1 } from '../../investments/level1.js';
+import { showBusinessManagement } from '../businessTriangle/businessTriangle.js';
+import { renderFinancialReport } from '../js/cabinet/reports/financialReport.js';
+import { renderLevel1 } from '../investments/level1.js';
 
 /**
  * Show account dashboard with 7-step navigation

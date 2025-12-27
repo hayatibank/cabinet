@@ -1,8 +1,11 @@
-// webapp/js/cabinet/accounts.js v1.2.8
+/* /webapp/cabinet/accounts.js v1.3.0 */
+// CHANGELOG v1.3.0:
+// - MOVED: From /js/cabinet/ to /cabinet/ (modular)
+// - FIXED: Import paths for config.js and session.js
 // Account management logic - Fixed for ngrok
 
-import { API_URL } from '../config.js';
-import { getSession } from '../session.js';
+import { API_URL } from '../js/config.js';
+import { getSession } from '../js/session.js';
 
 /**
  * Get user's accounts

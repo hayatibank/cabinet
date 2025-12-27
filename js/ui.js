@@ -1,4 +1,6 @@
-// webapp/js/ui.js
+/* /webapp/js/ui.js v1.1.0 */
+// CHANGELOG v1.1.0:
+// - FIXED: Import path for cabinet module (now ../cabinet/)
 // UI management (screens, errors, buttons)
 
 // DOM Elements
