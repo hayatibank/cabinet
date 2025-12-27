@@ -8,7 +8,7 @@
 const translations = {
   ru: {
     // Level 1 Dashboard
-    'level1.title': '📊 Инвестиции: Уровень №1',
+    'level1.title': '📊 Инвестор: уровень №1',
     'level1.subtitle': 'Цифровые финансовые активы',
     'level1.bot': 'Бот (USDT)',
     'level1.hodl': 'HODL (BTC)',
@@ -97,7 +97,7 @@ const translations = {
   
   en: {
     // Level 1 Dashboard
-    'level1.title': '📊 Investments: Level #1',
+    'level1.title': '📊 Investor: Level #1',
     'level1.subtitle': 'Digital Financial Assets',
     'level1.bot': 'Bot (USDT)',
     'level1.hodl': 'HODL (BTC)',
