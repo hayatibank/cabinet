@@ -1,5 +1,9 @@
-/* /webapp/css/main.css v1.4.0 */
-/* CHANGELOG v1.4.0:
+/* /webapp/css/main.css v1.5.0 */
+/* CHANGELOG v1.5.0:
+ * - ADDED: ../finStatement/financial-report.css
+ * - ADDED: ../offeringZone/offering-zone.css
+ * - REMOVED: ./screens/financial-report.css, ./screens/offering-zone.css (moved to modules)
+ * CHANGELOG v1.4.0:
  * - ADDED: ../accountDashboard/dashboard.css (7-step navigation)
  * - REMOVED: ./screens/dashboard.css (merged in module)
  * CHANGELOG v1.3.0:
@@ -31,12 +35,12 @@
 
 @import "./screens/loading.css";
 @import "./screens/auth.css";
-@import "./screens/offering-zone.css";
 
 /* Modules (isolated) */
-@import "../finStatement/financial-report.css";
 @import "../cabinet/cabinet.css";              /* Cabinet module */
 @import "../accountDashboard/dashboard.css";   /* Account Dashboard (7 steps) */
+@import "../finStatement/financial-report.css"; /* Financial Statement module */
+@import "../offeringZone/offering-zone.css";   /* Offering Zone module */
 @import "../investments/investments.css";      /* Investment Level 1 module */
 @import "../businessTriangle/triangle.css";    /* Business Triangle module */
 @import "../20L/20L.css";                      /* 20L Lead Management System module */

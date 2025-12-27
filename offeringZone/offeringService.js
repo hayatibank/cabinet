@@ -1,12 +1,15 @@
-/* /webapp/js/cabinet/reports/offeringService.js v1.0.0 */
+/* /webapp/offeringZone/offeringService.js v1.1.0 */
+// CHANGELOG v1.1.0:
+// - MOVED: From /js/cabinet/reports/ to /offeringZone/ (modular)
+// - FIXED: Import paths
 // CHANGELOG v1.0.0:
 // - Initial release
 // - Calculate available budget from financial report
 // - Filter units from HBD collection
 // - Centralized API calls
 
-import { getSession } from '../../session.js';
-import { API_URL } from '../../config.js';
+import { getSession } from '../js/session.js';
+import { API_URL } from '../js/config.js';
 
 /**
  * Calculate available budget for real estate investment

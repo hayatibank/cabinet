@@ -14,7 +14,7 @@ import {
   formatLiabilitiesSection,
   formatAnalysisSection 
 } from './reportFormatters.js';
-import { renderOfferingZone } from '../js/cabinet/reports/offeringZone.js';
+import { renderOfferingZone } from '../offeringZone/offeringZone.js';
 import { API_URL } from '../js/config.js';
 
 /**

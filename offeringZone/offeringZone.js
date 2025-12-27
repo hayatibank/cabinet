@@ -1,11 +1,14 @@
-/* /webapp/js/cabinet/reports/offeringZone.js v1.0.0 */
+/* /webapp/offeringZone/offeringZone.js v1.1.0 */
+// CHANGELOG v1.1.0:
+// - MOVED: From /js/cabinet/reports/ to /offeringZone/ (modular)
+// - FIXED: Import paths for i18n
 // CHANGELOG v1.0.0:
 // - Initial release
 // - Display personalized real estate offers
 // - Calculate budget from financial report
 // - Show top-3 units from HBD
 
-import { t } from '../../utils/i18n.js';
+import { t } from './i18n.js';
 import { calculateAvailableBudget, fetchAvailableUnits, filterUnitsByBudget, getTopOffers } from './offeringService.js';
 
 /**
@@ -109,8 +112,8 @@ function updateOfferingContainer(container, budgetInfo, offers, rates) {
         <span class="budget-amount">${formatCurrency(budgetInfo.budget)} ₽</span>
       </div>
       <div class="budget-breakdown">
-        <span>💰 Денежный поток (3 года): ${formatCurrency(budgetInfo.cashFlowYearly * 3)} ₽</span>
-        <span>🏦 Ликвидные активы (80%): ${formatCurrency(budgetInfo.liquidAssets * 0.8)} ₽</span>
+        <span>💰 ${t('offering.budget.cashFlow')}: ${formatCurrency(budgetInfo.cashFlowYearly * 3)} ₽</span>
+        <span>🏦 ${t('offering.budget.liquidAssets')}: ${formatCurrency(budgetInfo.liquidAssets * 0.8)} ₽</span>
       </div>
     </div>
   `;
@@ -125,7 +128,7 @@ function updateOfferingContainer(container, budgetInfo, offers, rates) {
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
       </svg>
       <p>${t('offering.noOffers')}</p>
-      <p class="subtitle" style="margin-top: 8px;">Увеличьте свой денежный поток или ликвидные активы</p>
+      <p class="subtitle" style="margin-top: 8px;">${t('offering.noOffersDesc')}</p>
     `;
     container.appendChild(noOffers);
     return;
@@ -157,7 +160,7 @@ function createOfferCard(unit, rates) {
   let areaText = '';
   if (unit.unitAreaTotalSqFt) {
     const areaSqM = (unit.unitAreaTotalSqFt * 0.092903).toFixed(1);
-    areaText = `${areaSqM} м²`;
+    areaText = `${areaSqM} ${t('units.sqm')}`;
   }
   
   // Format ROI
@@ -178,7 +181,7 @@ function createOfferCard(unit, rates) {
     `}
     
     <div class="offer-content">
-      <h4 class="offer-title">${unit.projectName || 'Проект'}</h4>
+      <h4 class="offer-title">${unit.projectName || t('message.projectLabel')}</h4>
       
       <div class="offer-details">
         ${unit.unitPropertyType && unit.unitPropertyType !== '-' ? `
@@ -205,13 +208,13 @@ function createOfferCard(unit, rates) {
         ${roiText ? `
           <div class="offer-detail roi-detail">
             <span class="detail-icon">📈</span>
-            <span>${roiText} ROI</span>
+            <span>${roiText} ${t('offering.roi')}</span>
           </div>
         ` : ''}
       </div>
       
       <div class="offer-price">
-        <span class="price-label">Цена:</span>
+        <span class="price-label">${t('offering.price')}:</span>
         <span class="price-amount">${formatCurrency(priceRub)} ₽</span>
         <span class="price-aed">${Math.round(unit.unitPriceAed).toLocaleString()} AED</span>
       </div>
@@ -240,5 +243,5 @@ function formatCurrency(amount) {
  */
 window.openUnitDetails = function(projectId, unitId) {
   console.log('🏢 Opening unit details:', projectId, unitId);
-  alert(`🚧 Детальная информация о юните будет доступна в следующей версии\n\nПроект: ${projectId}\nЮнит: ${unitId}`);
+  alert(`${t('message.comingSoon')}\n\n${t('message.projectLabel')}: ${projectId}\n${t('message.unitLabel')}: ${unitId}`);
 };

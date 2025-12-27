@@ -20,32 +20,6 @@ const translations = {
     'auth.email': 'Email',
     'auth.password': 'Пароль',
     
-    // Cabinet
-    'cabinet.title': 'Личный кабинет',
-    'cabinet.welcome': 'Добро пожаловать',
-    
-    // Financial Report
-    'report.income': 'Доходы',
-    'report.expenses': 'Расходы',
-    'report.assets': 'Активы',
-    'report.liabilities': 'Пассивы',
-    'report.analysis': 'Анализ',
-    'report.cashFlow': 'Чистый денежный поток',
-    'report.netWorth': 'Состояние',
-    
-    // Offering Zone
-    'offering.title': '🎁 Персональные предложения',
-    'offering.subtitle': 'Основано на вашем финансовом положении',
-    'offering.budget': 'Доступный бюджет',
-    'offering.noOffers': 'Пока нет подходящих предложений',
-    'offering.loading': 'Загрузка предложений...',
-    'offering.learnMore': 'Узнать больше',
-    'offering.location': 'Местоположение',
-    'offering.type': 'Тип',
-    'offering.area': 'Площадь',
-    'offering.roi': 'Доходность',
-    'offering.handover': 'Передача',
-    
     // Units
     'unit.available': 'Доступно',
     'unit.reserved': 'Зарезервировано',
@@ -80,32 +54,6 @@ const translations = {
     'auth.logout': 'Logout',
     'auth.email': 'Email',
     'auth.password': 'Password',
-    
-    // Cabinet
-    'cabinet.title': 'Cabinet',
-    'cabinet.welcome': 'Welcome',
-    
-    // Financial Report
-    'report.income': 'Income',
-    'report.expenses': 'Expenses',
-    'report.assets': 'Assets',
-    'report.liabilities': 'Liabilities',
-    'report.analysis': 'Analysis',
-    'report.cashFlow': 'Net Cash Flow',
-    'report.netWorth': 'Net Worth',
-    
-    // Offering Zone
-    'offering.title': '🎁 Personal Offers',
-    'offering.subtitle': 'Based on your financial position',
-    'offering.budget': 'Available Budget',
-    'offering.noOffers': 'No suitable offers yet',
-    'offering.loading': 'Loading offers...',
-    'offering.learnMore': 'Learn More',
-    'offering.location': 'Location',
-    'offering.type': 'Type',
-    'offering.area': 'Area',
-    'offering.roi': 'ROI',
-    'offering.handover': 'Handover',
     
     // Units
     'unit.available': 'Available',
