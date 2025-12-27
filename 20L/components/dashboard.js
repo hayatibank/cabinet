@@ -1,4 +1,6 @@
-/* /webapp/js/20L/components/dashboard.js v1.0.1 */
+/* /webapp/20L/components/dashboard.js v1.0.2 */
+// CHANGELOG v1.0.2:
+// - FIXED: Import i18n from ../i18n.js (module-local)
 // CHANGELOG v1.0.1:
 // - FIXED: Missing t() wrapper for filter buttons (status.ic, status.lead, status.sales)
 // - FIXED: Missing t() wrapper for add counterparty button
@@ -11,7 +13,7 @@
 
 import { getCounterparties, createCounterparty } from '../services/counterpartyService.js';
 import { getDashboardStats, getLeadsProgress } from '../services/dashboardService.js';
-import { t } from '../../js/utils/i18n.js';
+import { t } from '../i18n.js';
 import './counterpartyModal.js'; // ✅ Import to expose global functions
 
 // Pagination state

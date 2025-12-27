@@ -1,5 +1,7 @@
-/* /webapp/css/main.css v1.1.1 */
-/* CHANGELOG v1.1.1:
+/* /webapp/css/main.css v1.2.0 */
+/* CHANGELOG v1.2.0:
+ * - CHANGED: 20L.css now imported from ../20L/20L.css (modular)
+ * CHANGELOG v1.1.1:
  * - Added investments.css import
  */
 
@@ -31,6 +33,6 @@
 @import "../investments/investments.css"; /* Investment Level 1 module */
 
 @import "./features/business-triangle.css";
-@import "./screens/20L.css";
+@import "../20L/20L.css"; /* 20L Lead Management System module */
 
 @import "./responsive.css";

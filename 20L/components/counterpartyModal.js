@@ -1,4 +1,6 @@
-/* /webapp/js/20L/components/counterpartyModal.js v1.0.1 */
+/* /webapp/20L/components/counterpartyModal.js v1.0.2 */
+// CHANGELOG v1.0.2:
+// - FIXED: Import i18n from ../i18n.js (module-local)
 // CHANGELOG v1.0.1:
 // - CHANGED: Classification field from input to select dropdown
 // - ADDED: Predefined classification options (ПП, IC, Lead, посетитель, покупатель, клиент, приверженец)
@@ -10,7 +12,7 @@
 
 import { getCounterparties, createCounterparty, updateCounterparty, deleteCounterparty, moveToNextStage } from '../services/counterpartyService.js';
 import { renderDashboard } from './dashboard.js';
-import { t } from '../../js/utils/i18n.js';
+import { t } from '../i18n.js';
 
 /**
  * Show create counterparty modal
@@ -61,7 +63,7 @@ function createCounterpartyModal(accountId, productId, counterparty = null) {
   const statusOptions = ['0', 'IC', 'Lead', 'Sales'];
   const cycleStages = Array.from({ length: 11 }, (_, i) => i + 1);
   
-  // ✅ NEW: Classification options
+  // ✅ Classification options
   const classificationOptions = [
     { value: '', label: '—' },
     { value: 'ПП', label: 'ПП' },

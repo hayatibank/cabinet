@@ -1,4 +1,6 @@
-/* /webapp/js/20L/components/productSelector.js v1.0.1 */
+/* /webapp/20L/components/productSelector.js v1.0.2 */
+// CHANGELOG v1.0.2:
+// - FIXED: Import i18n from ../i18n.js (module-local)
 // CHANGELOG v1.0.1:
 // - FIXED: Added missing window.showCreateProductModal function
 // - FIXED: Added window.editProduct function
@@ -9,7 +11,7 @@
 // - Create first product form
 
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../services/productService.js';
-import { t } from '../../js/utils/i18n.js';
+import { t } from '../i18n.js';
 
 /**
  * Render product selector
