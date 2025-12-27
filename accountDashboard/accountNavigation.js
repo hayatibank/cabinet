@@ -1,4 +1,6 @@
-/* /webapp/accountDashboard/accountNavigation.js v1.4.1 */
+/* /webapp/accountDashboard/accountNavigation.js v1.4.2 */
+// CHANGELOG v1.4.2:
+// - FIXED: Import financialReport from ../finStatement/ (modular)
 // CHANGELOG v1.4.1:
 // - FIXED: goBack() import path (../cabinet/accountsUI.js)
 // CHANGELOG v1.4.0:
@@ -21,7 +23,7 @@
 
 import { getAccountById } from '../cabinet/accounts.js';
 import { showBusinessManagement } from '../businessTriangle/businessTriangle.js';
-import { renderFinancialReport } from '../js/cabinet/reports/financialReport.js';
+import { renderFinancialReport } from '../finStatement/financialReport.js';
 import { renderLevel1 } from '../investments/level1.js';
 
 /**
