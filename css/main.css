@@ -31,10 +31,10 @@
 
 @import "./screens/loading.css";
 @import "./screens/auth.css";
-@import "./screens/financial-report.css";
 @import "./screens/offering-zone.css";
 
 /* Modules (isolated) */
+@import "../finStatement/financial-report.css";
 @import "../cabinet/cabinet.css";              /* Cabinet module */
 @import "../accountDashboard/dashboard.css";   /* Account Dashboard (7 steps) */
 @import "../investments/investments.css";      /* Investment Level 1 module */
