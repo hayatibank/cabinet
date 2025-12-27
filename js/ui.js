@@ -73,7 +73,7 @@ export function showCabinet(userData) {
   // Load accounts (async import to avoid circular dependencies)
   setTimeout(async () => {
     try {
-      const { renderAccountsList, showCreateAccountButton } = await import('./cabinet/accountsUI.js');
+      const { renderAccountsList, showCreateAccountButton } = await import('../cabinet/accountsUI.js');
       showCreateAccountButton();
       await renderAccountsList();
     } catch (err) {
