@@ -1,5 +1,8 @@
-/* /webapp/css/main.css v1.5.0 */
-/* CHANGELOG v1.5.0:
+/* /webapp/css/main.css v1.6.0 */
+/* CHANGELOG v1.6.0:
+ * - ADDED: ../auth/auth.css
+ * - REMOVED: ./screens/auth.css (moved to module)
+ * CHANGELOG v1.5.0:
  * - ADDED: ../finStatement/financial-report.css
  * - ADDED: ../offeringZone/offering-zone.css
  * - REMOVED: ./screens/financial-report.css, ./screens/offering-zone.css (moved to modules)
@@ -34,9 +37,9 @@
 @import "./components/modal.css";
 
 @import "./screens/loading.css";
-@import "./screens/auth.css";
 
 /* Modules (isolated) */
+@import "../auth/auth.css";                    /* Auth module (Login/Register/Reset/Logout/Delete) */
 @import "../cabinet/cabinet.css";              /* Cabinet module */
 @import "../accountDashboard/dashboard.css";   /* Account Dashboard (7 steps) */
 @import "../finStatement/financial-report.css"; /* Financial Statement module */

@@ -1,3 +1,11 @@
+/* /webapp/auth/auth.css v1.0.1 */
+/* CHANGELOG v1.0.1:
+ * - MOVED: From /css/screens/auth.css to /auth/ (modular)
+ * CHANGELOG v1.0.0:
+ * - Initial release
+ * - Login, Register, Reset Password forms
+ */
+
 .logo {
   text-align: center;
   margin-bottom: 32px;

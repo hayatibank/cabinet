@@ -1,5 +1,10 @@
-// webapp/js/auth.js v1.2.5 - Always get ID tokens
-// Authentication handlers (Login, Register, Reset Password)
+/* /webapp/auth/authForms.js v1.0.0 */
+// CHANGELOG v1.0.0:
+// - Initial release
+// - MOVED: From /js/auth.js to /auth/ (modular)
+// - SPLIT: Separated forms logic from account actions
+// - FIXED: Import paths for new location
+// Authentication form handlers (Login, Register, Reset Password)
 
 import { 
   getAuth, 
@@ -14,9 +19,10 @@ import {
   serverTimestamp 
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-import { linkTelegramAccount } from './api.js';
-import { saveSession } from './session.js';
-import { showLoadingScreen, showAuthScreen, showCabinet, showError, showSuccess, clearErrors } from './ui.js';
+import { linkTelegramAccount } from '../js/api.js';
+import { saveSession } from '../js/session.js';
+import { showLoadingScreen, showAuthScreen, showCabinet, showError, showSuccess, clearErrors } from '../js/ui.js';
+import { t } from './i18n.js';
 
 // Get Telegram WebApp
 const tg = window.Telegram?.WebApp;
@@ -32,19 +38,19 @@ export function setupLoginHandler(auth) {
     clearErrors();
     
     if (!email || !password) {
-      showError('loginError', 'Заполните все поля');
+      showError('loginError', t('auth.error.fillAllFields'));
       return;
     }
     
     try {
       const loginBtn = document.getElementById('loginBtn');
       loginBtn.disabled = true;
-      showLoadingScreen('Вход в систему...');
+      showLoadingScreen(t('common.loading'));
       
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
-      // 🔧 FIX: Get ID Token (not custom token)
+      // Get ID Token
       const token = await user.getIdToken();
       
       console.log('✅ Login successful:', user.email);
@@ -70,13 +76,13 @@ export function setupLoginHandler(auth) {
     } catch (error) {
       document.getElementById('loginBtn').disabled = false;
       
-      let errorMessage = 'Ошибка входа';
+      let errorMessage = t('auth.error.loginFailed');
       if (error.code === 'auth/invalid-credential') {
-        errorMessage = 'Неверный email или пароль';
+        errorMessage = t('auth.error.invalidCredentials');
       } else if (error.code === 'auth/user-not-found') {
-        errorMessage = 'Пользователь не найден';
+        errorMessage = t('auth.error.userNotFound');
       } else if (error.code === 'auth/wrong-password') {
-        errorMessage = 'Неверный пароль';
+        errorMessage = t('auth.error.wrongPassword');
       }
       
       showAuthScreen('login');
@@ -97,29 +103,29 @@ export function setupRegisterHandler(auth, db) {
     clearErrors();
     
     if (!email || !password || !passwordConfirm) {
-      showError('registerError', 'Заполните все поля');
+      showError('registerError', t('auth.error.fillAllFields'));
       return;
     }
     
     if (password.length < 6) {
-      showError('registerError', 'Пароль должен быть минимум 6 символов');
+      showError('registerError', t('auth.error.passwordTooShort'));
       return;
     }
     
     if (password !== passwordConfirm) {
-      showError('registerError', 'Пароли не совпадают');
+      showError('registerError', t('auth.error.passwordsDontMatch'));
       return;
     }
     
     try {
       const registerBtn = document.getElementById('registerBtn');
       registerBtn.disabled = true;
-      showLoadingScreen('Регистрация...');
+      showLoadingScreen(t('common.loading'));
       
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
-      // 🔧 FIX: Get ID Token (not custom token)
+      // Get ID Token
       const token = await user.getIdToken();
       
       console.log('✅ Registration successful:', user.email);
@@ -192,13 +198,13 @@ export function setupRegisterHandler(auth, db) {
     } catch (error) {
       document.getElementById('registerBtn').disabled = false;
       
-      let errorMessage = 'Ошибка регистрации';
+      let errorMessage = t('auth.error.registerFailed');
       if (error.code === 'auth/email-already-in-use') {
-        errorMessage = 'Этот email уже зарегистрирован';
+        errorMessage = t('auth.error.emailInUse');
       } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'Неверный формат email';
+        errorMessage = t('auth.error.invalidEmail');
       } else if (error.code === 'auth/weak-password') {
-        errorMessage = 'Слишком простой пароль';
+        errorMessage = t('auth.error.weakPassword');
       }
       
       showAuthScreen('register');
@@ -217,7 +223,7 @@ export function setupResetHandler(auth) {
     clearErrors();
     
     if (!email) {
-      showError('resetError', 'Введите email');
+      showError('resetError', t('auth.error.fillAllFields'));
       return;
     }
     
@@ -227,7 +233,7 @@ export function setupResetHandler(auth) {
       
       await sendPasswordResetEmail(auth, email);
       
-      showSuccess('resetSuccess', 'Ссылка для сброса пароля отправлена на ваш email');
+      showSuccess('resetSuccess', t('auth.reset.success'));
       document.getElementById('resetEmail').value = '';
       
       setTimeout(() => {
@@ -238,11 +244,11 @@ export function setupResetHandler(auth) {
     } catch (error) {
       document.getElementById('resetBtn').disabled = false;
       
-      let errorMessage = 'Ошибка отправки';
+      let errorMessage = t('auth.error.resetFailed');
       if (error.code === 'auth/user-not-found') {
-        errorMessage = 'Пользователь с таким email не найден';
+        errorMessage = t('auth.error.userNotFound');
       } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'Неверный формат email';
+        errorMessage = t('auth.error.invalidEmail');
       }
       
       showError('resetError', errorMessage);

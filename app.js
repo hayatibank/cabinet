@@ -13,11 +13,12 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase
 // Import modules
 import { FIREBASE_CONFIG } from './js/config.js';
 import { checkTelegramBinding, silentLogin, validateToken } from './js/api.js';
-import { setupLoginHandler, setupRegisterHandler, setupResetHandler, setupFormSwitching } from './js/auth.js';
+import { setupLoginHandler, setupRegisterHandler, setupResetHandler, setupFormSwitching } from './auth/authForms.js';
 import { getSession, saveSession } from './js/session.js';
 import { showLoadingScreen, showAuthScreen, showCabinet } from './js/ui.js';
 import { setupTokenInterceptor, setupPeriodicTokenCheck } from './js/tokenManager.js'; // ← NEW
-import './js/account.js'; // Imports logout & deleteAccount functions
+import './auth/accountActions.js'; // Imports logout & deleteAccount functions
+
 
 // Initialize Firebase
 const app = initializeApp(FIREBASE_CONFIG);
