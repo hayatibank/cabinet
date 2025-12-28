@@ -1,4 +1,7 @@
-/* /webapp/auth/accountActions.js v1.0.0 */
+/* /webapp/auth/accountActions.js v1.0.1 */
+// CHANGELOG v1.0.1:
+// - REMOVED: Unused firebaseDeleteUser import
+// - Backend handles Firebase Auth deletion
 // CHANGELOG v1.0.0:
 // - Initial release
 // - MOVED: From /js/account.js to /auth/ (modular)
@@ -6,7 +9,7 @@
 // - FIXED: Import paths for new location
 // Account management (Logout, Delete Account)
 
-import { getAuth, deleteUser as firebaseDeleteUser } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { clearSession, getSession } from '../js/session.js';
 import { showAuthScreen, showLoadingScreen } from '../js/ui.js';
 import { deleteUserAccount, deleteTelegramSession } from '../js/api.js';
@@ -65,6 +68,13 @@ export async function logout() {
 
 /**
  * Delete user account (Auth + Firestore + Sessions)
+ * 
+ * ⚠️ Backend handles:
+ * - Firestore user document deletion
+ * - Telegram sessions cleanup
+ * - Firebase Auth account deletion
+ * 
+ * Frontend only clears local session.
  */
 export async function deleteAccount() {
   try {
