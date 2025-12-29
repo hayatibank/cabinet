@@ -1,4 +1,8 @@
-/* /webapp/auth/authForms.js v1.0.0 */
+/* /webapp/auth/authForms.js v1.0.1 */
+// CHANGELOG v1.0.1:
+// - FIXED: Use passed db instance instead of importing getFirestore
+// - FIXED: Removed unused getFirestore import
+// - This fixes Firestore connection errors during registration
 // CHANGELOG v1.0.0:
 // - Initial release
 // - MOVED: From /js/auth.js to /auth/ (modular)
@@ -13,7 +17,6 @@ import {
   sendPasswordResetEmail 
 } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
 import { 
-  getFirestore, 
   doc, 
   setDoc,
   serverTimestamp 
@@ -93,6 +96,7 @@ export function setupLoginHandler(auth) {
 
 /**
  * Setup register form handler
+ * ✅ FIXED: Now uses passed db instance
  */
 export function setupRegisterHandler(auth, db) {
   document.getElementById('registerBtn')?.addEventListener('click', async () => {
@@ -130,16 +134,16 @@ export function setupRegisterHandler(auth, db) {
       
       console.log('✅ Registration successful:', user.email);
       console.log('✅ ID Token obtained');
+      console.log('🔍 Using db instance:', !!db);
       
       // Get Telegram data if available
       const tgUser = tg?.initDataUnsafe?.user;
       const tgChatId = tgUser?.id;
       
-      console.log('user.uid');
-      console.log(user.uid);
-
-      // Create user document in Firestore
-      await setDoc(doc(db, 'users', user.uid), {
+      console.log('📝 Creating Firestore document for uid:', user.uid);
+      
+      // ✅ Create user document in Firestore using PASSED db instance
+      const userDocData = {
         uid: user.uid,
         email: user.email,
         createdAt: serverTimestamp(),
@@ -177,7 +181,11 @@ export function setupRegisterHandler(auth, db) {
           'paymentsShow',
           'expenseItemsShowAll'
         ]
-      });
+      };
+      
+      console.log('📄 User document data prepared:', userDocData);
+      
+      await setDoc(doc(db, 'users', user.uid), userDocData);
       
       console.log('✅ User document created in Firestore');
       
@@ -199,6 +207,10 @@ export function setupRegisterHandler(auth, db) {
       showCabinet({ uid: user.uid, email: user.email });
       
     } catch (error) {
+      console.error('❌ Registration error:', error);
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
+      
       document.getElementById('registerBtn').disabled = false;
       
       let errorMessage = t('auth.error.registerFailed');
@@ -208,6 +220,9 @@ export function setupRegisterHandler(auth, db) {
         errorMessage = t('auth.error.invalidEmail');
       } else if (error.code === 'auth/weak-password') {
         errorMessage = t('auth.error.weakPassword');
+      } else {
+        // Include error details for debugging
+        errorMessage = `${t('auth.error.registerFailed')}: ${error.message}`;
       }
       
       showAuthScreen('register');
