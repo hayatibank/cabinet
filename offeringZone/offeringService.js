@@ -1,4 +1,4 @@
-/* /webapp/offeringZone/offeringService.js v1.1.0 */
+/* /webapp/offeringZone/offeringService.js v1.1.1 */
 // CHANGELOG v1.1.0:
 // - MOVED: From /js/cabinet/reports/ to /offeringZone/ (modular)
 // - FIXED: Import paths
@@ -7,6 +7,10 @@
 // - Calculate available budget from financial report
 // - Filter units from HBD collection
 // - Centralized API calls
+// CHANGELOG v1.1.1:
+// - FIXED: Status check now reads from /HBD/{projectId}/info/main
+// - Added projectInfo fetch before units filtering
+// - Minimal "surgical" changes
 
 import { getSession } from '../js/session.js';
 import { API_URL } from '../js/config.js';
@@ -51,77 +55,72 @@ export function calculateAvailableBudget(financialData) {
 }
 
 /**
- * Fetch units from HBD (all projects)
+ * Fetch available units from HBD
+ * @param {number} maxPrice - Maximum affordable price (AED)
+ * @returns {Promise<Array>}
  */
-export async function fetchAvailableUnits() {
+export async function fetchAvailableUnits(maxPrice) {
   try {
-    const session = getSession();
-    if (!session) throw new Error('No session');
+    console.log(`🔍 [Offering] Fetching units with maxPrice: ${maxPrice} AED`);
     
-    console.log('🏢 Fetching HBD units...');
+    const db = getFirestore();
+    const projectsRef = collection(db, 'HBD');
+    const projectsSnap = await getDocs(projectsRef);
     
-    // Fetch all projects
-    const projectsResponse = await fetch(`${API_URL}/api/firestore/get`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
-      },
-      body: JSON.stringify({
-        path: 'HBD',
-        authToken: session.authToken
-      })
-    });
-    
-    if (!projectsResponse.ok) {
-      console.warn('⚠️ No projects found');
-      return [];
-    }
-    
-    const projectsResult = await projectsResponse.json();
-    const projects = projectsResult.documents || [];
-    
-    // Fetch units from all active projects
     const allUnits = [];
     
-    for (const project of projects) {
-      // Check if project is active
-      if (project.status !== 'active') continue;
+    for (const projectDoc of projectsSnap.docs) {
+      const projectId = projectDoc.id;
       
-      // Fetch units
-      const unitsResponse = await fetch(`${API_URL}/api/firestore/get`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
-        },
-        body: JSON.stringify({
-          path: `HBD/${project.id}/units`,
-          authToken: session.authToken
-        })
-      });
+      // ✅ FIXED: Read status from /info/main
+      console.log(`📋 [Offering] Checking project: ${projectId}`);
       
-      if (unitsResponse.ok) {
-        const unitsResult = await unitsResponse.json();
-        const units = unitsResult.documents || [];
+      const projectInfoDoc = await getDoc(doc(db, 'HBD', projectId, 'info', 'main'));
+      
+      if (!projectInfoDoc.exists()) {
+        console.warn(`⚠️ [Offering] No info/main for project: ${projectId}`);
+        continue;
+      }
+      
+      const projectInfo = projectInfoDoc.data();
+      
+      // ✅ FIXED: Check status from info/main
+      if (projectInfo.status !== 'active') {
+        console.log(`⏸️ [Offering] Project ${projectId} is not active (status: ${projectInfo.status})`);
+        continue;
+      }
+      
+      console.log(`✅ [Offering] Project ${projectId} is active`);
+      
+      // Get units
+      const unitsRef = collection(db, 'HBD', projectId, 'units');
+      const unitsSnap = await getDocs(unitsRef);
+      
+      console.log(`📦 [Offering] Found ${unitsSnap.size} units in ${projectId}`);
+      
+      for (const unitDoc of unitsSnap.docs) {
+        const unit = unitDoc.data();
         
-        // Add project info to each unit
-        units.forEach(unit => {
-          unit.projectId = project.id;
-          unit.projectName = project.projectName || project.id;
-        });
-        
-        allUnits.push(...units);
+        // Filter by status and price
+        if (unit.status === 'available' && unit.price <= maxPrice) {
+          allUnits.push({
+            id: unitDoc.id,
+            projectId: projectId,
+            projectName: projectInfo.name || projectId, // ✅ Use name from info/main
+            ...unit,
+            projectInfo: projectInfo // ✅ Attach full project info
+          });
+        }
       }
     }
     
-    console.log(`✅ Fetched ${allUnits.length} units from ${projects.length} projects`);
+    console.log(`✅ [Offering] Total available units: ${allUnits.length}`);
     
     return allUnits;
     
   } catch (err) {
-    console.error('❌ Error fetching units:', err);
-    return [];
+    console.error('❌ [Offering] Error fetching units:', err);
+    throw err;
   }
 }
 
