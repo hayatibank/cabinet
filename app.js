@@ -1,4 +1,8 @@
-/* /webapp/app.js v1.3.0 */
+/* /webapp/app.js v1.3.1 */
+// CHANGELOG v1.3.1:
+// - FIXED: Force Firestore to use Long Polling instead of WebSocket
+// - This fixes "WebChannelConnection RPC Write stream transport errored"
+// - Added experimentalForceLongPolling to initializeFirestore
 // CHANGELOG v1.3.0:
 // - FIXED: Import paths updated for auth module
 // - ADDED: Cabinet module initialization
@@ -12,7 +16,7 @@
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js';
 import { getAuth, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
+import { initializeFirestore, CACHE_SIZE_UNLIMITED } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
 
 // Import modules
 import { FIREBASE_CONFIG } from './js/config.js';
@@ -27,9 +31,15 @@ import './cabinet/accountsUI.js'; // Registers cabinetReady event listener
 // Initialize Firebase
 const app = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(app);
-const db = getFirestore(app);
+
+// ✅ FIXED: Initialize Firestore with Long Polling (no WebSocket)
+const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,  // ✅ Disable WebSocket, use HTTP Long Polling
+  cacheSizeBytes: CACHE_SIZE_UNLIMITED
+});
 
 console.log('✅ Firebase initialized');
+console.log('🔌 Firestore: Long Polling mode (WebSocket disabled)');
 
 // ✅ Setup token management system
 setupTokenInterceptor();
