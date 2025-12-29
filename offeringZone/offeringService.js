@@ -63,52 +63,110 @@ export async function fetchAvailableUnits(maxPrice) {
   try {
     console.log(`🔍 [Offering] Fetching units with maxPrice: ${maxPrice} AED`);
     
-    const db = getFirestore();
-    const projectsRef = collection(db, 'HBD');
-    const projectsSnap = await getDocs(projectsRef);
+    const session = getSession();
+    if (!session) {
+      throw new Error('No session');
+    }
+
+    // 1️⃣ Get all projects
+    const projectsResponse = await fetch(`${API_URL}/api/firestore/get`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+        path: 'HBD',
+        authToken: session.authToken
+      })
+    });
+
+    if (!projectsResponse.ok) {
+      throw new Error('Failed to fetch projects');
+    }
+
+    const projectsData = await projectsResponse.json();
+    const projects = projectsData.documents || [];
+    
+    console.log(`📋 [Offering] Found ${projects.length} projects`);
     
     const allUnits = [];
-    
-    for (const projectDoc of projectsSnap.docs) {
-      const projectId = projectDoc.id;
+
+    // 2️⃣ For each project
+    for (const project of projects) {
+      const projectId = project.id;
       
-      // ✅ FIXED: Read status from /info/main
-      console.log(`📋 [Offering] Checking project: ${projectId}`);
+      console.log(`🔍 [Offering] Checking project: ${projectId}`);
       
-      const projectInfoDoc = await getDoc(doc(db, 'HBD', projectId, 'info', 'main'));
+      // ✅ FIXED: Fetch project info from /info/main
+      const projectInfoResponse = await fetch(`${API_URL}/api/firestore/get`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+          path: `HBD/${projectId}/info`,
+          authToken: session.authToken
+        })
+      });
       
-      if (!projectInfoDoc.exists()) {
+      if (!projectInfoResponse.ok) {
+        console.warn(`⚠️ [Offering] Failed to fetch info for project: ${projectId}`);
+        continue;
+      }
+      
+      const projectInfoData = await projectInfoResponse.json();
+      const projectInfos = projectInfoData.documents || [];
+      
+      // Find 'main' document
+      const mainInfo = projectInfos.find(doc => doc.id === 'main');
+      
+      if (!mainInfo) {
         console.warn(`⚠️ [Offering] No info/main for project: ${projectId}`);
         continue;
       }
       
-      const projectInfo = projectInfoDoc.data();
-      
       // ✅ FIXED: Check status from info/main
-      if (projectInfo.status !== 'active') {
-        console.log(`⏸️ [Offering] Project ${projectId} is not active (status: ${projectInfo.status})`);
+      if (mainInfo.status !== 'active') {
+        console.log(`⏸️ [Offering] Project ${projectId} is not active (status: ${mainInfo.status})`);
         continue;
       }
       
       console.log(`✅ [Offering] Project ${projectId} is active`);
       
-      // Get units
-      const unitsRef = collection(db, 'HBD', projectId, 'units');
-      const unitsSnap = await getDocs(unitsRef);
+      // 3️⃣ Get units for active project
+      const unitsResponse = await fetch(`${API_URL}/api/firestore/get`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+          path: `HBD/${projectId}/units`,
+          authToken: session.authToken
+        })
+      });
+
+      if (!unitsResponse.ok) {
+        console.warn(`⚠️ [Offering] Failed to fetch units for project: ${projectId}`);
+        continue;
+      }
+
+      const unitsData = await unitsResponse.json();
+      const units = unitsData.documents || [];
       
-      console.log(`📦 [Offering] Found ${unitsSnap.size} units in ${projectId}`);
+      console.log(`📦 [Offering] Found ${units.length} units in ${projectId}`);
       
-      for (const unitDoc of unitsSnap.docs) {
-        const unit = unitDoc.data();
-        
-        // Filter by status and price
+      // 4️⃣ Filter units by status and price
+      for (const unit of units) {
         if (unit.status === 'available' && unit.price <= maxPrice) {
           allUnits.push({
-            id: unitDoc.id,
-            projectId: projectId,
-            projectName: projectInfo.name || projectId, // ✅ Use name from info/main
             ...unit,
-            projectInfo: projectInfo // ✅ Attach full project info
+            projectId: projectId,
+            projectName: mainInfo.name || projectId, // ✅ Use name from info/main
+            projectLocation: mainInfo.location || '', // ✅ Bonus
+            projectInfo: mainInfo // ✅ Attach full project info
           });
         }
       }
