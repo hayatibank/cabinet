@@ -53,6 +53,7 @@ export function calculateAvailableBudget(financialData) {
 /**
  * Fetch units from HBD (all projects)
  */
+/*
 export async function fetchAvailableUnits() {
   try {
     const session = getSession();
@@ -124,6 +125,92 @@ export async function fetchAvailableUnits() {
     return [];
   }
 }
+*/
+
+
+export async function fetchAvailableUnits() {
+  try {
+    const session = getSession();
+    if (!session) throw new Error('No session');
+    
+    console.log('🏢 [HBD Service] Fetching units...');
+    
+    // 1. Fetch all projects
+    const projectsResponse = await fetch(`${API_URL}/api/firestore/get`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+        path: 'HBD',
+        authToken: session.authToken
+      })
+    });
+    
+    if (!projectsResponse.ok) {
+      console.warn('⚠️ No projects found');
+      return [];
+    }
+    
+    const projectsResult = await projectsResponse.json();
+    const projects = projectsResult.documents || [];
+    
+    console.log(`📋 Found ${projects.length} projects`);
+    
+    // 2. Filter active projects + fetch units
+    const allUnits = [];
+    
+    for (const project of projects) {
+      // ✅ Check status from /info/main
+      const info = await fetchProjectInfo(project.id);
+      
+      if (!info || info.status !== 'active') {
+        console.log(`⏭️ Skipping inactive project: ${project.id}`);
+        continue;
+      }
+      
+      console.log(`✅ Active project: ${project.id} (${info.projectName})`);
+      
+      // 3. Fetch units
+      const unitsResponse = await fetch(`${API_URL}/api/firestore/get`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+          path: `HBD/${project.id}/units`,
+          authToken: session.authToken
+        })
+      });
+      
+      if (unitsResponse.ok) {
+        const unitsResult = await unitsResponse.json();
+        const units = unitsResult.documents || [];
+        
+        // Enrich units with project info
+        units.forEach(unit => {
+          unit.projectId = project.id;
+          unit.projectName = info.projectName || project.id;
+          unit.projectInfo = info; // Full project details
+        });
+        
+        allUnits.push(...units);
+        console.log(`  ➕ Added ${units.length} units`);
+      }
+    }
+    
+    console.log(`✅ [HBD Service] Total: ${allUnits.length} units from ${projects.length} projects`);
+    
+    return allUnits;
+    
+  } catch (err) {
+    console.error('❌ [HBD Service] Error fetching units:', err);
+    return [];
+  }
+}
+
 
 /**
  * Filter units by budget and criteria
