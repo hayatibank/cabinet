@@ -45,8 +45,8 @@ export function calculateAvailableBudget(financialData) {
     budget: Math.max(0, budget), // Never negative
     cashFlow,
     liquidAssets,
-    cashFlowMonthly: cashFlow,
-    cashFlowYearly: cashFlow * 12
+    cashFlowMonthly: cashFlow / 12,
+    cashFlowYearly: cashFlow
   };
 }
 
