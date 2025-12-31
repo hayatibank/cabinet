@@ -7,6 +7,9 @@
 // - FIXED: Import path for cabinet module (now ../cabinet/)
 // UI management (screens, errors, buttons)
 
+import { getHYCBalance } from '../HayatiCoin/hycService.js';
+import { renderHYCBalance } from '../HayatiCoin/hycUI.js';
+
 // DOM Elements
 const loadingScreen = document.getElementById('loadingScreen');
 const authScreen = document.getElementById('authScreen');
