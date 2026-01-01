@@ -1,4 +1,10 @@
-// webapp/cabinet/createAccount.js v1.3.0
+// webapp/cabinet/createAccount.js v1.4.1
+// CHANGELOG v1.4.1:
+// - CHANGED: Silent rewards (no modal, no notification)
+// - KEEP: Auto-refresh HYC balance (user sees updated number)
+// CHANGELOG v1.4.0:
+// - ADDED: HYC reward notification after account creation
+// - ADDED: Auto-refresh HYC balance display
 // CHANGELOG v1.3.0:
 // - MOVED: From /js/cabinet/ to /cabinet/ (modular)
 // - TODO: Add i18n integration (next version)
@@ -6,6 +12,8 @@
 
 import { createAccount } from './accounts.js';
 import { renderAccountsList } from './accountsUI.js';
+import { refreshHYCBalance } from '../HayatiCoin/hycUI.js';
+import { formatHYC } from '../HayatiCoin/hycService.js';
 
 /**
  * Show create account form
@@ -164,6 +172,13 @@ async function handleCreateIndividual() {
     
     console.log('✅ Individual account created:', account.accountId);
     
+    // 🔇 SILENT: Just refresh balance (no notification)
+    if (account.hycReward) {
+      await refreshHYCBalance();
+      console.log(`🔇 Silent reward: ${formatHYC(account.hycReward.amount)} HYC`);
+    }
+    
+    // Simple success
     alert('✅ Аккаунт успешно создан!');
     
     // Reload accounts list
