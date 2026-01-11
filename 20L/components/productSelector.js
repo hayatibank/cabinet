@@ -1,4 +1,8 @@
-/* /webapp/20L/components/productSelector.js v1.0.2 */
+/* /webapp/20L/components/productSelector.js v1.0.3 */
+// CHANGELOG v1.0.3:
+// - FIXED: Use global window.i18n (Android freeze fix)
+// - REMOVED: Local i18n import attempt
+// - ADDED: Proper t() binding at function level
 // CHANGELOG v1.0.2:
 // - FIXED: Import i18n from ../i18n.js (module-local)
 // CHANGELOG v1.0.1:
@@ -11,13 +15,11 @@
 // - Create first product form
 
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../services/productService.js';
-// import { t } from '../i18n.js';
 
 /**
  * Render product selector
  */
 export async function renderProductSelector(accountId) {
-
   const t = window.i18n.t.bind(window.i18n);
 
   try {
@@ -51,6 +53,7 @@ export async function renderProductSelector(accountId) {
     
   } catch (err) {
     console.error('❌ Error rendering product selector:', err);
+    const t = window.i18n.t.bind(window.i18n);
     const container = document.getElementById('dashboardContent');
     if (container) {
       container.innerHTML = `
@@ -66,6 +69,8 @@ export async function renderProductSelector(accountId) {
  * Render create product form (first time)
  */
 function renderCreateProductForm(container, accountId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   container.innerHTML = `
     <div class="product-selector">
       <div class="product-selector-header">
@@ -107,6 +112,8 @@ function renderCreateProductForm(container, accountId) {
  * Render product list
  */
 function renderProductList(container, accountId, products) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   container.innerHTML = `
     <div class="product-selector">
       <div class="product-selector-header">
@@ -145,6 +152,8 @@ function renderProductList(container, accountId, products) {
  * Save first product (global handler)
  */
 window.saveFirstProduct = async function(accountId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   try {
     const nameInput = document.getElementById('productName');
     const commentInput = document.getElementById('productComment');
@@ -170,7 +179,7 @@ window.saveFirstProduct = async function(accountId) {
     await renderProductSelector(accountId);
     
     // Show success
-    alert(`✅ Продукт создан!`);
+    alert(`✅ ${t('20L.product.created')}`);
     
   } catch (err) {
     console.error('❌ Error saving product:', err);
@@ -202,6 +211,8 @@ window.showCreateProductModal = function(accountId) {
  * Edit product
  */
 window.editProduct = async function(accountId, productId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   try {
     console.log('✏️ Opening edit product modal:', productId);
     
@@ -210,7 +221,7 @@ window.editProduct = async function(accountId, productId) {
     const product = products.find(p => p.id === productId);
     
     if (!product) {
-      alert('❌ Продукт не найден');
+      alert(`❌ ${t('error.notFound')}`);
       return;
     }
     
@@ -219,7 +230,7 @@ window.editProduct = async function(accountId, productId) {
     
   } catch (err) {
     console.error('❌ Error opening edit modal:', err);
-    alert('❌ Ошибка загрузки продукта');
+    alert(`❌ ${t('error.loadingData')}`);
   }
 };
 
@@ -227,6 +238,8 @@ window.editProduct = async function(accountId, productId) {
  * Create product modal HTML
  */
 function createProductModal(accountId, product = null) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   const isEdit = !!product;
   const modal = document.createElement('div');
   modal.className = 'modal product-modal';
@@ -236,7 +249,7 @@ function createProductModal(accountId, product = null) {
     <div class="modal-overlay" onclick="window.closeProductModal()"></div>
     <div class="modal-content">
       <div class="modal-header">
-        <h3>${isEdit ? '✏️ Редактировать продукт' : '➕ Добавить продукт'}</h3>
+        <h3>${isEdit ? '✏️ ' + t('20L.product.edit') : '➕ ' + t('20L.productSelector.addProduct')}</h3>
         <button onclick="window.closeProductModal()" class="btn-close">×</button>
       </div>
       
@@ -289,6 +302,8 @@ function createProductModal(accountId, product = null) {
  * Save product (create or update)
  */
 window.saveProduct = async function(accountId, productId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   try {
     const errorEl = document.getElementById('productModalError');
     const successEl = document.getElementById('productModalSuccess');
@@ -310,10 +325,10 @@ window.saveProduct = async function(accountId, productId) {
     // Create or update
     if (productId) {
       await updateProduct(accountId, productId, { name, comment });
-      successEl.textContent = '✅ Продукт обновлён!';
+      successEl.textContent = '✅ ' + t('20L.product.updated');
     } else {
       await createProduct(accountId, { name, comment });
-      successEl.textContent = '✅ Продукт создан!';
+      successEl.textContent = '✅ ' + t('20L.product.created');
     }
     
     successEl.classList.remove('hidden');
@@ -338,20 +353,22 @@ window.saveProduct = async function(accountId, productId) {
  * Delete product (with confirmation)
  */
 window.deleteProductConfirm = async function(accountId, productId) {
-  const confirmed = confirm('⚠️ Удалить продукт?\n\nЭто действие нельзя отменить.');
+  const t = window.i18n.t.bind(window.i18n);
+  
+  const confirmed = confirm('⚠️ ' + t('20L.counterparty.deleteConfirm'));
   if (!confirmed) return;
   
   try {
     await deleteProduct(accountId, productId);
     
-    alert('✅ Продукт удалён');
+    alert('✅ ' + t('20L.counterparty.deleted'));
     
     window.closeProductModal();
     await renderProductSelector(accountId);
     
   } catch (err) {
     console.error('❌ Error deleting product:', err);
-    alert('❌ Ошибка удаления');
+    alert('❌ ' + t('error.deletingFailed'));
   }
 };
 

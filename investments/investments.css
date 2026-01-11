@@ -1,26 +1,28 @@
-/* /webapp/investments/investments.css v1.1.0 */
-/* CHANGELOG v1.1.0:
- * - Added carousel styles for horizontal scrolling
- * - Added payment card styles
- * - Mobile adaptation for carousels
- * CHANGELOG v1.0.7:
- * - FIXED: Removed extra closing brace after .crypto-amount
- * - MOBILE: Crypto cards now vertical (icon → name/symbol → amount)
- * - Better readability on narrow screens
+/* /webapp/investments/investments.css v1.2.0 */
+/* CHANGELOG v1.2.0:
+ * - FIXED: Complete rewrite to match level1.js structure
+ * - ADDED: All missing classes (investment-dashboard, summary-cards, etc.)
+ * - IMPROVED: Cyberpunk design system alignment
+ * - IMPROVED: Full responsive breakpoints
+ * - CLEANED: Removed unused legacy styles
+ */
 
-.investments-level1 {
+/* ==================== INVESTMENT DASHBOARD ==================== */
+
+.investment-dashboard {
   width: 100%;
   animation: fadeIn 0.3s ease-in;
 }
 
-.level1-header {
+/* Header */
+.dashboard-header-inv {
   text-align: center;
   margin-bottom: 32px;
   padding-bottom: 24px;
   border-bottom: 1px solid var(--border);
 }
 
-.level1-header h3 {
+.dashboard-header-inv h2 {
   font-size: 28px;
   margin-bottom: 12px;
   background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-pink) 100%);
@@ -30,24 +32,95 @@
   text-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
 }
 
-.level1-header .subtitle {
+.dashboard-header-inv .subtitle {
   font-size: 14px;
   color: var(--text-muted);
   margin: 0;
 }
 
-/* Loading State */
-.investments-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
+/* ==================== SUMMARY CARDS ==================== */
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
   gap: 20px;
+  margin-bottom: 40px;
 }
 
-/* Investment Section */
-.investment-section {
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+.summary-card:hover::before {
+  opacity: 1;
+}
+
+.summary-icon {
+  font-size: 36px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 240, 255, 0.1);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.summary-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.summary-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--neon-green);
+  text-shadow: 0 0 10px rgba(0, 255, 159, 0.5);
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+
+/* ==================== PORTFOLIO SECTION ==================== */
+
+.portfolio-section,
+.assets-section,
+.history-section {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -56,18 +129,29 @@
   transition: all 0.3s;
 }
 
-.investment-section:hover {
+.portfolio-section:hover,
+.assets-section:hover,
+.history-section:hover {
   border-color: rgba(0, 240, 255, 0.3);
   box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
 }
 
-.investment-section h4 {
+.portfolio-section h3,
+.assets-section h3,
+.history-section h3 {
   font-size: 22px;
   margin-bottom: 24px;
   color: var(--neon-blue);
   text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
 }
 
+.portfolio-content,
+.assets-grid,
+.history-content {
+  width: 100%;
+}
+
+/* Section Header with Controls */
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -77,33 +161,103 @@
   gap: 16px;
 }
 
-.section-header h4 {
+.section-header h3 {
   margin: 0;
 }
 
-.total-invested {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(0, 240, 255, 0.1);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  border-radius: 8px;
+.section-header .subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 4px;
 }
 
-.total-invested .label {
+/* ==================== EMPTY STATE ==================== */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  gap: 16px;
+}
+
+.empty-state svg {
+  opacity: 0.3;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.empty-state .subtitle {
   font-size: 14px;
   color: var(--text-muted);
+  margin-top: 8px;
 }
 
-.total-invested .amount {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--neon-green);
-  text-shadow: 0 0 10px rgba(0, 255, 159, 0.5);
+/* ==================== COMING SOON NOTICE ==================== */
+
+.coming-soon-notice {
+  text-align: center;
+  padding: 40px 20px;
+  background: rgba(0, 240, 255, 0.05);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 12px;
+  margin-top: 32px;
 }
 
-/* Balance Grid */
+.coming-soon-notice p {
+  margin: 0;
+  font-size: 16px;
+  color: var(--neon-blue);
+  font-weight: 600;
+}
+
+.coming-soon-notice .subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* ==================== LOADING STATE ==================== */
+
+.investments-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 20px;
+}
+
+/* ==================== ERROR STATE ==================== */
+
+.error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  gap: 16px;
+}
+
+.error-message p {
+  margin: 0;
+  font-size: 16px;
+  color: var(--error);
+}
+
+/* ==================== LEGACY SUPPORT (from old investments.css) ==================== */
+
+/* Balance Grid - kept for backward compatibility */
 .balance-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
@@ -159,102 +313,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Investments Grid */
-.investments-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.investment-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--neon-blue);
-  border-radius: 12px;
-  padding: 20px;
-  transition: all 0.3s;
-}
-
-.investment-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.2);
-  border-color: var(--neon-blue);
-}
-
-.investment-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
-  gap: 12px;
-}
-
-.investment-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text);
-  margin: 0;
-  flex: 1;
-}
-
-.investment-roi {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.investment-roi.positive {
-  background: rgba(0, 255, 159, 0.2);
-  color: var(--neon-green);
-}
-
-.investment-roi.negative {
-  background: rgba(220, 38, 38, 0.2);
-  color: var(--error);
-}
-
-.investment-roi.neutral {
-  background: rgba(128, 128, 128, 0.2);
-  color: var(--text-muted);
-}
-
-.investment-details {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-}
-
-.detail-label {
-  color: var(--text-muted);
-}
-
-.detail-value {
-  color: var(--text);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Crypto Portfolio */
-.crypto-section .subtitle,
-.spotbot-section .subtitle,
-.payments-section .subtitle,
-.projects-section .subtitle {
-  font-size: 13px;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
+/* Crypto Cards */
 .crypto-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
@@ -323,274 +382,119 @@
   flex-shrink: 0;
 }
 
-/* Empty State */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
-  color: var(--text-muted);
-}
+/* ==================== RESPONSIVE ==================== */
 
-.empty-state p {
-  margin: 0;
-  font-size: 16px;
-}
-
-/* Carousel Wrapper */
-.carousel-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.carousel-track {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: var(--neon-blue) transparent;
-  padding: 4px 0;
-  flex: 1;
-}
-
-.carousel-track::-webkit-scrollbar {
-  height: 8px;
-}
-
-.carousel-track::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-}
-
-.carousel-track::-webkit-scrollbar-thumb {
-  background: var(--neon-blue);
-  border-radius: 4px;
-}
-
-.carousel-track::-webkit-scrollbar-thumb:hover {
-  background: var(--neon-pink);
-}
-
-.carousel-item {
-  flex-shrink: 0;
-  min-width: 280px;
-  max-width: 320px;
-}
-
-.carousel-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(0, 240, 255, 0.1);
-  border: 1px solid var(--neon-blue);
-  color: var(--neon-blue);
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  z-index: 2;
-}
-
-.carousel-btn:hover {
-  background: var(--neon-blue);
-  color: var(--bg);
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
-}
-
-.carousel-btn:active {
-  transform: scale(0.95);
-}
-
-/* Payment Card */
-.payment-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--neon-green);
-  border-radius: 12px;
-  padding: 20px;
-  transition: all 0.3s;
-}
-
-.payment-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 255, 159, 0.2);
-  border-color: var(--neon-green);
-}
-
-.payment-header {
-  margin-bottom: 16px;
-}
-
-.payment-date {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  margin: 0;
-}
-
-.payment-details {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.payment-details .detail-value.positive {
-  color: var(--neon-green);
-  font-weight: 700;
-}
-
-/* Responsive */
+/* Tablet */
 @media (max-width: 768px) {
-  .investment-section {
-    padding: 20px;
-  }
-  
-  .level1-header h3 {
+  .dashboard-header-inv h2 {
     font-size: 24px;
   }
   
-  .balance-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px;
+  .summary-cards {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 16px;
   }
   
-  .balance-card {
-    flex-direction: row;
-    padding: 16px;
-    gap: 12px;
+  .summary-card {
+    padding: 20px;
   }
   
-  .balance-icon {
-    width: 44px;
-    height: 44px;
+  .summary-icon {
+    width: 48px;
+    height: 48px;
     font-size: 28px;
   }
   
-  .balance-info {
-    flex: 1;
-    min-width: 0;
+  .summary-value {
+    font-size: 20px;
   }
   
-  .balance-label {
-    font-size: 12px;
-    line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .portfolio-section,
+  .assets-section,
+  .history-section {
+    padding: 24px;
   }
   
-  .balance-amount {
-    font-size: 18px;
-    word-break: break-all;
-  }
-  
-  .investments-grid {
+  .balance-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
   
   .crypto-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px;
+    grid-template-columns: 1fr;
   }
   
   .crypto-card {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 20px 16px;
-    gap: 12px;
-  }
-  
-  .crypto-icon {
-    width: 56px;
-    height: 56px;
-    font-size: 36px;
-  }
-  
-  .crypto-info {
-    width: 100%;
-  }
-  
-  .crypto-name {
-    font-size: 16px;
-    white-space: normal;
-    text-overflow: unset;
-    overflow: visible;
-  }
-  
-  .crypto-symbol {
-    font-size: 13px;
   }
   
   .crypto-amount {
-    font-size: 20px;
     text-align: center;
     width: 100%;
   }
-  
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .dashboard-header-inv {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
   }
   
-  .total-invested {
-    width: 100%;
-    justify-content: space-between;
+  .dashboard-header-inv h2 {
+    font-size: 22px;
   }
   
-  /* Carousel mobile */
-  .carousel-wrapper {
-    gap: 8px;
+  .summary-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
   
-  .carousel-btn {
-    width: 36px;
-    height: 36px;
+  .summary-card {
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .summary-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+  }
+  
+  .summary-label {
+    font-size: 12px;
+  }
+  
+  .summary-value {
     font-size: 18px;
   }
   
-  .carousel-item {
-    min-width: 240px;
-  }
-}
-
-@media (max-width: 640px) {
-  .balance-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px;
+  .portfolio-section,
+  .assets-section,
+  .history-section {
+    padding: 20px;
+    margin-bottom: 24px;
   }
   
-  .crypto-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .investment-section {
-    padding: 16px;
+  .portfolio-section h3,
+  .assets-section h3,
+  .history-section h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
   }
   
-  .balance-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px;
+  .empty-state {
+    padding: 40px 16px;
+  }
+  
+  .coming-soon-notice {
+    padding: 32px 16px;
   }
   
   .balance-card {
-    flex-direction: row;
-    padding: 14px;
-    gap: 12px;
+    padding: 16px;
   }
   
   .balance-icon {
@@ -599,29 +503,12 @@
     font-size: 24px;
   }
   
-  .balance-label {
-    font-size: 11px;
-  }
-  
   .balance-amount {
-    font-size: 16px;
-  }
-  
-  .investment-card {
-    padding: 16px;
+    font-size: 18px;
   }
   
   .crypto-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
     padding: 18px 14px;
-    gap: 10px;
-  }
-  
-  .crypto-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px;
   }
   
   .crypto-icon {
@@ -630,24 +517,25 @@
     font-size: 32px;
   }
   
-  .crypto-info {
-    width: 100%;
-  }
-  
-  .crypto-name {
-    font-size: 15px;
-    white-space: normal;
-    text-overflow: unset;
-    overflow: visible;
-  }
-  
-  .crypto-symbol {
-    font-size: 12px;
-  }
-  
   .crypto-amount {
     font-size: 18px;
-    text-align: center;
-    width: 100%;
+  }
+}
+
+/* ==================== ANIMATIONS ==================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

@@ -1,4 +1,8 @@
-/* /webapp/20L/components/dashboard.js v1.0.2 */
+/* /webapp/20L/components/dashboard.js v1.0.3 */
+// CHANGELOG v1.0.3:
+// - FIXED: Use global window.i18n (Android freeze fix)
+// - REMOVED: Local i18n import attempt
+// - ADDED: Proper t() binding at function level
 // CHANGELOG v1.0.2:
 // - FIXED: Import i18n from ../i18n.js (module-local)
 // CHANGELOG v1.0.1:
@@ -13,7 +17,6 @@
 
 import { getCounterparties, createCounterparty } from '../services/counterpartyService.js';
 import { getDashboardStats, getLeadsProgress } from '../services/dashboardService.js';
-// import { t } from '../i18n.js';
 import './counterpartyModal.js'; // ✅ Import to expose global functions
 
 // Pagination state
@@ -25,7 +28,6 @@ let currentFilters = {};
  * Render dashboard
  */
 export async function renderDashboard(accountId, productId) {
-
   const t = window.i18n.t.bind(window.i18n);
 
   try {
@@ -176,6 +178,8 @@ export async function renderDashboard(accountId, productId) {
  * Render counterparties list
  */
 function renderCounterpartiesList(counterparties, accountId, productId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   if (counterparties.length === 0) {
     return `
       <div class="empty-state">
@@ -218,6 +222,8 @@ function renderCounterpartiesList(counterparties, accountId, productId) {
  * Render pagination
  */
 function renderPagination(totalItems, accountId, productId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   
   if (totalPages <= 1) return '';

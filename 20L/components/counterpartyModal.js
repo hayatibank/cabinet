@@ -1,4 +1,8 @@
-/* /webapp/20L/components/counterpartyModal.js v1.0.2 */
+/* /webapp/20L/components/counterpartyModal.js v1.0.3 */
+// CHANGELOG v1.0.3:
+// - FIXED: Use global window.i18n (Android freeze fix)
+// - REMOVED: Local i18n import attempt
+// - ADDED: Proper t() binding at function level
 // CHANGELOG v1.0.2:
 // - FIXED: Import i18n from ../i18n.js (module-local)
 // CHANGELOG v1.0.1:
@@ -12,9 +16,6 @@
 
 import { getCounterparties, createCounterparty, updateCounterparty, deleteCounterparty, moveToNextStage } from '../services/counterpartyService.js';
 import { renderDashboard } from './dashboard.js';
-// import { t } from '../i18n.js';
-
-const t = window.i18n.t.bind(window.i18n);
 
 /**
  * Show create counterparty modal
@@ -34,6 +35,8 @@ window.showCreateCounterpartyModal = function(accountId, productId) {
  * Open counterparty modal (edit)
  */
 window.openCounterpartyModal = async function(accountId, productId, counterpartyId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   try {
     // Fetch counterparty data
     const counterparties = await getCounterparties(accountId, { productId });
@@ -57,6 +60,8 @@ window.openCounterpartyModal = async function(accountId, productId, counterparty
  * Create counterparty modal HTML
  */
 function createCounterpartyModal(accountId, productId, counterparty = null) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   const isEdit = !!counterparty;
   const modal = document.createElement('div');
   modal.className = 'modal counterparty-modal';
@@ -194,6 +199,8 @@ function createCounterpartyModal(accountId, productId, counterparty = null) {
  * Save counterparty (create or update)
  */
 window.saveCounterparty = async function(accountId, productId, counterpartyId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   try {
     const form = document.getElementById('counterpartyForm');
     const errorEl = document.getElementById('counterpartyError');
@@ -257,6 +264,8 @@ window.saveCounterparty = async function(accountId, productId, counterpartyId) {
  * Move counterparty to next stage
  */
 window.moveCounterpartyToNextStage = async function(accountId, productId, counterpartyId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   try {
     const currentStage = document.getElementById('counterpartyCycleStage').value;
     const currentStatus = document.getElementById('counterpartyStatus').value;
@@ -283,6 +292,8 @@ window.moveCounterpartyToNextStage = async function(accountId, productId, counte
  * Delete counterparty (with confirmation)
  */
 window.deleteCounterpartyConfirm = async function(accountId, productId, counterpartyId) {
+  const t = window.i18n.t.bind(window.i18n);
+  
   const confirmed = confirm(t('20L.counterparty.deleteConfirm'));
   if (!confirmed) return;
   
