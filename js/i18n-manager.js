@@ -55,7 +55,7 @@ class I18nManager {
       if (tgUser?.language_code) {
         const lang = tgUser.language_code.toLowerCase().split('-')[0];
         if (this.supportedLanguages.includes(lang)) {
-          console.log('🤖 [i18n] Language from Telegram:', lang);
+          console.log('🦾 [i18n] Language from Telegram:', lang);
           return lang;
         }
       }
