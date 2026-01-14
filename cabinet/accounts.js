@@ -184,3 +184,45 @@ export async function deleteAccount(accountId) {
     throw err;
   }
 }
+
+/**
+ * Check account creation availability
+ * @returns {Promise<Object>} Availability data
+ */
+export async function checkAccountAvailability() {
+  try {
+    const session = getSession();
+    
+    if (!session || !session.authToken) {
+      throw new Error('No auth token available');
+    }
+    
+    console.log('🔍 Checking account availability...');
+    
+    const response = await fetch(`${API_URL}/api/accounts/availability?authToken=${encodeURIComponent(session.authToken)}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    if (!data.success) {
+      throw new Error('API returned success=false');
+    }
+    
+    console.log('✅ Availability data:', data.availability);
+    
+    return data.availability;
+    
+  } catch (err) {
+    console.error('❌ Error checking availability:', err);
+    throw err;
+  }
+}

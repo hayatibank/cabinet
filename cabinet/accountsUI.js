@@ -1,4 +1,13 @@
-/* /webapp/cabinet/accountsUI.js v2.2.2 */
+/* /webapp/cabinet/accountsUI.js v2.4.0 */
+// CHANGELOG v2.4.0:
+// - ADDED: Check availability before showing Create Account button
+// - Button hidden if all account types are unavailable
+// CHANGELOG v2.3.1:
+// - FIXED: Syntax error - removed extra closing braces on lines 89-90
+// CHANGELOG v2.3.0:
+// - ADDED: Graceful degradation - show cabinet even if accounts fail to load
+// - ADDED: Retry button on error
+// - IMPROVED: Error message UX
 // CHANGELOG v2.2.2:
 // - REMOVED: waitForI18n() - no longer needed
 // - ASSUMED: i18n is always ready (guaranteed by app.js)
@@ -46,19 +55,41 @@ export async function renderAccountsList() {
   } catch (err) {
     console.error('❌ Error rendering accounts:', err);
     
+    // ✅ GRACEFUL DEGRADATION: Show error message but keep cabinet functional
     const t = window.i18n.t.bind(window.i18n);
     const container = document.querySelector('.cabinet-content');
     
     if (container) {
       container.innerHTML = `
         <div class="error-message">
-          <p data-i18n="cabinet.errorLoadingAccounts">${t('cabinet.errorLoadingAccounts')}</p>
-          <button onclick="location.reload()" class="btn btn-secondary">
-            <span data-i18n="cabinet.refresh">${t('cabinet.refresh')}</span>
-          </button>
+          <h3>⚠️ ${'cabinet.errorLoadingAccounts' in window.i18n.translations ? t('cabinet.errorLoadingAccounts') : 'Ошибка загрузки аккаунтов'}</h3>
+          <p class="error-details">${err.message || 'Неизвестная ошибка'}</p>
+          <p class="error-hint">Возможно, проблема с подключением к серверу. Попробуйте ещё раз.</p>
+          <div class="error-actions">
+            <button onclick="window.location.reload()" class="btn btn-3d btn-3d-compact">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+              </svg>
+              <span>Обновить</span>
+            </button>
+            <button onclick="renderAccountsList()" class="btn btn-secondary btn-3d-compact">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+              </svg>
+              <span>Повторить</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="cabinet-info">
+          <p>📝 <strong>Ваш личный кабинет доступен</strong></p>
+          <p>Вы можете продолжить работу после исправления проблемы.</p>
         </div>
       `;
     }
+    
+    // ✅ DON'T throw - keep cabinet functional
+    // throw err;  // ❌ NO! This would crash the whole cabinet
   }
 }
 
@@ -212,21 +243,54 @@ export async function showCreateAccountButton() {
     return;
   }
   
-  actionsContainer.innerHTML = `
-    <button class="btn btn-primary btn-create-account">
-      <span data-i18n="cabinet.createAccount">${t('cabinet.createAccount')}</span>
-    </button>
-    <button onclick="showProfileMenu()" class="btn btn-secondary">
-      <span data-i18n="cabinet.settings">${t('cabinet.settings')}</span>
-    </button>
-    <button onclick="logout()" class="btn btn-ghost">
-      <span data-i18n="auth.logout.button">${t('auth.logout.button')}</span>
-    </button>
-  `;
+  // ✅ Check availability before showing button
+  let canCreateAnything = false;
+  try {
+    const { checkAccountAvailability } = await import('./accounts.js');
+    const availability = await checkAccountAvailability();
+    
+    canCreateAnything = 
+      availability.individual.canCreate ||
+      availability.business.canCreate ||
+      availability.government.canCreate;
+    
+    console.log('🔍 Account creation availability:', canCreateAnything);
+  } catch (err) {
+    console.error('⚠️ Failed to check availability:', err);
+    // Default to showing button if check fails
+    canCreateAnything = true;
+  }
   
-  const createBtn = actionsContainer.querySelector('.btn-create-account');
-  if (createBtn) {
-    createBtn.onclick = showCreateAccountForm;
+  // ✅ Only show create button if user can create something
+  if (canCreateAnything) {
+    actionsContainer.innerHTML = `
+      <button class="btn btn-primary btn-create-account">
+        <span data-i18n="cabinet.createAccount">${t('cabinet.createAccount')}</span>
+      </button>
+      <button onclick="showProfileMenu()" class="btn btn-secondary">
+        <span data-i18n="cabinet.settings">${t('cabinet.settings')}</span>
+      </button>
+      <button onclick="logout()" class="btn btn-ghost">
+        <span data-i18n="auth.logout.button">${t('auth.logout.button')}</span>
+      </button>
+    `;
+    
+    const createBtn = actionsContainer.querySelector('.btn-create-account');
+    if (createBtn) {
+      createBtn.onclick = showCreateAccountForm;
+    }
+  } else {
+    // ✅ No create button, just settings and logout
+    actionsContainer.innerHTML = `
+      <button onclick="showProfileMenu()" class="btn btn-secondary">
+        <span data-i18n="cabinet.settings">${t('cabinet.settings')}</span>
+      </button>
+      <button onclick="logout()" class="btn btn-ghost">
+        <span data-i18n="auth.logout.button">${t('auth.logout.button')}</span>
+      </button>
+    `;
+    
+    console.log('ℹ️ Create account button hidden (no available types)');
   }
 }
 

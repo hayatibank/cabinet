@@ -36,6 +36,7 @@
 @import "./components/dropdown.css";
 @import "./components/modal.css";
 @import "./components/languageSwitcher.css";  /* ✅ NEW: Language switcher */
+@import "./components/hayati-id.css";
 
 /* ==================== SCREENS ==================== */
 @import "./screens/loading.css";

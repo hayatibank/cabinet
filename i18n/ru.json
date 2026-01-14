@@ -67,6 +67,10 @@
   "cabinet.welcome": "Добро пожаловать",
   "cabinet.settings": "⚙️ Настройки",
   "cabinet.userEmail": "Email пользователя",
+  "cabinet.hayatiId": "🆔 Hayati ID",
+  "cabinet.hayatiId.standard": "Стандартный",
+  "cabinet.hayatiId.signature": "Signature",
+  "cabinet.hayatiId.tier": "Уровень",
   "cabinet.accounts": "Аккаунты",
   "cabinet.noAccounts": "У вас пока нет аккаунтов",
   "cabinet.noAccountsSubtitle": "Создайте первый аккаунт для начала работы",
@@ -543,5 +547,12 @@
   "error.savingFailed": "Ошибка сохранения",
   "error.deletingFailed": "Ошибка удаления",
   "error.notFound": "Не найдено",
-  "error.generic": "Произошла ошибка"
+  "error.generic": "Произошла ошибка",
+
+  "hayatiId.label": "Hayati ID",
+  "hayatiId.copy": "Копировать",
+  "hayatiId.copied": "✅ Скопировано!",
+  "hayatiId.info": "Ваш уникальный идентификатор в экосистеме Хаяти",
+  "hayatiId.tier.standard": "Standard",
+  "hayatiId.tier.signature": "Signature"
 }

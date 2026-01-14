@@ -67,6 +67,10 @@
   "cabinet.welcome": "Welcome",
   "cabinet.settings": "⚙️ Settings",
   "cabinet.userEmail": "User email",
+  "cabinet.hayatiId": "🆔 Hayati ID",
+  "cabinet.hayatiId.standard": "Standard",
+  "cabinet.hayatiId.signature": "Signature",
+  "cabinet.hayatiId.tier": "Tier",
   "cabinet.accounts": "Accounts",
   "cabinet.noAccounts": "You have no accounts yet",
   "cabinet.noAccountsSubtitle": "Create your first account to get started",
@@ -545,5 +549,12 @@
   "error.savingFailed": "Save failed",
   "error.deletingFailed": "Delete failed",
   "error.notFound": "Not found",
-  "error.generic": "An error occurred"
+  "error.generic": "An error occurred",
+
+  "hayatiId.label": "Hayati ID",
+  "hayatiId.copy": "Copy",
+  "hayatiId.copied": "✅ Copied!",
+  "hayatiId.info": "Your unique identifier in the Hayati ecosystem",
+  "hayatiId.tier.standard": "Standard",
+  "hayatiId.tier.signature": "Signature"
 }

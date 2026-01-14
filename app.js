@@ -1,4 +1,27 @@
-/* /webapp/app.js v3.0.3 */
+/* /webapp/app.js v3.4.1 */
+// CHANGELOG v3.4.1:
+// - FIXED: Removed alerts (silent session handling)
+// - FIXED: Infinite reload loop prevention
+// - All session management now silent (no user notifications)
+// CHANGELOG v3.4.0:
+// - ADDED: Session monitoring (checks every minute)
+// - ADDED: Visibility monitor (checks when page becomes visible)
+// - Auto-redirect to login when session expires
+// CHANGELOG v3.3.0:
+// - ADDED: Firebase duplicate init protection
+// - ADDED: Clear stale auth state on startup (prevents multi-account conflicts)
+// - ADDED: Graceful auth error handling (auto-cleanup IndexedDB)
+// - FIXED: Session expired/conflict detection with auto-reload
+// CHANGELOG v3.2.0:
+// - FIXED: Removed experimentalForceLongPolling (causes offline issues)
+// - Firestore now uses default WebSocket connection
+// CHANGELOG v3.1.1:
+// - ADDED: Try-catch fallback for getUserData() (Firestore offline handling)
+// - Cabinet now shows even if Firestore is offline
+// CHANGELOG v3.1.0:
+// - ADDED: getUserData() to fetch full user data from Firestore
+// - FIXED: showCabinet() now receives full userData (including hayatiId)
+// - User data now loaded before cabinet display
 // CHANGELOG v3.0.3:
 // - FIXED: Explicit updatePage() call after i18n init with 50ms delay
 // - ADDED: Wait for DOM to be fully ready before first translation update
@@ -18,6 +41,8 @@ import { setupLoginHandler, setupRegisterHandler, setupResetHandler, setupFormSw
 import { getSession, saveSession, getCurrentChatId, listAllSessions } from './js/session.js';
 import { showLoadingScreen, showAuthScreen, showCabinet } from './js/ui.js';
 import { setupTokenInterceptor, setupPeriodicTokenCheck, setupBackgroundTokenRefresh, ensureFreshToken } from './js/tokenManager.js';
+import { getUserData } from './js/userService.js'; // ✅ NEW
+import { setupSessionMonitor, setupVisibilityMonitor } from './js/sessionMonitor.js'; // ✅ NEW
 import './auth/accountActions.js';
 import './cabinet/accountsUI.js';
 import { claimHYC } from './HayatiCoin/hycService.js';
@@ -68,15 +93,37 @@ window.addEventListener('DOMContentLoaded', async () => {
     // ==================== STEP 3: FIREBASE INIT ====================
     console.log('🔥 [app.js] Step 3/7: Initializing Firebase...');
     
-    const app = initializeApp(FIREBASE_CONFIG);
+    // ✅ Check if Firebase already initialized (prevent duplicate init)
+    let app;
+    try {
+      app = initializeApp(FIREBASE_CONFIG);
+    } catch (err) {
+      if (err.code === 'app/duplicate-app') {
+        console.log('⚠️ Firebase already initialized, using existing instance');
+        const { getApp } = await import('https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js');
+        app = getApp();
+      } else {
+        throw err;
+      }
+    }
+    
     const auth = getAuth(app);
+    
+    // ✅ Clear any stale auth state on startup
+    try {
+      await auth.signOut();
+      console.log('🧹 Cleared stale Firebase auth state');
+    } catch (cleanupErr) {
+      console.log('ℹ️ No auth state to clear');
+    }
+    
     const db = initializeFirestore(app, {
-      experimentalForceLongPolling: true,
       cacheSizeBytes: CACHE_SIZE_UNLIMITED
+      // ❌ REMOVED: experimentalForceLongPolling - causes offline issues
     });
     
     console.log('✅ Firebase initialized');
-    console.log('🔌 Firestore: Long Polling mode');
+    console.log('🔌 Firestore: WebSocket mode (default)');
     
     // ==================== STEP 4: TOKEN MANAGEMENT ====================
     console.log('🔒 [app.js] Step 4/7: Setting up token management...');
@@ -84,8 +131,11 @@ window.addEventListener('DOMContentLoaded', async () => {
     setupTokenInterceptor();
     setupPeriodicTokenCheck();
     setupBackgroundTokenRefresh();
+    setupSessionMonitor(); // ✅ NEW: Monitor session expiry
+    setupVisibilityMonitor(); // ✅ NEW: Check session on page visible
     
     console.log('✅ Token auto-refresh enabled');
+    console.log('✅ Session monitoring enabled');
     
     // ==================== STEP 5: AUTH HANDLERS ====================
     console.log('🔐 [app.js] Step 5/7: Setting up auth handlers...');
@@ -126,8 +176,17 @@ window.addEventListener('DOMContentLoaded', async () => {
         // Claim HYC for app login (silent)
         await claimHYC('app_login');
         
-        // ✅ NOW show cabinet (i18n is ready)
-        showCabinet({ uid: session.uid, email: session.email });
+        // ✅ Fetch full user data from Firestore (with fallback)
+        let userData;
+        try {
+          userData = await getUserData(session.uid);
+        } catch (err) {
+          console.warn('⚠️ [Session] Could not fetch user data, using minimal data:', err.message);
+          userData = null;
+        }
+        
+        // ✅ NOW show cabinet with full userData (including hayatiId)
+        showCabinet(userData || { uid: session.uid, email: session.email });
       } else {
         console.log('⚠️ Token expired');
         showAuthScreen('login');
@@ -165,7 +224,16 @@ window.addEventListener('DOMContentLoaded', async () => {
             // Claim HYC for app login (silent)
             await claimHYC('app_login');
             
-            showCabinet({ uid: user.uid, email: user.email });
+            // ✅ Fetch full user data from Firestore (with fallback)
+            let userData;
+            try {
+              userData = await getUserData(user.uid);
+            } catch (err) {
+              console.warn('⚠️ [Telegram] Could not fetch user data, using minimal data:', err.message);
+              userData = null;
+            }
+            
+            showCabinet(userData || { uid: user.uid, email: user.email });
           } else {
             console.log('⚠️ Silent login failed');
             showAuthScreen('login');
@@ -182,8 +250,47 @@ window.addEventListener('DOMContentLoaded', async () => {
     
     console.log('✅✅✅ App initialization complete!');
     
+    // ✅ Clear cleanup flag on success
+    sessionStorage.removeItem('firebase_cleanup_attempted');
+    
   } catch (err) {
     console.error('❌❌❌ CRITICAL ERROR during initialization:', err);
+    
+    // ✅ Handle Firebase auth errors gracefully
+    if (err.code && err.code.startsWith('auth/')) {
+      console.log('🧹 Firebase auth error detected, clearing state...');
+      
+      // Check if we already tried cleanup (prevent infinite loop)
+      const cleanupAttempted = sessionStorage.getItem('firebase_cleanup_attempted');
+      if (cleanupAttempted) {
+        console.error('❌ Cleanup already attempted, showing login instead');
+        sessionStorage.removeItem('firebase_cleanup_attempted');
+        showAuthScreen('login');
+        return;
+      }
+      
+      // Mark cleanup as attempted
+      sessionStorage.setItem('firebase_cleanup_attempted', 'true');
+      
+      // Clear IndexedDB and localStorage SILENTLY
+      try {
+        localStorage.clear();
+        const databases = await indexedDB.databases();
+        databases.forEach(db => {
+          if (db.name?.includes('firebase')) {
+            indexedDB.deleteDatabase(db.name);
+            console.log(`🗑️ Deleted Firebase DB: ${db.name}`);
+          }
+        });
+      } catch (cleanErr) {
+        console.error('⚠️ Cleanup failed:', cleanErr);
+      }
+      
+      // SILENT reload - no alert, just refresh
+      console.log('🔄 Reloading page...');
+      window.location.reload();
+      return;
+    }
     
     // Show error to user
     alert(`Initialization failed: ${err.message}\n\nPlease refresh the page.`);

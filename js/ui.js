@@ -1,4 +1,7 @@
-/* /webapp/js/ui.js v2.0.0 */
+/* /webapp/js/ui.js v2.1.0 */
+// CHANGELOG v2.1.0:
+// - ADDED: Hayati ID display in cabinet
+// - Import renderHayatiIdInCabinet component
 // CHANGELOG v2.0.0:
 // - ADDED: HYC balance display on cabinet open
 // - Import getHYCBalance and renderHYCBalance
@@ -10,6 +13,7 @@
 
 import { getHYCBalance } from '../HayatiCoin/hycService.js';
 import { renderHYCBalance } from '../HayatiCoin/hycUI.js';
+import { renderHayatiIdInCabinet } from './components/hayatiIdDisplay.js';
 
 // DOM Elements
 const loadingScreen = document.getElementById('loadingScreen');
@@ -80,7 +84,15 @@ export async function showCabinet(userData) {
   
   console.log('✅ Cabinet opened for:', userData.email);
   
-  // ✅ NEW: Fetch and display HYC balance
+  // ✅ NEW: Render Hayati ID (before HYC, as it's more important)
+  try {
+    renderHayatiIdInCabinet(userData);
+  } catch (err) {
+    console.warn('⚠️ [Hayati ID] Failed to render:', err);
+    // Silent fail - no UI error
+  }
+  
+  // ✅ Fetch and display HYC balance
   try {
     const hycData = await getHYCBalance();
     if (hycData && hycData.success) {

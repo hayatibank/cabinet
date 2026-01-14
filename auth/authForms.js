@@ -1,4 +1,9 @@
-/* /webapp/auth/authForms.js v2.2.0 */
+/* /webapp/auth/authForms.js v2.3.1 */
+// CHANGELOG v2.3.1:
+// - ADDED: Try-catch fallback for getUserData() (Firestore offline handling)
+// CHANGELOG v2.3.0:
+// - ADDED: getUserData() to fetch full user data after login/register
+// - FIXED: showCabinet() now receives full userData (including hayatiId)
 // CHANGELOG v2.2.0:
 // - MIGRATED: From modular i18n to global window.i18n
 // - REMOVED: import { t } (Android freeze fix)
@@ -23,6 +28,7 @@ import { linkTelegramAccount, createUserDocument } from '../js/api.js';
 import { saveSession, getCurrentChatId } from '../js/session.js';
 import { showLoadingScreen, showAuthScreen, showCabinet, showError, showSuccess, clearErrors } from '../js/ui.js';
 import { requestRegistrationReward } from '../HayatiCoin/hycService.js';
+import { getUserData } from '../js/userService.js'; // ✅ NEW
 
 // Get Telegram WebApp
 const tg = window.Telegram?.WebApp;
@@ -78,8 +84,17 @@ export function setupLoginHandler(auth) {
       // ✅ Request HYC registration reward
       await requestRegistrationReward(user.uid);
 
+      // ✅ Fetch full user data from Firestore (with fallback)
+      let userData;
+      try {
+        userData = await getUserData(user.uid);
+      } catch (err) {
+        console.warn('⚠️ [Login] Could not fetch user data, using minimal data:', err.message);
+        userData = null;
+      }
+      
       // Show cabinet
-      showCabinet({ uid: user.uid, email: user.email });
+      showCabinet(userData || { uid: user.uid, email: user.email });
       
     } catch (error) {
       document.getElementById('loginBtn').disabled = false;
@@ -212,8 +227,17 @@ export function setupRegisterHandler(auth, db) {
         email: user.email
       }, chatId);
       
+      // ✅ Fetch full user data from Firestore (with fallback)
+      let userData;
+      try {
+        userData = await getUserData(user.uid);
+      } catch (err) {
+        console.warn('⚠️ [Register] Could not fetch user data, using minimal data:', err.message);
+        userData = null;
+      }
+      
       // Show cabinet
-      showCabinet({ uid: user.uid, email: user.email });
+      showCabinet(userData || { uid: user.uid, email: user.email });
       
     } catch (error) {
       console.error('❌ Registration error:', error);

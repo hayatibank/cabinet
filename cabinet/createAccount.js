@@ -1,4 +1,8 @@
-/* /webapp/cabinet/createAccount.js v1.7.0 */
+/* /webapp/cabinet/createAccount.js v2.0.0 */
+// CHANGELOG v2.0.0:
+// - ADDED: Check account availability before rendering form
+// - ADDED: Dynamic disabled state based on .env feature flags
+// - Cards are disabled if featureEnabled=false
 // CHANGELOG v1.7.0:
 // - MIGRATED: From modular i18n to global window.i18n
 // - REMOVED: import { t } (Android freeze fix)
@@ -11,7 +15,7 @@ import { formatHYC } from '../HayatiCoin/hycService.js';
 /**
  * Show create account form
  */
-export function showCreateAccountForm() {
+export async function showCreateAccountForm() {
   const t = window.i18n.t.bind(window.i18n);
   
   console.log('📝 Showing create account form');
@@ -23,6 +27,29 @@ export function showCreateAccountForm() {
     return;
   }
   
+  // ✅ Check availability
+  let availability;
+  try {
+    const { checkAccountAvailability } = await import('./accounts.js');
+    availability = await checkAccountAvailability();
+  } catch (err) {
+    console.error('⚠️ Failed to get availability:', err);
+    // Default to individual only
+    availability = {
+      individual: { featureEnabled: true, canCreate: true },
+      business: { featureEnabled: false, canCreate: false },
+      government: { featureEnabled: false, canCreate: false }
+    };
+  }
+  
+  // Determine which type is selected by default
+  let defaultType = 'individual';
+  if (!availability.individual.canCreate && availability.business.canCreate) {
+    defaultType = 'business';
+  } else if (!availability.individual.canCreate && !availability.business.canCreate && availability.government.canCreate) {
+    defaultType = 'government';
+  }
+  
   container.innerHTML = `
     <div class="create-account-form">
       <h2 data-i18n="cabinet.createAccount.title">${t('cabinet.createAccount.title')}</h2>
@@ -31,19 +58,19 @@ export function showCreateAccountForm() {
         <p class="form-label" data-i18n="cabinet.accountType.selectType">${t('cabinet.accountType.selectType')}:</p>
         
         <div class="type-cards">
-          <div class="type-card active" data-type="individual">
+          <div class="type-card ${availability.individual.canCreate ? (defaultType === 'individual' ? 'active' : '') : 'disabled'}" data-type="individual">
             <div class="type-icon">👤</div>
             <h3 data-i18n="cabinet.createAccount.individual">${t('cabinet.createAccount.individual')}</h3>
             <p data-i18n="cabinet.createAccount.individualDesc">${t('cabinet.createAccount.individualDesc')}</p>
           </div>
           
-          <div class="type-card disabled" data-type="business">
+          <div class="type-card ${availability.business.canCreate ? (defaultType === 'business' ? 'active' : '') : 'disabled'}" data-type="business">
             <div class="type-icon">🏢</div>
             <h3 data-i18n="cabinet.createAccount.business">${t('cabinet.createAccount.business')}</h3>
             <p data-i18n="cabinet.createAccount.businessDesc">${t('cabinet.createAccount.businessDesc')}</p>
           </div>
           
-          <div class="type-card disabled" data-type="government">
+          <div class="type-card ${availability.government.canCreate ? (defaultType === 'government' ? 'active' : '') : 'disabled'}" data-type="government">
             <div class="type-icon">🏛️</div>
             <h3 data-i18n="cabinet.createAccount.government">${t('cabinet.createAccount.government')}</h3>
             <p data-i18n="cabinet.createAccount.governmentDesc">${t('cabinet.createAccount.governmentDesc')}</p>
