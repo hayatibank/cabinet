@@ -1,5 +1,19 @@
-/* /webapp/accountDashboard/dashboard.css v1.0.0 */
-/* CHANGELOG v1.0.0:
+/* /webapp/accountDashboard/dashboard.css v1.4.0 */
+/* CHANGELOG v1.4.0:
+ * - ADDED: Inactive steps now have same dimming (opacity 0.5) as locked steps
+ * - ADDED: Inactive step numbers use neon-blue background
+ * - Premium users now see consistent dimming on all non-active steps
+ * CHANGELOG v1.3.0:
+ * - ENHANCED: Brighter lock icon (opacity 0.8, brightness filter)
+ * - ENHANCED: Step numbers for locked steps now use neon-blue with slight transparency
+ * CHANGELOG v1.2.0:
+ * - FIXED: Step labels now always use neon-blue color (removed locked override)
+ * - All step labels now have consistent color regardless of lock state
+ * CHANGELOG v1.1.0:
+ * - CHANGED: Step labels now use neon-blue color for better visibility
+ * - ADDED: Locked state for premium steps (2-4)
+ * - ADDED: Lock icon and disabled state styling
+ * CHANGELOG v1.0.0:
  * - Initial release
  * - Extracted from css/screens/dashboard.css
  * - Isolated for Account Dashboard module
@@ -90,10 +104,58 @@
   box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
 }
 
+/* ✅ NEW: Inactive steps (not active, not locked) - same as locked but no lock icon */
+.nav-step:not(.active):not(.locked) {
+  opacity: 0.5; /* Same dimming as locked steps */
+}
+
+.nav-step:not(.active):not(.locked) .step-number {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--neon-blue);
+}
+
+/* ==================== LOCKED STEPS ==================== */
+
+.nav-step.locked {
+  cursor: not-allowed;
+  opacity: 0.5;
+  position: relative;
+}
+
+.nav-step.locked:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border);
+  transform: none;
+}
+
+.nav-step.locked .step-number {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ✅ REMOVED: .step-label color override - now always neon-blue */
+
+.lock-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 12px;
+  opacity: 0.8; /* ✅ Increased from 0.6 */
+  filter: brightness(1.5); /* ✅ Make lock brighter */
+}
+
 .step-label {
   font-size: 12px;
   text-align: center;
   white-space: nowrap;
+  color: var(--neon-blue);
+  font-weight: 500;
+}
+
+/* ✅ NEW: Brighten step number for locked steps */
+.nav-step.locked .step-number {
+  background: rgba(0, 240, 255, 0.15); /* ✅ Increased from 0.05 */
+  color: var(--neon-blue);           /* ✅ Use neon-blue instead of muted */
+  opacity: 0.7;                      /* ✅ Slightly transparent */
 }
 
 /* ==================== DASHBOARD CONTENT ==================== */

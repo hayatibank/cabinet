@@ -556,5 +556,9 @@
   "hayatiId.copied": "✅ Copied!",
   "hayatiId.info": "Your unique identifier in the Hayati ecosystem",
   "hayatiId.tier.standard": "Standard",
-  "hayatiId.tier.signature": "Signature"
+  "hayatiId.tier.signature": "Signature",
+
+  "premium.locked.title": "🔒 Premium Section",
+  "premium.locked.message": "This section is only available for premium users.\n\nComing soon for everyone!",
+  "dashboard.backToList": "Back to list"
 }

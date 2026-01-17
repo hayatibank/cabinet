@@ -1,4 +1,8 @@
-/* /webapp/js/cabinet/reports/financialReport.js v1.2.0 */
+/* /webapp/js/cabinet/reports/financialReport.js v1.3.0 */
+// CHANGELOG v1.3.0:
+// - CRITICAL: Made Offering Zone fully async and isolated (prevents Android freeze)
+// - Added timeouts: 3s for exchange rates, 5s for offering zone
+// - Offering zone now loads in background without blocking financial report
 // CHANGELOG v1.2.0:
 // - Added Offering Zone integration
 // - Fetch exchange rates for unit conversion
@@ -74,19 +78,11 @@ export async function renderFinancialReport(accountId, year = new Date().getFull
     
     console.log('✅ Financial report rendered');
     
-    // 🆕 NEW: Render Offering Zone
-    try {
-      // Fetch exchange rates
-      const rates = await fetchExchangeRates();
-      
-      // Render offering zone
-      await renderOfferingZone(accountId, year, reportData, rates);
-      
-      console.log('✅ Offering zone rendered');
-    } catch (offerErr) {
-      console.error('❌ Error rendering offering zone:', offerErr);
-      // Don't block financial report if offerings fail
-    }
+    // ✅ NEW: Render Offering Zone (NON-BLOCKING, ISOLATED)
+    // Don't wait for offering zone - let it load in background
+    renderOfferingZoneAsync(accountId, year, reportData).catch(err => {
+      console.error('❌ Offering zone failed (non-critical):', err);
+    });
     
   } catch (err) {
     console.error('❌ Error rendering financial report:', err);
@@ -102,6 +98,33 @@ export async function renderFinancialReport(accountId, year = new Date().getFull
         </div>
       `;
     }
+  }
+}
+
+/**
+ * Render offering zone asynchronously (non-blocking)
+ */
+async function renderOfferingZoneAsync(accountId, year, reportData) {
+  try {
+    console.log('🎁 [Background] Loading offering zone...');
+    
+    // ✅ Fetch exchange rates with timeout
+    const rates = await Promise.race([
+      fetchExchangeRates(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Rates timeout')), 3000))
+    ]);
+    
+    // ✅ Render offering zone with timeout
+    await Promise.race([
+      renderOfferingZone(accountId, year, reportData, rates),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Offering zone timeout')), 5000))
+    ]);
+    
+    console.log('✅ [Background] Offering zone loaded successfully');
+    
+  } catch (err) {
+    console.warn('⚠️ [Background] Offering zone failed (non-critical):', err.message);
+    // Don't show error to user - offering zone is optional
   }
 }
 

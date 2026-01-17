@@ -554,5 +554,9 @@
   "hayatiId.copied": "✅ Скопировано!",
   "hayatiId.info": "Ваш уникальный идентификатор в экосистеме Хаяти",
   "hayatiId.tier.standard": "Standard",
-  "hayatiId.tier.signature": "Signature"
+  "hayatiId.tier.signature": "Signature",
+
+  "premium.locked.title": "🔒 Premium раздел",
+  "premium.locked.message": "Этот раздел доступен только premium пользователям.\n\nСкоро будет доступно для всех!",
+  "dashboard.backToList": "Назад к списку"
 }

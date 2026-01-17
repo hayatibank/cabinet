@@ -1,4 +1,7 @@
-/* /webapp/offeringZone/offeringService.js v2.0.0 */
+/* /webapp/offeringZone/offeringService.js v2.1.0 */
+// CHANGELOG v2.1.0:
+// - ADDED: 4-second timeout for fetchMarketSnapshot (prevents Android freeze)
+// - Market snapshot fetch is now non-blocking and gracefully fails
 // CHANGELOG v2.0.0:
 // - BREAKING: Now uses market pool (/HBD_AVAILABLE_UNITS)
 // - REMOVED: fetchAvailableUnits() - obsolete
@@ -61,17 +64,23 @@ export async function fetchMarketSnapshot() {
     
     console.log('📊 Fetching market snapshot from pool...');
     
-    const response = await fetch(`${API_URL}/api/firestore/get`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
-      },
-      body: JSON.stringify({
-        path: 'HBD_AVAILABLE_UNITS',
-        authToken: session.authToken
-      })
-    });
+    // ✅ Add timeout to prevent Android freeze (4 seconds)
+    const response = await Promise.race([
+      fetch(`${API_URL}/api/firestore/get`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+          path: 'HBD_AVAILABLE_UNITS',
+          authToken: session.authToken
+        })
+      }),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Market snapshot timeout')), 4000)
+      )
+    ]);
     
     if (!response.ok) {
       console.warn('⚠️ Market pool not found or empty');
@@ -93,7 +102,7 @@ export async function fetchMarketSnapshot() {
     return units;
     
   } catch (err) {
-    console.error('❌ Error fetching market snapshot:', err);
+    console.error('❌ Error fetching market snapshot:', err.message);
     return [];
   }
 }
