@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "tms-test-nlyynt"
+  },
+  "targets": {
+    "tms-test-nlyynt": {
+      "hosting": {
+        "cabinet": [
+          "cabinet-hayatibank"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

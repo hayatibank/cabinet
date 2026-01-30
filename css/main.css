@@ -1,4 +1,4 @@
-/* /webapp/css/main.css v1.9.0 */
+﻿/* /webapp/css/main.css v1.9.0 */
 /* CHANGELOG v1.9.0:
  * - ADDED: ../js/utils/languageSwitcher.css (language switcher component)
  * CHANGELOG v1.8.0:
@@ -37,6 +37,7 @@
 @import "./components/modal.css";
 @import "./components/languageSwitcher.css";  /* ✅ NEW: Language switcher */
 @import "./components/hayati-id.css";
+@import "./components/home-button.css";
 
 /* ==================== SCREENS ==================== */
 @import "./screens/loading.css";
