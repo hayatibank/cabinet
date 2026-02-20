@@ -8,8 +8,7 @@
  * CHANGELOG v1.7.0:
  * - ADDED: ../HayatiCoin/hayatiCoin.css
  * CHANGELOG v1.6.0:
- * - ADDED: ../auth/auth.css
- * - REMOVED: ./screens/auth.css (moved to module)
+  * - REMOVED: ./screens/auth.css (moved to module)
  */
 
 /* ==================== BASE ==================== */
@@ -44,7 +43,6 @@
 @import "./screens/loading.css";
 
 /* ==================== MODULES (isolated) ==================== */
-@import "../auth/auth.css";
 @import "../cabinet/cabinet.css";
 @import "../accountDashboard/dashboard.css";
 @import "../finStatement/financial-report.css";
@@ -76,3 +74,5 @@ body.i18n-pending [data-i18n]:not(input):not(textarea) {
  * See: /webapp/demo/buttons-demo.html for examples
  * See: /webapp/css/components/MIGRATION_GUIDE.md for full guide
  */
+
+

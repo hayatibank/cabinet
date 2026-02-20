@@ -1,96 +1,10 @@
-/* /webapp/js/api.js v1.2.9 */
-// CHANGELOG v1.2.9:
-// - Added createUserDocument function for backend user creation
-// CHANGELOG v1.2.8:
-// - All backend API calls - Fixed for ngrok
+﻿/* /webapp/js/api.js v2.0.0 */
+// CHANGELOG v2.0.0:
+// - REMOVED: legacy Telegram binding/silent login/token validation helpers
+// - CLEANUP: removed ngrok-specific headers
+// - KEPT: account linking and user/session management helpers
 
 import { API_URL } from './config.js';
-
-/**
- * Check if Telegram chatId is linked to Firebase UID
- */
-export async function checkTelegramBinding(chatId, initData) {
-  try {
-    console.log('🔍 Checking Telegram binding...');
-    
-    const response = await fetch(`${API_URL}/api/check-telegram-binding`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
-      },
-      body: JSON.stringify({ chatId, initData })
-    });
-    
-    if (!response.ok) {
-      console.error('❌ Binding check failed:', response.status);
-      return null;
-    }
-    
-    const result = await response.json();
-    console.log('✅ Binding check result:', result);
-    return result;
-  } catch (err) {
-    console.error('❌ Error checking binding:', err);
-    return null;
-  }
-}
-
-/**
- * Silent login using existing Telegram binding
- */
-export async function silentLogin(uid, chatId, initData) {
-  try {
-    console.log('🔐 Attempting silent login...');
-    
-    const response = await fetch(`${API_URL}/api/silent-login`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
-      },
-      body: JSON.stringify({ uid, chatId, initData })
-    });
-    
-    if (!response.ok) {
-      console.error('❌ Silent login failed:', response.status);
-      return null;
-    }
-    
-    const result = await response.json();
-    console.log('✅ Silent login successful');
-    return result;
-  } catch (err) {
-    console.error('❌ Error during silent login:', err);
-    return null;
-  }
-}
-
-/**
- * Validate Firebase auth token
- */
-export async function validateToken(authToken, uid) {
-  try {
-    const response = await fetch(`${API_URL}/api/validate-token`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
-      },
-      body: JSON.stringify({ authToken, uid })
-    });
-    
-    if (!response.ok) {
-      return false;
-    }
-    
-    const result = await response.json();
-    return result.valid === true;
-  } catch (err) {
-    console.error('❌ Error validating token:', err);
-    return false;
-  }
-}
 
 /**
  * Link Telegram account to Firebase user
@@ -98,23 +12,16 @@ export async function validateToken(authToken, uid) {
 export async function linkTelegramAccount(uid, authToken, telegramData) {
   try {
     const { chatId, initData, user } = telegramData;
-    
+
     if (!chatId || !initData) {
-      console.warn('⚠️ No Telegram data for linking');
+      console.warn('[api] No Telegram data for linking');
       return false;
     }
-    
-    console.log('🔗 Linking Telegram account:', {
-      chatId,
-      username: user?.username,
-      firstName: user?.first_name
-    });
-    
+
     const response = await fetch(`${API_URL}/api/link-telegram`, {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
+      headers: {
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         uid,
@@ -124,16 +31,16 @@ export async function linkTelegramAccount(uid, authToken, telegramData) {
         authToken
       })
     });
-    
+
     if (!response.ok) {
-      console.error('❌ Linking failed:', response.status);
+      console.error('[api] Linking failed:', response.status);
       return false;
     }
-    
-    console.log('✅ Telegram linked successfully');
+
+    console.log('[api] Telegram linked successfully');
     return true;
   } catch (err) {
-    console.error('❌ Error linking Telegram:', err);
+    console.error('[api] Error linking Telegram:', err);
     return false;
   }
 }
@@ -143,27 +50,23 @@ export async function linkTelegramAccount(uid, authToken, telegramData) {
  */
 export async function deleteUserAccount(uid, authToken) {
   try {
-    console.log('🗑️ Deleting user account...');
-    
     const response = await fetch(`${API_URL}/api/delete-account`, {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
+      headers: {
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ uid, authToken })
     });
-    
+
     if (!response.ok) {
-      console.error('❌ Account deletion failed:', response.status);
+      console.error('[api] Account deletion failed:', response.status);
       return false;
     }
-    
+
     const result = await response.json();
-    console.log('✅ Account deleted successfully');
     return result.success === true;
   } catch (err) {
-    console.error('❌ Error deleting account:', err);
+    console.error('[api] Error deleting account:', err);
     return false;
   }
 }
@@ -173,59 +76,50 @@ export async function deleteUserAccount(uid, authToken) {
  */
 export async function deleteTelegramSession(chatId, uid, authToken) {
   try {
-    console.log('🗑️ Deleting telegram_sessions...');
-    
     const response = await fetch(`${API_URL}/api/logout-telegram`, {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
+      headers: {
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ chatId, uid, authToken })
     });
-    
+
     if (!response.ok) {
-      console.error('❌ Session deletion failed:', response.status);
+      console.error('[api] Session deletion failed:', response.status);
       return false;
     }
-    
+
     const result = await response.json();
-    console.log('✅ telegram_sessions deleted');
     return result.success === true;
   } catch (err) {
-    console.error('❌ Error deleting telegram_sessions:', err);
+    console.error('[api] Error deleting telegram_sessions:', err);
     return false;
   }
 }
 
 /**
  * Create user document via backend
- * ✅ NEW: Solves Firestore WebSocket issues
  */
 export async function createUserDocument(uid, authToken, userData) {
   try {
-    console.log('📝 Creating user document via backend...');
-    
     const response = await fetch(`${API_URL}/api/users/create`, {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
+      headers: {
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ uid, authToken, userData })
     });
-    
+
     if (!response.ok) {
-      const error = await response.json();
-      console.error('❌ User creation failed:', error);
+      const error = await response.json().catch(() => ({}));
+      console.error('[api] User creation failed:', error);
       return false;
     }
-    
+
     const result = await response.json();
-    console.log('✅ User document created via backend');
     return result.success === true;
   } catch (err) {
-    console.error('❌ Error creating user document:', err);
+    console.error('[api] Error creating user document:', err);
     return false;
   }
 }

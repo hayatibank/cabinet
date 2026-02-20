@@ -12,8 +12,9 @@ export const FIREBASE_CONFIG = {
   measurementId: "G-BYXEPGS2LM"
 };
 
-// Main backend API
-export const API_URL = 'https://bot-production-4fe8.up.railway.app';
+// Main backend API (canonical)
+export const API_URL = 'https://api.hayatibank.ru';
 
 // Canonical preferences sync endpoint (shared across apps)
 export const PREFERENCES_API_URL = 'https://api.hayatibank.ru/api/preferences';
+

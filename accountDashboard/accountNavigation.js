@@ -157,14 +157,11 @@ export async function showAccountDashboard(accountId) {
 
     let premiumStatus;
     try {
-      premiumStatus = await Promise.race([
-        checkPremiumStatus(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
-      ]);
+      premiumStatus = await checkPremiumStatus();
       premiumStatus = normalizePremiumStatus(premiumStatus);
       console.log('[dashboard] premium status loaded:', premiumStatus);
     } catch (err) {
-      console.warn('[dashboard] premium check failed/timeout:', err.message);
+      console.warn('[dashboard] premium check failed:', err.message);
       premiumStatus = getDefaultPremiumStatus();
     }
 

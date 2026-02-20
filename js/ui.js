@@ -12,9 +12,6 @@ const loadingScreen = document.getElementById('loadingScreen');
 const authScreen = document.getElementById('authScreen');
 const cabinetScreen = document.getElementById('cabinetScreen');
 
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-const resetForm = document.getElementById('resetForm');
 const UNIFIED_AUTH_URL = 'https://auth.hayatibank.ru/';
 const RETURN_COOKIE_NAME = 'hayati_return_to';
 
@@ -69,31 +66,10 @@ export function showLoadingScreen(message = 'Loading...') {
 }
 
 export function showAuthScreen(mode = 'login') {
-  try {
-    const target = new URL(UNIFIED_AUTH_URL);
-    setReturnCookie(window.location.href);
-    if (mode && mode !== 'login') target.searchParams.set('mode', mode);
-    window.location.replace(target.toString());
-    return;
-  } catch (_err) {
-    // Fallback to legacy inline auth if URL construction fails.
-    showScreen('authScreen');
-    setDocumentTitle('auth');
-
-    if (loginForm) loginForm.classList.add('hidden');
-    if (registerForm) registerForm.classList.add('hidden');
-    if (resetForm) resetForm.classList.add('hidden');
-
-    if (mode === 'login' && loginForm) {
-      loginForm.classList.remove('hidden');
-    } else if (mode === 'register' && registerForm) {
-      registerForm.classList.remove('hidden');
-    } else if (mode === 'reset' && resetForm) {
-      resetForm.classList.remove('hidden');
-    }
-
-    clearErrors();
-  }
+  const target = new URL(UNIFIED_AUTH_URL);
+  setReturnCookie(window.location.href);
+  if (mode && mode !== 'login') target.searchParams.set('mode', mode);
+  window.location.replace(target.toString());
 }
 
 export async function showCabinet(userData) {

@@ -37,15 +37,13 @@ import { getAuth, signInWithCustomToken } from 'https://www.gstatic.com/firebase
 import { initializeFirestore, CACHE_SIZE_UNLIMITED } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
 
 import { FIREBASE_CONFIG } from './js/config.js';
-import { checkTelegramBinding, silentLogin, validateToken } from './js/api.js';
-import { setupLoginHandler, setupRegisterHandler, setupResetHandler, setupFormSwitching } from './auth/authForms.js';
 import { getSession, saveSession, getCurrentChatId, listAllSessions } from './js/session.js';
 import { showLoadingScreen, showAuthScreen, showCabinet } from './js/ui.js';
 import { setupTokenInterceptor, setupPeriodicTokenCheck, setupBackgroundTokenRefresh, ensureFreshToken } from './js/tokenManager.js';
 import { getUserData } from './js/userService.js'; // вњ… NEW
 import { setupSessionMonitor, setupVisibilityMonitor } from './js/sessionMonitor.js'; // вњ… NEW
 import { setupPreferencesCloudSync } from './js/settings/preferencesCloudSync.js';
-import './auth/accountActions.js';
+import './js/accountActions.js';
 import './cabinet/accountsUI.js';
 import { claimHYC } from './HayatiCoin/hycService.js';
 const ME_API_URL = 'https://api.hayatibank.ru/api/me';
@@ -174,15 +172,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     console.log('вњ… Token auto-refresh enabled');
     console.log('вњ… Session monitoring enabled');
     
-    // ==================== STEP 5: AUTH HANDLERS ====================
-    console.log('рџ”ђ [app.js] Step 5/7: Setting up auth handlers...');
-    
-    setupLoginHandler(auth);
-    setupRegisterHandler(auth, db);
-    setupResetHandler(auth);
-    setupFormSwitching();
-    
-    console.log('вњ… Auth handlers registered');
+    // ==================== STEP 5: UNIFIED AUTH MODE ====================
+    console.log('[app.js] Step 5/7: Unified auth mode active (auth.hayatibank.ru)');
     
     // ==================== STEP 6: SHOW LOADING SCREEN ====================
     console.log('вЏі [app.js] Step 6/7: Showing loading screen...');
@@ -204,28 +195,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         expires: new Date(session.tokenExpiry).toLocaleString()
       });
       
-      // Validate token
-      const isValid = await validateToken(session.authToken, session.uid);
-      
-      if (isValid) {
-        console.log('вњ… Token valid, loading cabinet...');
-        
-        // Claim HYC for app login (silent)
-        await claimHYC('app_login');
-        
-        // вњ… Fetch full user data from Firestore (with fallback)
-        let userData;
-        try {
-          userData = await getUserData(session.uid);
-        } catch (err) {
-          console.warn('вљ пёЏ [Session] Could not fetch user data, using minimal data:', err.message);
-          userData = null;
-        }
-        
-        // вњ… NOW show cabinet with full userData (including hayatiId)
-        showCabinet(userData || { uid: session.uid, email: session.email });
-      } else {
-        console.log('⚠️ Token expired');
+      // Ensure token is fresh and continue in unified auth mode.
+      const freshToken = await ensureFreshToken(chatId);
+
+      if (!freshToken) {
         const restored = await restoreSessionFromServerCookie(auth);
         if (restored?.uid) {
           let userData;
@@ -239,6 +212,18 @@ window.addEventListener('DOMContentLoaded', async () => {
         } else {
           showAuthScreen('login');
         }
+      } else {
+        await claimHYC('app_login');
+
+        let userData;
+        try {
+          userData = await getUserData(session.uid);
+        } catch (err) {
+          console.warn('вљ пёЏ [Session] Could not fetch user data, using minimal data:', err.message);
+          userData = null;
+        }
+
+        showCabinet(userData || { uid: session.uid, email: session.email });
       }
     } else {
       console.log('в„№пёЏ No session');
@@ -256,58 +241,8 @@ window.addEventListener('DOMContentLoaded', async () => {
         return;
       }
       
-      // Try Telegram auto-login
-      if (tg && tg.initDataUnsafe?.user) {
-        const tgChatId = tg.initDataUnsafe.user.id;
-        
-        console.log('рџ”Ќ Checking Telegram binding:', tgChatId);
-        
-        const binding = await checkTelegramBinding(tgChatId, tg.initData);
-        
-        if (binding && binding.bound) {
-          console.log('рџ”— Telegram bound to:', binding.uid);
-          
-          const silentLoginResult = await silentLogin(binding.uid, tgChatId, tg.initData);
-          
-          if (silentLoginResult && silentLoginResult.success) {
-            console.log('вњ… Silent login successful');
-            
-            const userCredential = await signInWithCustomToken(auth, silentLoginResult.customToken);
-            const user = userCredential.user;
-            const idToken = await user.getIdToken(true);
-            
-            saveSession({
-              authToken: idToken,
-              tokenExpiry: Date.now() + (60 * 60 * 1000),
-              uid: user.uid,
-              email: user.email
-            }, tgChatId);
-            
-            // Claim HYC for app login (silent)
-            await claimHYC('app_login');
-            
-            // вњ… Fetch full user data from Firestore (with fallback)
-            let userData;
-            try {
-              userData = await getUserData(user.uid);
-            } catch (err) {
-              console.warn('вљ пёЏ [Telegram] Could not fetch user data, using minimal data:', err.message);
-              userData = null;
-            }
-            
-            showCabinet(userData || { uid: user.uid, email: user.email });
-          } else {
-            console.log('вљ пёЏ Silent login failed');
-            showAuthScreen('login');
-          }
-        } else {
-          console.log('в„№пёЏ Telegram not bound');
-          showAuthScreen('login');
-        }
-      } else {
-        console.log('в„№пёЏ Not in Telegram');
-        showAuthScreen('login');
-      }
+      // Unified auth flow only: redirect to auth service.
+      showAuthScreen('login');
     }
     
     console.log('вњ…вњ…вњ… App initialization complete!');
@@ -361,5 +296,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     showAuthScreen('login');
   }
 });
+
 
 
