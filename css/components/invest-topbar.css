@@ -271,6 +271,14 @@ body {
   .topbar {
     grid-template-columns: 1fr;
     justify-items: center;
+    overflow: hidden;
+    max-height: 220px;
+    transition:
+      max-height 0.28s ease,
+      padding-top 0.24s ease,
+      padding-bottom 0.24s ease,
+      opacity 0.2s ease,
+      border-color 0.2s ease;
   }
 
   .brand-wrap,
@@ -285,6 +293,15 @@ body {
 
   .brand-frame {
     padding: 10px 22px;
+  }
+
+  /* Mobile-only autohide: JS toggles this class on body while scrolling */
+  body.mobile-topbar-hidden .topbar {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    border-color: transparent;
   }
 }
 

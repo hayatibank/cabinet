@@ -48,6 +48,56 @@ import './cabinet/accountsUI.js';
 import { claimHYC } from './HayatiCoin/hycService.js';
 const ME_API_URL = 'https://api.hayatibank.ru/api/me';
 
+function setupMobileTopbarAutoHide() {
+  const topbar = document.querySelector('.topbar');
+  if (!topbar) return;
+
+  const mq = window.matchMedia('(max-width: 900px)');
+  let lastY = window.scrollY || 0;
+  let hidden = false;
+
+  const setHidden = (nextHidden) => {
+    if (hidden === nextHidden) return;
+    hidden = nextHidden;
+    document.body.classList.toggle('mobile-topbar-hidden', hidden);
+  };
+
+  const onScroll = () => {
+    if (!mq.matches) {
+      setHidden(false);
+      lastY = window.scrollY || 0;
+      return;
+    }
+
+    const y = window.scrollY || 0;
+    const delta = y - lastY;
+    const nearTop = y < 24;
+
+    if (nearTop) {
+      setHidden(false);
+    } else if (delta > 8 && y > 80) {
+      setHidden(true);
+    } else if (delta < -8) {
+      setHidden(false);
+    }
+
+    lastY = y;
+  };
+
+  const onMediaChange = () => {
+    if (!mq.matches) {
+      setHidden(false);
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  if (typeof mq.addEventListener === 'function') {
+    mq.addEventListener('change', onMediaChange);
+  } else if (typeof mq.addListener === 'function') {
+    mq.addListener(onMediaChange);
+  }
+}
+
 async function restoreSessionFromServerCookie(auth) {
   try {
     const hostname = String(window.location.hostname || '').toLowerCase();
@@ -104,6 +154,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   console.log('рџљЂ [app.js] DOMContentLoaded - Starting initialization...');
   
   try {
+    setupMobileTopbarAutoHide();
+
     // ==================== STEP 1: I18N (CRITICAL FIRST) ====================
     console.log('рџЊЌ [app.js] Step 1/7: Initializing i18n...');
     
