@@ -50,10 +50,14 @@ function syncSettingsControls() {
   const languageSelect = document.getElementById('languageSelect');
   const currencySelect = document.getElementById('currencySelect');
   const timezoneSelect = document.getElementById('timezoneSelect');
+  const metricSystemSelect = document.getElementById('metricSystemSelect');
+  const topbarMetricSwitch = document.getElementById('topbarMetricSwitch');
 
   if (languageSelect) languageSelect.value = prefs.language;
   if (currencySelect) currencySelect.value = prefs.currency;
   if (timezoneSelect) timezoneSelect.value = prefs.timezone;
+  if (metricSystemSelect) metricSystemSelect.value = prefs.metricSystem;
+  if (topbarMetricSwitch) topbarMetricSwitch.value = prefs.metricSystem;
 }
 
 function showProfileMenu() {
@@ -104,6 +108,10 @@ function attachSettingsListeners() {
 
   document.getElementById('timezoneSelect')?.addEventListener('change', (event) => {
     saveSharedPrefs({ timezone: event.target.value });
+  });
+
+  document.getElementById('metricSystemSelect')?.addEventListener('change', (event) => {
+    saveSharedPrefs({ metricSystem: String(event.target.value || 'imperial').toLowerCase() });
   });
 
   window.addEventListener('languageChanged', (event) => {

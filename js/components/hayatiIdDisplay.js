@@ -1,15 +1,8 @@
-/* /webapp/js/components/hayatiIdDisplay.js v2.0.0 */
-// CHANGELOG v2.0.0:
-// - REDESIGN: Compact display like email (one line)
-// - Small copy icon button (no text)
-// - Removed info text and label
-// CHANGELOG v1.0.1:
-// - FIXED: Safe translation fallback (handles i18n not ready edge case)
-// CHANGELOG v1.0.0:
-// - Initial release
-// - Display Hayati ID in cabinet
-// - Copy to clipboard functionality
-// - i18n support
+﻿/* /webapp/js/components/hayatiIdDisplay.js v2.1.0 */
+// CHANGELOG v2.1.0:
+// - FIXED: UTF-8 only (removed mojibake strings)
+// - FIXED: Label now taken from i18n key (no hardcoded text)
+// - CLEANUP: Standardized logs
 
 /**
  * Render Hayati ID in cabinet
@@ -17,51 +10,43 @@
  */
 export function renderHayatiIdInCabinet(userData) {
   if (!userData || !userData.hayatiId) {
-    console.warn('⚠️ No Hayati ID found in userData');
+    console.warn('[hayati-id] No Hayati ID found in user data');
     return;
   }
 
   const hayatiId = userData.hayatiId;
   const tier = userData.hayatiIdTier || 'standard';
 
-  console.log(`🆔 Rendering Hayati ID: ${hayatiId} (${tier})`);
-
-  // Find insert position (before user email)
   const userEmailEl = document.querySelector('.user-email');
   if (!userEmailEl) {
-    console.error('❌ Cannot find .user-email element');
+    console.error('[hayati-id] Cannot find .user-email element');
     return;
   }
 
-  // Check if already rendered
   const existingContainer = document.querySelector('.hayati-id-container');
   if (existingContainer) {
-    console.log('ℹ️ Hayati ID already rendered, skipping');
+    console.log('[hayati-id] already rendered, skipping');
     return;
   }
 
-  // Get translations (safe fallback)
   const t = (key) => {
     try {
       return window.i18n?.t?.(key) || key;
-    } catch (err) {
-      console.warn(`⚠️ Translation failed for key: ${key}`, err);
+    } catch {
       return key;
     }
   };
-  
+
   const labelText = t('hayatiId.label');
   const copyText = t('hayatiId.copy');
   const copiedText = t('hayatiId.copied');
-  const infoText = t('hayatiId.info');
-  const tierText = tier === 'signature' 
-    ? t('hayatiId.tier.signature') 
+  const tierText = tier === 'signature'
+    ? t('hayatiId.tier.signature')
     : t('hayatiId.tier.standard');
 
-  // Create HTML (compact: just like email line)
   const html = `
     <div class="hayati-id-container">
-      <span>Hayati 🆔:</span>
+      <span>${labelText}:</span>
       <div class="hayati-id-value">
         <span>${hayatiId}</span>
         <span class="hayati-id-tier ${tier}">${tierText}</span>
@@ -76,16 +61,26 @@ export function renderHayatiIdInCabinet(userData) {
     </div>
   `;
 
-  // Insert before user email
   userEmailEl.insertAdjacentHTML('beforebegin', html);
 
-  // Attach copy event listener
   const copyBtn = document.querySelector('.hayati-id-copy-btn');
   if (copyBtn) {
     copyBtn.addEventListener('click', () => handleCopyHayatiId(hayatiId, copyBtn, copiedText, copyText));
   }
 
-  console.log('✅ Hayati ID rendered successfully');
+  try {
+    window.dispatchEvent(new CustomEvent('hayatiIdUpdated', {
+      detail: {
+        hayatiId,
+        tier,
+        tierText
+      }
+    }));
+  } catch (_error) {
+    // no-op
+  }
+
+  console.log('[hayati-id] rendered successfully');
 }
 
 /**
@@ -96,20 +91,18 @@ export function renderHayatiIdInCabinet(userData) {
  * @param {string} copyText - "Copy" text
  */
 function handleCopyHayatiId(hayatiId, btn, copiedText, copyText) {
-  // Copy to clipboard
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(hayatiId)
       .then(() => {
-        console.log('✅ Hayati ID copied:', hayatiId);
+        console.log('[hayati-id] copied:', hayatiId);
         showCopySuccess(btn, copiedText, copyText);
       })
-      .catch(err => {
-        console.error('❌ Failed to copy:', err);
+      .catch((err) => {
+        console.error('[hayati-id] Failed to copy:', err);
         fallbackCopy(hayatiId);
         showCopySuccess(btn, copiedText, copyText);
       });
   } else {
-    // Fallback for older browsers
     fallbackCopy(hayatiId);
     showCopySuccess(btn, copiedText, copyText);
   }
@@ -123,14 +116,12 @@ function handleCopyHayatiId(hayatiId, btn, copiedText, copyText) {
  */
 function showCopySuccess(btn, copiedText, copyText) {
   const textSpan = btn.querySelector('.copy-text');
-  
-  // Change button state
+
   btn.classList.add('copied');
   if (textSpan) {
     textSpan.textContent = copiedText;
   }
 
-  // Reset after 2 seconds
   setTimeout(() => {
     btn.classList.remove('copied');
     if (textSpan) {
@@ -150,13 +141,13 @@ function fallbackCopy(text) {
   textarea.style.opacity = '0';
   document.body.appendChild(textarea);
   textarea.select();
-  
+
   try {
     document.execCommand('copy');
-    console.log('✅ Fallback copy successful');
+    console.log('[hayati-id] fallback copy successful');
   } catch (err) {
-    console.error('❌ Fallback copy failed:', err);
+    console.error('[hayati-id] fallback copy failed:', err);
   }
-  
+
   document.body.removeChild(textarea);
 }

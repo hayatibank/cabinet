@@ -18,3 +18,4 @@ export const API_URL = 'https://api.hayatibank.ru';
 // Canonical preferences sync endpoint (shared across apps)
 export const PREFERENCES_API_URL = 'https://api.hayatibank.ru/api/preferences';
 
+/*  */

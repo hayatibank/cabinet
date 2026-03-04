@@ -223,7 +223,18 @@
     <div id="cabinetScreen" class="screen hidden">
       <div class="cabinet-card">
         <div class="cabinet-header">
+          <button id="dashboardBackIcon" class="dashboard-back-icon hidden" type="button" aria-label="Back">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M10 20L0 10 10 0l2 2-6 6h14v4H6l6 6-2 2z"/>
+            </svg>
+          </button>
           <h2 data-i18n="cabinet.title">💼 Personal Cabinet</h2>
+          <div class="cabinet-ticker" aria-live="polite">
+            <div class="cabinet-ticker-track">
+              <span id="cabinetTickerText">-</span>
+            </div>
+          </div>
+          <div id="dashboardTopContext" class="dashboard-top-context hidden" aria-live="polite"></div>
           <p class="user-email">loading...</p>
           <!-- HYC balance will be rendered here by hycUI.js -->
         </div>
@@ -267,7 +278,7 @@
           <div class="setting-item">
             <h4 data-i18n="settings.profile.title">👤 Profile</h4>
             <p class="setting-description" data-i18n="settings.profile.description">Manage profile and personal data</p>
-            <button class="btn btn-secondary btn-small" onclick="alert(window.i18n.t('settings.inDevelopment'))">
+            <button class="btn btn-secondary btn-small" onclick="openProfileEditor()">
               <span data-i18n="settings.profile.edit">Edit Profile</span>
             </button>
           </div>
@@ -302,6 +313,14 @@
                 <option value="utc">UTC</option>
               </select>
             </div>
+
+            <div class="setting-group">
+              <label for="metricSystemSelect" data-i18n="settings.language.system">System</label>
+              <select id="metricSystemSelect" class="setting-select">
+                <option value="imperial" data-i18n="settings.language.systemImperial">Imperial</option>
+                <option value="metric" data-i18n="settings.language.systemMetric">Metric</option>
+              </select>
+            </div>
           </div>
           
           <!-- Notifications Section -->
@@ -326,10 +345,110 @@
       </div>
     </div>
 
+    <!-- ======================== -->
+    <!-- PROFILE EDITOR MODAL -->
+    <!-- ======================== -->
+    <div id="profileEditorModal" class="modal hidden">
+      <div class="modal-overlay" data-editor-overlay="true"></div>
+      <div class="modal-content profile-editor-content">
+        <div class="modal-header">
+          <h3 data-i18n="profileEditor.title">Edit Profile</h3>
+          <button type="button" class="btn-close" onclick="attemptCloseProfileEditor()">×</button>
+        </div>
+        <div class="modal-body">
+          <div id="profileEditorError" class="error hidden"></div>
+          <div id="profileEditorSuccess" class="success hidden"></div>
+          <div class="profile-editor-layout">
+            <div class="profile-editor-media-col">
+              <div class="profile-photo-shell">
+                <img id="profileEditorPhotoPreview" class="profile-photo-preview" alt="Profile photo preview">
+                <div id="profileEditorPhotoSpinner" class="profile-photo-spinner hidden" aria-hidden="true"></div>
+              </div>
+              <input id="profileEditorPhotoFile" type="file" accept="image/*" class="setting-input-file-hidden">
+              <button type="button" class="btn btn-secondary btn-small profile-editor-upload-btn" onclick="document.getElementById('profileEditorPhotoFile').click()">
+                <span data-i18n="profileEditor.pickPhoto">Upload photo</span>
+              </button>
+              <div id="profileEditorPhotoFilename" class="setting-hint hidden" data-i18n="profileEditor.photoNoFile">No file selected</div>
+            </div>
+
+            <div class="profile-editor-fields-col">
+              <div class="setting-group profile-editor-field">
+                <div class="profile-editor-icon-row">
+                  <span class="profile-icon-cell" aria-hidden="true">👤</span>
+                  <input id="profileEditorDisplayName" class="setting-input" type="text" maxlength="80" data-i18n-placeholder="profileEditor.displayNamePlaceholder" placeholder="Your name">
+                </div>
+              </div>
+
+              <div class="setting-group profile-editor-field">
+                <div class="profile-editor-verify-row">
+                  <div class="profile-editor-icon-row compact">
+                    <span class="profile-icon-cell" aria-hidden="true">✉️</span>
+                    <input id="profileEditorEmail" class="setting-input" type="text" readonly>
+                  </div>
+                  <span id="profileEditorEmailVerifiedBadge" class="profile-editor-verified-badge" data-i18n="profileEditor.emailNotVerified">Not verified</span>
+                  <button id="profileEditorVerifyEmailBtn" type="button" class="btn btn-secondary btn-small" onclick="sendProfileEmailVerification()">
+                    <span data-i18n="profileEditor.sendVerification">Verify</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="setting-group profile-editor-field">
+                <div class="profile-editor-icon-row">
+                  <span class="profile-icon-cell" aria-hidden="true">📱</span>
+                  <input id="profileEditorPhoneNumber" class="setting-input" type="text" maxlength="20" data-i18n-placeholder="profileEditor.phoneNumberPlaceholder" placeholder="+79991234567">
+                </div>
+              </div>
+
+              <div class="setting-group profile-editor-field">
+                <div class="profile-editor-hayati-row">
+                  <span class="profile-icon-cell" aria-hidden="true">🆔</span>
+                  <input id="profileEditorHayatiId" class="setting-input" type="text" readonly>
+                  <span id="profileEditorHayatiTier" class="profile-editor-tier-badge">[ - ]</span>
+                  <button id="profileEditorEditHayatiBtn" type="button" class="btn btn-secondary btn-small" disabled>
+                    <span data-i18n="profileEditor.editLater">Edit (soon)</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-editor-actions">
+            <button id="profileEditorSaveBtn" type="button" class="btn profile-editor-action-btn profile-editor-action-save" onclick="saveProfileEditor()">
+              <span id="profileEditorSaveText" data-i18n="profileEditor.save">Save</span>
+            </button>
+            <button id="profileEditorCancelBtn" type="button" class="btn profile-editor-action-btn profile-editor-action-cancel" onclick="attemptCloseProfileEditor()">
+              <span data-i18n="common.cancel">Cancel</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="profileEditorCloseConfirm" class="modal hidden">
+      <div class="modal-overlay"></div>
+      <div class="modal-content profile-editor-confirm-content">
+        <div class="modal-header">
+          <h3 data-i18n="profileEditor.closeConfirmTitle">Unsaved changes</h3>
+        </div>
+        <div class="modal-body">
+          <p class="setting-description" data-i18n="profileEditor.closeConfirmText">Close form without saving? Entered data will be lost.</p>
+          <div class="profile-editor-actions">
+            <button type="button" class="btn btn-secondary" onclick="cancelCloseProfileEditor()">
+              <span data-i18n="common.stay">Stay</span>
+            </button>
+            <button type="button" class="btn btn-danger" onclick="forceCloseProfileEditor()">
+              <span data-i18n="common.closeWithoutSaving">Close without saving</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Profile Menu & Password Toggle Functions -->
   <script type="module" src="js/settings/profileSettings.js"></script>
+  <script type="module" src="js/settings/profileEditor.js"></script>
   
   <!-- Additional CSS for settings -->
   <style>
@@ -377,6 +496,343 @@
       color: var(--text-muted);
       margin-top: 8px;
       font-style: italic;
+    }
+
+    .setting-input {
+      width: 100%;
+      padding: 6px 10px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+      transition: all 0.2s;
+      min-height: 34px;
+    }
+
+    .setting-input:focus {
+      outline: none;
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+
+    .setting-input[readonly] {
+      opacity: 0.85;
+      cursor: default;
+    }
+
+    .profile-editor-content {
+      max-width: 640px;
+      border-color: rgba(0, 240, 255, 0.45);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 45px rgba(0, 240, 255, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .profile-editor-content .modal-header {
+      position: relative;
+      justify-content: center;
+      text-align: center;
+      padding-right: 52px;
+    }
+
+    .profile-editor-content .modal-header h3 {
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .profile-editor-content .modal-header .btn-close {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .profile-editor-layout {
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .profile-editor-media-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+      padding: 8px;
+      border: 1px solid rgba(0, 212, 255, 0.18);
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(14, 34, 61, 0.9), rgba(7, 18, 37, 0.9));
+    }
+
+    .profile-editor-fields-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .profile-editor-field {
+      margin-top: 0;
+    }
+
+    .profile-photo-preview {
+      width: 100%;
+      height: 112px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .profile-photo-shell {
+      position: relative;
+      width: 100%;
+      min-height: 112px;
+    }
+
+    .profile-photo-spinner {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: rgba(7, 18, 37, 0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-photo-spinner::before {
+      content: '';
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 3px solid rgba(0, 240, 255, 0.22);
+      border-top-color: rgba(0, 240, 255, 0.95);
+      animation: profilePhotoSpin 0.9s linear infinite;
+    }
+
+    @keyframes profilePhotoSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .setting-input-file-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .profile-editor-inline-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .profile-editor-icon-row {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 6px;
+      align-items: center;
+    }
+
+    .profile-editor-icon-row .setting-input {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .profile-editor-icon-row.compact {
+      min-width: 220px;
+    }
+
+    .profile-icon-cell {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      background: rgba(0, 240, 255, 0.08);
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .profile-editor-verify-row {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .profile-editor-verify-row > .profile-editor-icon-row {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .profile-editor-verify-row #profileEditorVerifyEmailBtn {
+      min-height: 34px;
+      padding: 0 10px;
+      white-space: nowrap;
+      font-size: 12px;
+    }
+
+    .profile-editor-verified-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 110, 135, 0.45);
+      background: rgba(255, 110, 135, 0.16);
+      color: #ffd2db;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .profile-editor-verified-badge.verified {
+      border-color: rgba(0, 255, 159, 0.45);
+      background: rgba(0, 255, 159, 0.16);
+      color: #b7ffdf;
+    }
+
+    .profile-editor-hayati-row {
+      display: grid;
+      grid-template-columns: 30px minmax(120px, 1fr) auto auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .profile-editor-tier-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(250, 204, 21, 0.42);
+      background: rgba(250, 204, 21, 0.12);
+      color: #ffe39b;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .profile-editor-upload-btn {
+      width: 100%;
+      min-height: 34px;
+      font-size: 12px;
+    }
+
+    .setting-hint {
+      color: var(--text-muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .profile-editor-actions {
+      display: flex;
+      gap: 0;
+      justify-content: center;
+      width: fit-content;
+      margin-top: 18px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid rgba(0, 240, 255, 0.42);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.16);
+    }
+
+    .profile-editor-action-btn {
+      min-width: 170px;
+      min-height: 38px;
+      border: 0;
+      border-radius: 0;
+      padding: 0 14px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .profile-editor-action-cancel {
+      background: linear-gradient(180deg, rgba(29, 45, 74, 0.95), rgba(20, 33, 58, 0.95));
+      color: #cfe0ff;
+      border-left: 1px solid rgba(0, 240, 255, 0.3);
+    }
+
+    .profile-editor-action-save {
+      background: linear-gradient(180deg, rgba(0, 240, 255, 0.2), rgba(0, 168, 255, 0.18));
+      color: #dffbff;
+    }
+
+    .profile-editor-action-btn:hover {
+      filter: brightness(1.08);
+      box-shadow: inset 0 0 22px rgba(0, 240, 255, 0.18);
+    }
+
+    .profile-editor-action-btn:active {
+      transform: translateY(1px);
+    }
+
+    .profile-editor-action-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .profile-editor-confirm-content {
+      max-width: 520px;
+      border-color: rgba(255, 99, 132, 0.5);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.55),
+        0 0 45px rgba(255, 99, 132, 0.2);
+    }
+
+    @media (max-width: 700px) {
+      .profile-editor-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-photo-preview {
+        width: 100%;
+        height: 150px;
+      }
+
+      .profile-editor-verify-row {
+        flex-wrap: nowrap;
+      }
+
+      .profile-editor-hayati-row {
+        grid-template-columns: 24px minmax(0, 1fr) auto auto;
+        gap: 6px;
+      }
+
+      .profile-editor-verified-badge,
+      .profile-editor-tier-badge,
+      .profile-editor-hayati-row #profileEditorEditHayatiBtn {
+        font-size: 10px;
+        padding: 0 6px;
+        min-height: 32px;
+      }
+
+      .profile-editor-actions {
+        display: flex;
+        width: 100%;
+      }
+
+      .profile-editor-action-btn {
+        width: 50%;
+        min-width: 0;
+      }
     }
   </style>
 

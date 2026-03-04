@@ -50,9 +50,27 @@ const ME_API_URL = 'https://api.hayatibank.ru/api/me';
 
 async function restoreSessionFromServerCookie(auth) {
   try {
+    const hostname = String(window.location.hostname || '').toLowerCase();
+    const isFirstPartyZone =
+      hostname === 'hayatibank.ru' ||
+      hostname.endsWith('.hayatibank.ru') ||
+      hostname === 'localhost' ||
+      hostname === '127.0.0.1';
+    const localSession = getSession();
+    const bearerToken = String(localSession?.authToken || '');
+
+    // On web.app/firebaseapp staging we intentionally skip /api/me restore:
+    // server session cookie (__session) is first-party for *.hayatibank.ru only.
+    // This prevents noisy 401 in staging console.
+    if (!isFirstPartyZone) return null;
+
+    const headers = {};
+    if (bearerToken) headers.Authorization = `Bearer ${bearerToken}`;
+
     const response = await fetch(ME_API_URL, {
       method: 'GET',
-      credentials: 'include'
+      credentials: 'include',
+      headers
     });
 
     if (!response.ok) return null;

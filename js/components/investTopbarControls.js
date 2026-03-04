@@ -50,10 +50,12 @@ function syncControlsFromPrefs() {
   const currency = document.getElementById('topbarCurrencySwitch');
   const metric = document.getElementById('topbarMetricSwitch');
   const settingsCurrency = document.getElementById('currencySelect');
+  const settingsMetric = document.getElementById('metricSystemSelect');
 
   if (currency) currency.value = prefs.currency;
   if (metric) metric.value = prefs.metricSystem;
   if (settingsCurrency) settingsCurrency.value = prefs.currency.toLowerCase();
+  if (settingsMetric) settingsMetric.value = prefs.metricSystem;
   setActiveLanguage(prefs.language);
 }
 
@@ -86,6 +88,13 @@ function attachListeners() {
     const topbarCurrency = document.getElementById('topbarCurrencySwitch');
     if (topbarCurrency) topbarCurrency.value = currency;
     savePrefs({ currency });
+  });
+
+  document.getElementById('metricSystemSelect')?.addEventListener('change', (event) => {
+    const metricSystem = String(event.target.value || 'imperial').toLowerCase();
+    const topbarMetric = document.getElementById('topbarMetricSwitch');
+    if (topbarMetric) topbarMetric.value = metricSystem;
+    savePrefs({ metricSystem });
   });
 
   window.addEventListener('languageChanged', (event) => {

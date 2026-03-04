@@ -62,6 +62,49 @@ function getTypeBadge(type) {
   return badges[type] || t('dashboard.account');
 }
 
+function renderTopDashboardContext(account) {
+  const target = document.getElementById('dashboardTopContext');
+  if (!target) return;
+
+  const firstName = account?.profile?.firstName || '';
+  const lastName = account?.profile?.lastName || '';
+  const fullName = `${firstName} ${lastName}`.trim() || t('dashboard.account');
+  const typeBadge = getTypeBadge(account?.type);
+
+  target.innerHTML = `
+    <button class="btn-back" onclick="window.accountNavigation.goBack()">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M10 20L0 10 10 0l2 2-6 6h14v4H6l6 6-2 2z"/>
+      </svg>
+      <span data-i18n="dashboard.backToList">${t('dashboard.backToList')}</span>
+    </button>
+    <div class="dashboard-account-chip">
+      <span class="dashboard-account-name">${fullName}</span>
+      <span class="account-type-badge">${typeBadge}</span>
+    </div>
+  `;
+  target.classList.remove('hidden');
+  try {
+    window.dispatchEvent(new CustomEvent('cabinetAccountContextChanged', {
+      detail: { fullName, accountType: typeBadge }
+    }));
+  } catch (_error) {
+    // no-op
+  }
+}
+
+function clearTopDashboardContext() {
+  const target = document.getElementById('dashboardTopContext');
+  if (!target) return;
+  target.innerHTML = '';
+  target.classList.add('hidden');
+  try {
+    window.dispatchEvent(new CustomEvent('cabinetAccountContextCleared'));
+  } catch (_error) {
+    // no-op
+  }
+}
+
 function renderStep(stepNumber, label, isActive, premiumStatus) {
   const isLocked = !isStepUnlocked(stepNumber, premiumStatus);
   const activeClass = isActive ? 'active' : '';
@@ -167,6 +210,7 @@ export async function showAccountDashboard(accountId) {
 
     const account = await getAccountById(accountId);
     if (!account) {
+      clearTopDashboardContext();
       container.innerHTML = `
         <div class="error-screen" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:16px;padding:40px;text-align:center;">
           <div style="font-size:64px;">!</div>
@@ -179,6 +223,8 @@ export async function showAccountDashboard(accountId) {
       return;
     }
 
+    renderTopDashboardContext(account);
+
     container.innerHTML = `
       <div class="loading-dashboard" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:16px;">
         <div class="spinner" style="border:3px solid rgba(0, 240, 255, 0.1);border-top:3px solid var(--neon-blue);border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div>
@@ -188,17 +234,6 @@ export async function showAccountDashboard(accountId) {
 
     container.innerHTML = `
       <div class="account-dashboard">
-        <div class="dashboard-header">
-          <button class="btn-back" onclick="window.accountNavigation.goBack()">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M10 20L0 10 10 0l2 2-6 6h14v4H6l6 6-2 2z"/>
-            </svg>
-            <span data-i18n="dashboard.backToList">${t('dashboard.backToList')}</span>
-          </button>
-          <h2>${account.profile?.firstName || t('dashboard.account')} ${account.profile?.lastName || ''}</h2>
-          <p class="account-type-badge">${getTypeBadge(account.type)}</p>
-        </div>
-
         <nav class="dashboard-nav">
           ${renderStep(1, t('dashboard.step1'), true, premiumStatus)}
           ${renderStep(2, t('dashboard.step2'), false, premiumStatus)}
@@ -217,6 +252,7 @@ export async function showAccountDashboard(accountId) {
     attachDashboardListeners(account, premiumStatus);
   } catch (err) {
     console.error('[dashboard] error loading:', err);
+    clearTopDashboardContext();
     const container = document.querySelector('.cabinet-content');
     if (!container) return;
 
@@ -234,6 +270,7 @@ export async function showAccountDashboard(accountId) {
 }
 
 function goBack() {
+  clearTopDashboardContext();
   delete window.currentAccountId;
   import('../cabinet/accountsUI.js').then((module) => {
     module.renderAccountsList();

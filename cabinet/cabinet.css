@@ -13,21 +13,245 @@
 /* ==================== CABINET MAIN ==================== */
 
 .cabinet-header {
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
   margin-bottom: 24px;
-  padding-bottom: 24px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--border);
 }
 
+.dashboard-back-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(120, 140, 170, 0.35);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(12, 19, 34, 0.72));
+  color: #e6eefc;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.dashboard-back-icon:hover {
+  border-color: rgba(0, 240, 255, 0.45);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.dashboard-back-icon.hidden {
+  display: none;
+}
+
 .cabinet-header h2 {
-  font-size: 24px;
-  margin-bottom: 8px;
+  font-size: 22px;
+  line-height: 1;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+  padding: 0;
+  min-height: auto;
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #e9f1ff;
+  flex: 0 0 auto;
+}
+
+.cabinet-ticker {
+  flex: 1 1 480px;
+  min-width: 320px;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 240, 255, 0.26);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.82), rgba(12, 19, 34, 0.76));
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.cabinet-ticker-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: cabinetTickerScroll 22s linear infinite;
+}
+
+.ticker-pod {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(120, 140, 170, 0.35);
+  background: rgba(15, 23, 42, 0.78);
+  color: #dce7fb;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.pod-type {
+  border-color: rgba(0, 240, 255, 0.45);
+  background: rgba(0, 240, 255, 0.12);
+  color: #7cf6ff;
+}
+
+.pod-name {
+  border-color: rgba(92, 240, 157, 0.42);
+  background: rgba(0, 255, 159, 0.1);
+  color: #adffde;
+}
+
+.pod-email {
+  border-color: rgba(167, 139, 250, 0.42);
+  background: rgba(167, 139, 250, 0.12);
+  color: #ded1ff;
+}
+
+.pod-id {
+  border-color: rgba(250, 204, 21, 0.4);
+  background: rgba(250, 204, 21, 0.11);
+  color: #ffe39b;
+}
+
+.ticker-tier {
+  display: inline-block;
+  margin-left: 6px;
+  color: #ffe39b;
+  font-weight: 700;
+}
+
+.pod-coin {
+  border-color: rgba(0, 255, 159, 0.5);
+  background: rgba(0, 255, 159, 0.14);
+  color: #85ffd0;
+}
+
+@keyframes cabinetTickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.dashboard-top-context,
+.user-email,
+.cabinet-header .hayati-id-container,
+.cabinet-header .hyc-balance {
+  display: none !important;
 }
 
 .user-email {
-  color: var(--text-muted);
+  color: #d5deed;
+  font-size: 15px;
+  line-height: 1;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  margin: 0;
+  padding: 12px 14px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(120, 140, 170, 0.35);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(12, 19, 34, 0.72));
+  white-space: nowrap;
+  flex: 0 1 auto;
+}
+
+.dashboard-top-context {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  flex: 0 1 auto;
+}
+
+.dashboard-top-context.hidden {
+  display: none;
+}
+
+.dashboard-top-context .btn-back {
+  margin: 0;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(120, 140, 170, 0.35);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(12, 19, 34, 0.72));
+  color: #e6eefc;
+  font-family: 'IBM Plex Sans', sans-serif;
   font-size: 14px;
-  margin-top: 8px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.dashboard-account-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 240, 255, 0.32);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(12, 19, 34, 0.72));
+  flex: 0 1 auto;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.dashboard-account-name {
+  color: #f2f6ff;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.dashboard-account-chip .account-type-badge {
+  margin: 0;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.cabinet-header .hayati-id-container,
+.cabinet-header .hyc-balance {
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  flex: 0 1 auto;
+}
+
+.cabinet-header .hayati-id-container {
+  border-color: rgba(145, 165, 195, 0.32);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(12, 19, 34, 0.72));
+}
+
+.cabinet-header .hyc-balance {
+  border-color: rgba(0, 255, 159, 0.36);
+  background: linear-gradient(180deg, rgba(4, 40, 34, 0.68), rgba(3, 28, 24, 0.72));
 }
 
 .cabinet-content {
@@ -272,13 +496,51 @@
   .type-cards {
     grid-template-columns: 1fr;
   }
+
+  .cabinet-header {
+    gap: 8px;
+  }
+
+  .cabinet-header h2,
+  .cabinet-ticker,
+  .dashboard-top-context .btn-back,
+  .dashboard-account-chip,
+  .user-email,
+  .cabinet-header .hayati-id-container,
+  .cabinet-header .hyc-balance {
+    min-height: 44px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dashboard-top-context {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cabinet-ticker {
+    min-width: 0;
+  }
+
+  .cabinet-ticker-track span {
+    font-size: 14px;
+  }
+
+  .dashboard-account-name {
+    max-width: none;
+  }
 }
 
 @media (max-width: 480px) {
   .cabinet-header h2 {
-    font-size: 20px;
+    font-size: 22px;
   }
-  
+
+  .dashboard-account-name {
+    font-size: 16px;
+  }
+
   .create-account-form {
     padding: 16px;
   }

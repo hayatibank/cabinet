@@ -1,4 +1,4 @@
-/* /webapp/css/components/hayati-id.css v2.0.1 */
+﻿/* /webapp/css/components/hayati-id.css v2.0.1 */
 /* CHANGELOG v2.0.1:
  * - FIXED: Centered alignment (justify-content: center)
  * CHANGELOG v2.0.0:
@@ -12,11 +12,16 @@
 .hayati-id-container {
   display: flex;
   align-items: center;
-  justify-content: center; /* ✅ Centered */
+  justify-content: flex-start;
   gap: 8px;
-  margin-bottom: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 240, 255, 0.24);
+  background: rgba(15, 23, 42, 0.55);
   font-size: 14px;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 
 /* ==================== HAYATI ID VALUE ==================== */
@@ -109,8 +114,19 @@
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 480px) {
   .hayati-id-container {
-    font-size: 13px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 240, 255, 0.24);
+  background: rgba(15, 23, 42, 0.55);
+  font-size: 14px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
   
   .hayati-id-copy-btn {
     width: 22px;
@@ -122,3 +138,4 @@
     height: 12px;
   }
 }
+
