@@ -38,6 +38,12 @@
   padding-bottom: 6px;
 }
 
+@media (min-width: 769px) {
+  .year-selector-buttons {
+    justify-content: center;
+  }
+}
+
 .year-selector-buttons::-webkit-scrollbar {
   height: 6px;
 }

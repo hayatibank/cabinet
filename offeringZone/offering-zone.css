@@ -371,10 +371,24 @@
 }
 
 @media (max-width: 768px) {
+  /* Mobile single-shell mode:
+   * outer wrapper is flattened to avoid nested capsules.
+   */
   .offering-zone {
-    padding: 20px;
-    margin-top: 32px;
-    border-radius: 12px;
+    padding: 0;
+    margin-top: 24px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .offering-zone {
+    /* keep width behavior from base */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   .offering-header h3 {
@@ -400,7 +414,7 @@
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 16px;
   }
-  
+
   .offer-image {
     height: 180px;
   }

@@ -47,41 +47,146 @@ import './js/accountActions.js';
 import './cabinet/accountsUI.js';
 import { claimHYC } from './HayatiCoin/hycService.js';
 const ME_API_URL = 'https://api.hayatibank.ru/api/me';
+const B24_WIDGET_STATE_KEY = 'cabinetB24WidgetHidden';
+const B24_TOGGLE_DELAY_MS = 115000;
+let isB24WidgetHidden = localStorage.getItem(B24_WIDGET_STATE_KEY) === '1';
+let b24ToggleTimer = null;
+
+function b24Ui(key, fallback) {
+  return window.i18n?.t?.(key) || fallback;
+}
+
+function applyBitrixWidgetHiddenState(hidden) {
+  document.body.classList.toggle('b24-widget-hidden', !!hidden);
+}
+
+function updateBitrixToggleLabel() {
+  const btn = document.getElementById('b24ToggleBtn');
+  if (!btn) return;
+  btn.textContent = isB24WidgetHidden
+    ? b24Ui('cabinet.widget_show', 'Show chat')
+    : b24Ui('cabinet.widget_hide', 'Hide chat');
+}
+
+function initBitrixWidgetToggle() {
+  const isMobile = window.matchMedia('(max-width: 760px)').matches;
+  const existingBtn = document.getElementById('b24ToggleBtn');
+
+  if (b24ToggleTimer) {
+    window.clearTimeout(b24ToggleTimer);
+    b24ToggleTimer = null;
+  }
+
+  if (!isMobile) {
+    isB24WidgetHidden = false;
+    applyBitrixWidgetHiddenState(false);
+    if (existingBtn) existingBtn.remove();
+    return;
+  }
+
+  if (localStorage.getItem(B24_WIDGET_STATE_KEY) == null) {
+    isB24WidgetHidden = true;
+    localStorage.setItem(B24_WIDGET_STATE_KEY, '1');
+  } else {
+    isB24WidgetHidden = localStorage.getItem(B24_WIDGET_STATE_KEY) === '1';
+  }
+
+  applyBitrixWidgetHiddenState(isB24WidgetHidden);
+  if (existingBtn) existingBtn.remove();
+
+  b24ToggleTimer = window.setTimeout(() => {
+    if (!window.matchMedia('(max-width: 760px)').matches) return;
+
+    let btn = document.getElementById('b24ToggleBtn');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'b24ToggleBtn';
+      btn.className = 'b24-toggle-btn';
+      document.body.appendChild(btn);
+    }
+
+    btn.onclick = () => {
+      isB24WidgetHidden = !isB24WidgetHidden;
+      localStorage.setItem(B24_WIDGET_STATE_KEY, isB24WidgetHidden ? '1' : '0');
+      applyBitrixWidgetHiddenState(isB24WidgetHidden);
+      updateBitrixToggleLabel();
+    };
+
+    updateBitrixToggleLabel();
+  }, B24_TOGGLE_DELAY_MS);
+}
 
 function setupMobileTopbarAutoHide() {
   const topbar = document.querySelector('.topbar');
   if (!topbar) return;
 
   const mq = window.matchMedia('(max-width: 900px)');
-  let lastY = window.scrollY || 0;
+  let lastY = Math.max(0, window.scrollY || 0);
   let hidden = false;
+  let rafScheduled = false;
+  let lastToggleAt = 0;
+  let downAccum = 0;
+  let upAccum = 0;
 
   const setHidden = (nextHidden) => {
     if (hidden === nextHidden) return;
+    const now = performance.now();
+    // Small cooldown prevents rapid flip-flop on momentum/elastic scroll.
+    if (now - lastToggleAt < 220) return;
     hidden = nextHidden;
+    lastToggleAt = now;
     document.body.classList.toggle('mobile-topbar-hidden', hidden);
   };
 
-  const onScroll = () => {
+  const processScroll = () => {
+    rafScheduled = false;
     if (!mq.matches) {
       setHidden(false);
-      lastY = window.scrollY || 0;
+      lastY = Math.max(0, window.scrollY || 0);
+      downAccum = 0;
+      upAccum = 0;
       return;
     }
 
-    const y = window.scrollY || 0;
+    const y = Math.max(0, window.scrollY || 0);
     const delta = y - lastY;
     const nearTop = y < 24;
 
     if (nearTop) {
       setHidden(false);
-    } else if (delta > 8 && y > 80) {
+      downAccum = 0;
+      upAccum = 0;
+      lastY = y;
+      return;
+    }
+
+    if (delta > 0) {
+      downAccum += delta;
+      upAccum = 0;
+    } else if (delta < 0) {
+      upAccum += Math.abs(delta);
+      downAccum = 0;
+    }
+
+    // Hysteresis: need more scroll to hide, less to show back.
+    if (!hidden && y > 96 && downAccum > 26) {
       setHidden(true);
-    } else if (delta < -8) {
+      downAccum = 0;
+      upAccum = 0;
+    } else if (hidden && upAccum > 14) {
       setHidden(false);
+      downAccum = 0;
+      upAccum = 0;
     }
 
     lastY = y;
+  };
+
+  const onScroll = () => {
+    if (rafScheduled) return;
+    rafScheduled = true;
+    requestAnimationFrame(processScroll);
   };
 
   const onMediaChange = () => {
@@ -173,6 +278,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     
     // вњ… NOW update page translations
     window.i18n.updatePage();
+    initBitrixWidgetToggle();
+    window.addEventListener('resize', initBitrixWidgetToggle);
+    window.addEventListener('languageChanged', updateBitrixToggleLabel);
     console.log('вњ… [app.js] Initial translations applied to page');
     
     // ==================== STEP 2: TELEGRAM SETUP ====================

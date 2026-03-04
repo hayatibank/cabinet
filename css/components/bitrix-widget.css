@@ -1,0 +1,37 @@
+/* Mobile Bitrix widget gating (delayed toggle) */
+.b24-toggle-btn {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 10001;
+  border: 1px solid rgba(91, 216, 243, 0.72);
+  border-radius: 999px;
+  background: linear-gradient(130deg, rgba(0, 160, 255, 0.78), rgba(5, 104, 179, 0.72));
+  color: #e8f7ff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 12px;
+  box-shadow: 0 8px 24px rgba(3, 18, 42, 0.45);
+}
+
+body.b24-widget-hidden iframe[src*="bitrix24"],
+body.b24-widget-hidden iframe[src*="site_button"],
+body.b24-widget-hidden div[id*="bx-livechat"],
+body.b24-widget-hidden div[class*="bx-livechat"],
+body.b24-widget-hidden div[id*="b24-widget"],
+body.b24-widget-hidden div[class*="b24-widget"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 760px) {
+  .b24-toggle-btn {
+    left: 10px;
+    right: auto;
+    bottom: 10px;
+    font-size: 11px;
+    padding: 7px 11px;
+  }
+}

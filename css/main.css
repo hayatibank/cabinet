@@ -38,6 +38,7 @@
 @import "./components/hayati-id.css";
 @import "./components/home-button.css";
 @import "./components/invest-topbar.css";
+@import "./components/bitrix-widget.css";
 
 /* ==================== SCREENS ==================== */
 @import "./screens/loading.css";

@@ -234,6 +234,17 @@ function setupMobileExpandHints() {
   });
 }
 
+function focusActiveYearButton() {
+  const wrap = document.querySelector('.year-selector-buttons');
+  const active = document.querySelector('.year-selector-buttons .year-btn.active');
+  if (!active || !wrap) return;
+  const targetLeft = active.offsetLeft - Math.max(0, (wrap.clientWidth - active.clientWidth) / 2);
+  wrap.scrollTo({
+    left: Math.max(0, targetLeft),
+    behavior: 'smooth'
+  });
+}
+
 function ensureMobileOverlay() {
   if (mobileOverlayNode) return mobileOverlayNode;
   mobileOverlayNode = document.createElement('div');
@@ -298,6 +309,7 @@ function attachReportListeners(accountId) {
       renderFinancialReport(accountId, year);
     });
   });
+  focusActiveYearButton();
 
   setupMobileExpandHints();
   if (!mobileExpandResizeBound) {

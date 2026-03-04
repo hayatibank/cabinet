@@ -7,6 +7,9 @@
       "hosting": {
         "cabinet": [
           "cabinet-hayatibank"
+        ],
+        "test": [
+          "test-hb"
         ]
       }
     }

@@ -191,6 +191,26 @@
 /* ==================== RESPONSIVE ==================== */
 
 @media (max-width: 768px) {
+  /* Mobile single-shell mode:
+   * remove outer dashboard capsules and keep only core section cards.
+   */
+  .account-dashboard {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0;
+  }
+
+  .dashboard-content {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+    min-height: 0;
+  }
+
   .dashboard-nav {
     gap: 4px;
   }

@@ -86,7 +86,7 @@ function createOfferingContainer(budgetInfo, state = 'loading') {
       </div>
       
       <div class="offering-budget">
-        <div class="budget-label">${t('offering.budget')}:</div>
+        <div class="budget-label">${t('offering.budgetPlan')}:</div>
         <div class="budget-amount">${formatCurrency(budgetInfo.budget)} ₽</div>
       </div>
       
@@ -124,7 +124,7 @@ async function updateOfferingContainer(container, budgetInfo, offers, rates) {
   budgetDisplay.innerHTML = `
     <div class="budget-info">
       <div class="budget-item">
-        <span class="budget-label">${t('offering.budget')}:</span>
+        <span class="budget-label">${t('offering.budgetPlan')}:</span>
         <span class="budget-amount">${formatCurrency(budgetInfo.budget)} ₽</span>
       </div>
       <div class="budget-breakdown">
