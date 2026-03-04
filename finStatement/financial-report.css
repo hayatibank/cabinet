@@ -29,8 +29,27 @@
 .year-selector-buttons {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 255, 0.45) rgba(0, 0, 0, 0.25);
+  padding-bottom: 6px;
+}
+
+.year-selector-buttons::-webkit-scrollbar {
+  height: 6px;
+}
+
+.year-selector-buttons::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 999px;
+}
+
+.year-selector-buttons::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.45);
+  border-radius: 999px;
 }
 
 .year-btn {
@@ -433,6 +452,7 @@
 
   .year-selector-buttons {
     gap: 6px;
+    padding-bottom: 4px;
   }
   
   .year-btn {
@@ -506,22 +526,50 @@
     margin-left: 0;
     padding-left: 16px;
   }
+
+  /* Remove extra wrapper shells on mobile (matryoshka effect) */
+  .financial-report {
+    gap: 12px;
+  }
+
+  .report-grid {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    gap: 12px;
+  }
+
+  .report-section {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .report-section h3 {
+    margin: 0 0 8px;
+    padding: 0 4px;
+  }
+
 }
 
 /* Mobile hint + fullscreen expand */
 .section-mobile-hint {
   display: none;
-  margin-left: 10px;
-  padding: 4px 10px;
+  margin-left: 8px;
+  padding: 3px 9px;
   border-radius: 999px;
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  color: rgba(215, 244, 255, 0.92);
-  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(255, 255, 255, 0.08);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   animation: section-hint-pulse 1.8s ease-in-out infinite;
   vertical-align: middle;
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
 }
 
 .section-mobile-close {
@@ -530,12 +578,12 @@
 
 @keyframes section-hint-pulse {
   0%, 100% {
-    opacity: 0.45;
-    box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.16);
+    opacity: 0.58;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.24);
   }
   50% {
     opacity: 1;
-    box-shadow: 0 0 0 8px rgba(0, 240, 255, 0);
+    box-shadow: 0 0 0 7px rgba(255, 255, 255, 0);
   }
 }
 
@@ -599,8 +647,7 @@
   }
 
   .report-mobile-overlay .report-section.mobile-expanded .section-mobile-hint {
-    animation: none;
-    box-shadow: none;
+    display: none !important;
   }
 
   .report-mobile-overlay .report-section.mobile-expanded .section-mobile-close {

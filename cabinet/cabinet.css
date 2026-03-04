@@ -503,8 +503,6 @@
 
   .cabinet-header h2,
   .cabinet-ticker,
-  .dashboard-top-context .btn-back,
-  .dashboard-account-chip,
   .user-email,
   .cabinet-header .hayati-id-container,
   .cabinet-header .hyc-balance {
@@ -513,10 +511,84 @@
     justify-content: center;
   }
 
+  .cabinet-header h2 {
+    width: auto;
+    min-height: 42px;
+    justify-content: flex-start;
+    flex: 1 1 auto;
+  }
+
+  .dashboard-back-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    align-self: center;
+  }
+
+  .cabinet-ticker {
+    flex: 1 1 100%;
+  }
+
   .dashboard-top-context {
     width: 100%;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-x: auto;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .dashboard-top-context::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dashboard-top-context .btn-back,
+  .dashboard-account-chip {
+    min-height: 42px;
+    height: 42px;
+    width: auto;
+    flex: 0 0 auto;
     justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    align-items: center;
+    line-height: 1;
+    align-self: stretch;
+    transform: translateY(0);
+  }
+
+  .dashboard-top-context .btn-back {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .dashboard-account-chip {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .dashboard-account-chip .dashboard-account-name,
+  .dashboard-account-chip .account-type-badge,
+  .dashboard-top-context .btn-back span {
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .dashboard-top-context .btn-back svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+  }
+
+  .dashboard-account-chip .account-type-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    margin: 0;
   }
 
   .cabinet-ticker {
@@ -538,7 +610,7 @@
   }
 
   .dashboard-account-name {
-    font-size: 16px;
+    display: none;
   }
 
   .create-account-form {
