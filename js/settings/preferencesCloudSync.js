@@ -3,6 +3,7 @@ import { getSession } from '../session.js';
 
 const PREFS_STORAGE_KEY = 'hayati_prefs_v1';
 const PREFS_CHANGED_EVENT = 'hayatiPrefsChanged';
+const CLOUD_PULL_INTERVAL_MS = 15000;
 
 const DEFAULT_PREFS = {
   language: 'ru',
@@ -193,7 +194,7 @@ function startPolling() {
   if (pollTimer) clearInterval(pollTimer);
   pollTimer = setInterval(() => {
     pullCloudPrefs();
-  }, 60000);
+  }, CLOUD_PULL_INTERVAL_MS);
 }
 
 export function setupPreferencesCloudSync(_auth) {
@@ -221,6 +222,10 @@ export function setupPreferencesCloudSync(_auth) {
     if (document.visibilityState === 'visible') {
       pullCloudPrefs();
     }
+  });
+
+  window.addEventListener('focus', () => {
+    pullCloudPrefs();
   });
 
   startPolling();
