@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js';
-import { getAuth, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
+import { getAuth, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
 import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
 import { FIREBASE_CONFIG, PREFERENCES_API_URL } from '../config.js';
 import { getSession } from '../session.js';
@@ -30,6 +30,7 @@ let realtimeActive = false;
 let firebaseApp = null;
 let firebaseAuth = null;
 let firestoreDb = null;
+let boundAuthInstance = null;
 
 function normalizePrefs(raw = {}) {
   return {
@@ -318,6 +319,8 @@ export function setupPreferencesCloudSync(authInstance) {
   if (initialized) return;
   initialized = true;
 
+  boundAuthInstance = authInstance || null;
+
   const bootstrap = readLocalPrefs();
   if (!bootstrap.updatedAtMs) {
     writeLocalPrefs({ ...bootstrap, updatedAtMs: Date.now() }, 'bootstrap');
@@ -351,6 +354,23 @@ export function setupPreferencesCloudSync(authInstance) {
     }
   });
 
+  if (authInstance) {
+    onAuthStateChanged(authInstance, () => {
+      void startRealtimeListener(authInstance);
+      if (!realtimeActive) {
+        void pullCloudPrefs();
+      }
+    });
+  }
+
   void startRealtimeListener(authInstance);
   void pullCloudPrefs();
+}
+
+export function refreshPreferencesCloudSync() {
+  if (!initialized) return;
+  void startRealtimeListener(boundAuthInstance);
+  if (!realtimeActive) {
+    void pullCloudPrefs();
+  }
 }

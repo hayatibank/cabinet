@@ -42,7 +42,7 @@ import { showLoadingScreen, showAuthScreen, showCabinet } from './js/ui.js';
 import { setupTokenInterceptor, setupPeriodicTokenCheck, setupBackgroundTokenRefresh, ensureFreshToken } from './js/tokenManager.js';
 import { getUserData } from './js/userService.js'; // вњ… NEW
 import { setupSessionMonitor, setupVisibilityMonitor } from './js/sessionMonitor.js'; // вњ… NEW
-import { setupPreferencesCloudSync } from './js/settings/preferencesCloudSync.js';
+import { setupPreferencesCloudSync, refreshPreferencesCloudSync } from './js/settings/preferencesCloudSync.js';
 import './js/accountActions.js';
 import './cabinet/accountsUI.js';
 import { claimHYC } from './HayatiCoin/hycService.js';
@@ -387,6 +387,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             userData = null;
           }
           showCabinet(userData || restored);
+          refreshPreferencesCloudSync();
         } else {
           showAuthScreen('login');
         }
@@ -402,6 +403,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         }
 
         showCabinet(userData || { uid: session.uid, email: session.email });
+        refreshPreferencesCloudSync();
       }
     } else {
       console.log('в„№пёЏ No session');
@@ -415,6 +417,7 @@ window.addEventListener('DOMContentLoaded', async () => {
           userData = null;
         }
         showCabinet(userData || restored);
+        refreshPreferencesCloudSync();
         console.log('Session restored from server cookie');
         return;
       }
