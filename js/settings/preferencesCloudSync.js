@@ -1,9 +1,12 @@
-﻿import { PREFERENCES_API_URL } from '../config.js';
+import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js';
+import { getAuth, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
+import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
+import { FIREBASE_CONFIG, PREFERENCES_API_URL } from '../config.js';
 import { getSession } from '../session.js';
 
 const PREFS_STORAGE_KEY = 'hayati_prefs_v1';
 const PREFS_CHANGED_EVENT = 'hayatiPrefsChanged';
-const CLOUD_PULL_INTERVAL_MS = 15000;
+const ME_API_URL = 'https://api.hayatibank.ru/api/me';
 
 const DEFAULT_PREFS = {
   language: 'ru',
@@ -21,7 +24,12 @@ const PREFS_API_CANDIDATES = [
 let initialized = false;
 let isApplyingRemote = false;
 let pushTimer = null;
-let pollTimer = null;
+let realtimeUnsub = null;
+let realtimeUid = '';
+let realtimeActive = false;
+let firebaseApp = null;
+let firebaseAuth = null;
+let firestoreDb = null;
 
 function normalizePrefs(raw = {}) {
   return {
@@ -138,6 +146,60 @@ async function apiPutPreferences(uid, authToken, prefs) {
   return false;
 }
 
+async function apiGetMeEnvelope(authToken) {
+  if (!authToken) return null;
+  try {
+    const response = await fetch(ME_API_URL, {
+      method: 'GET',
+      credentials: 'include',
+      headers: buildHeaders(authToken, false)
+    });
+    if (!response.ok) return null;
+    const payload = await response.json().catch(() => null);
+    if (!payload || payload.ok === false) return null;
+
+    const user = payload.user || payload.result?.user || null;
+    const uid = String(user?.uid || payload.uid || payload.result?.uid || '').trim();
+    if (!uid) return null;
+
+    const customToken = String(
+      payload.customToken ||
+      payload.result?.customToken ||
+      payload.user?.customToken ||
+      ''
+    );
+
+    return { uid, customToken };
+  } catch (_error) {
+    return null;
+  }
+}
+
+function ensureFirebaseClients(authInstance = null) {
+  if (!firebaseApp) {
+    firebaseApp = getApps().length ? getApp() : initializeApp(FIREBASE_CONFIG);
+  }
+  if (!firebaseAuth) {
+    firebaseAuth = authInstance || getAuth(firebaseApp);
+  }
+  if (!firestoreDb) {
+    firestoreDb = getFirestore(firebaseApp);
+  }
+  return {
+    auth: authInstance || firebaseAuth,
+    db: firestoreDb
+  };
+}
+
+function stopRealtimeListener() {
+  if (typeof realtimeUnsub === 'function') {
+    realtimeUnsub();
+  }
+  realtimeUnsub = null;
+  realtimeUid = '';
+  realtimeActive = false;
+}
+
 function applyCloudLanguageIfNeeded(nextPrefs) {
   const cloudLang = nextPrefs.language;
   if (!window.i18n?.isSupported?.(cloudLang)) return;
@@ -148,6 +210,80 @@ function applyCloudLanguageIfNeeded(nextPrefs) {
   window.i18n.setLanguage(cloudLang).catch((error) => {
     console.warn('[prefsSync] Language apply failed:', error?.message || error);
   });
+}
+
+function processRemotePrefs(rawPrefs = {}, source = 'cloud-stream') {
+  const cloudPrefs = normalizePrefs(rawPrefs);
+  const localPrefs = readLocalPrefs();
+
+  if (cloudPrefs.updatedAtMs > localPrefs.updatedAtMs) {
+    isApplyingRemote = true;
+    writeLocalPrefs(cloudPrefs, source);
+    applyCloudLanguageIfNeeded(cloudPrefs);
+    isApplyingRemote = false;
+    return;
+  }
+
+  if (localPrefs.updatedAtMs > cloudPrefs.updatedAtMs) {
+    scheduleCloudPush(localPrefs);
+  }
+}
+
+async function startRealtimeListener(authInstance) {
+  const auth = getSessionAuth();
+  if (!auth?.uid) {
+    stopRealtimeListener();
+    return false;
+  }
+
+  const clients = ensureFirebaseClients(authInstance);
+  const activeAuth = clients.auth;
+
+  let targetUid = auth.uid;
+  if (activeAuth?.currentUser?.uid) {
+    targetUid = String(activeAuth.currentUser.uid);
+  }
+
+  if (!activeAuth?.currentUser || targetUid !== auth.uid) {
+    const me = await apiGetMeEnvelope(auth.authToken);
+    if (me?.uid) {
+      targetUid = me.uid;
+      if (me.customToken) {
+        try {
+          await signInWithCustomToken(activeAuth, me.customToken);
+        } catch (_error) {
+          // Stream may still work if user is already authenticated.
+        }
+      }
+    }
+  }
+
+  if (!targetUid) {
+    stopRealtimeListener();
+    return false;
+  }
+
+  if (realtimeUid === targetUid && typeof realtimeUnsub === 'function') {
+    realtimeActive = true;
+    return true;
+  }
+
+  stopRealtimeListener();
+
+  realtimeUid = targetUid;
+  const ref = doc(clients.db, `users/${targetUid}/preferences/global`);
+  realtimeUnsub = onSnapshot(ref, (snapshot) => {
+    if (!snapshot.exists()) return;
+    const data = snapshot.data();
+    if (!data || typeof data !== 'object') return;
+    realtimeActive = true;
+    processRemotePrefs(data, 'cloud-stream');
+  }, () => {
+    realtimeActive = false;
+  });
+
+  realtimeActive = true;
+  return true;
 }
 
 function scheduleCloudPush(prefs) {
@@ -172,32 +308,13 @@ async function pullCloudPrefs() {
   try {
     const cloudPrefs = await apiGetPreferences(auth.uid, auth.authToken);
     if (!cloudPrefs) return;
-
-    const localPrefs = readLocalPrefs();
-    if (cloudPrefs.updatedAtMs > localPrefs.updatedAtMs) {
-      isApplyingRemote = true;
-      writeLocalPrefs(cloudPrefs, 'cloud-sync');
-      applyCloudLanguageIfNeeded(cloudPrefs);
-      isApplyingRemote = false;
-      return;
-    }
-
-    if (localPrefs.updatedAtMs > cloudPrefs.updatedAtMs) {
-      scheduleCloudPush(localPrefs);
-    }
+    processRemotePrefs(cloudPrefs, 'cloud-sync');
   } catch (error) {
     console.warn('[prefsSync] Cloud pull skipped:', error?.message || error);
   }
 }
 
-function startPolling() {
-  if (pollTimer) clearInterval(pollTimer);
-  pollTimer = setInterval(() => {
-    pullCloudPrefs();
-  }, CLOUD_PULL_INTERVAL_MS);
-}
-
-export function setupPreferencesCloudSync(_auth) {
+export function setupPreferencesCloudSync(authInstance) {
   if (initialized) return;
   initialized = true;
 
@@ -220,16 +337,20 @@ export function setupPreferencesCloudSync(_auth) {
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      pullCloudPrefs();
+      void startRealtimeListener(authInstance);
+      if (!realtimeActive) {
+        void pullCloudPrefs();
+      }
     }
   });
 
   window.addEventListener('focus', () => {
-    pullCloudPrefs();
+    void startRealtimeListener(authInstance);
+    if (!realtimeActive) {
+      void pullCloudPrefs();
+    }
   });
 
-  startPolling();
-  pullCloudPrefs();
+  void startRealtimeListener(authInstance);
+  void pullCloudPrefs();
 }
-
-
