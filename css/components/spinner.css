@@ -21,10 +21,12 @@
   width: 100%;
   min-height: 320px;
   display: grid;
-  justify-items: center;
-  align-content: center;
+  place-items: center;
   gap: 16px;
+  margin-inline: auto;
+  padding-inline: 20px;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .accounts-loading {
@@ -46,4 +48,72 @@
 .loading-copy {
   color: var(--text-muted);
   font-size: 14px;
+  margin: 0;
+  max-width: 28ch;
+}
+
+@media (max-width: 768px) {
+  .spinner {
+    background: none;
+    border: 4px solid rgba(0, 240, 255, 0.56);
+    -webkit-mask: none;
+    mask: none;
+    box-shadow:
+      0 0 0 1px rgba(0, 240, 255, 0.18),
+      0 0 18px rgba(0, 240, 255, 0.22);
+    filter: none;
+    animation: mobile-spinner-pulse 1.1s ease-in-out infinite;
+  }
+
+  .loading-stack {
+    min-height: min(62vh, 520px);
+    padding-block: 28px;
+    padding-inline: 16px;
+  }
+
+  .loading-stack .spinner,
+  .loading-stack .loading-copy {
+    justify-self: center;
+  }
+
+  .accounts-loading,
+  .loading-dashboard,
+  .financial-report-loading {
+    width: min(100%, calc(100vw - 32px));
+    min-height: min(62vh, 520px);
+    margin-inline: auto;
+  }
+
+  .accounts-loading {
+    width: 100%;
+    min-height: 220px;
+    padding-block: 8px 20px;
+    align-content: start;
+    gap: 18px;
+  }
+
+  .accounts-loading .spinner {
+    margin-top: 36px;
+  }
+
+  .accounts-loading .loading-copy {
+    max-width: none;
+  }
+}
+
+@keyframes mobile-spinner-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.72;
+    box-shadow:
+      0 0 0 1px rgba(0, 240, 255, 0.16),
+      0 0 14px rgba(0, 240, 255, 0.16);
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+    box-shadow:
+      0 0 0 1px rgba(0, 240, 255, 0.24),
+      0 0 22px rgba(0, 240, 255, 0.24);
+  }
 }

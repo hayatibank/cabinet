@@ -30,13 +30,6 @@ export async function renderAccountsList() {
   try {
     console.log('Loading accounts...');
 
-    container.innerHTML = `
-      <div class="loading-stack accounts-loading" aria-live="polite" aria-busy="true">
-        <div class="spinner"></div>
-        <p class="loading-copy" data-i18n="cabinet.loadingAccounts">${t('cabinet.loadingAccounts')}</p>
-      </div>
-    `;
-
     const accounts = await getUserAccounts();
 
     if (accounts.length === 0) {
@@ -137,7 +130,7 @@ function renderAccountCard(account) {
             </button>
             <button class="dropdown-item dropdown-item-danger" data-action="delete" data-account-id="${accountId}">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/>
+                <path d="M6 1.5h4a1 1 0 0 1 1 1V3h3a.5.5 0 0 1 0 1h-.6l-.55 8.13A1.5 1.5 0 0 1 11.35 13.5H4.65a1.5 1.5 0 0 1-1.5-1.37L2.6 4H2a.5.5 0 0 1 0-1h3v-.5a1 1 0 0 1 1-1zm4 1H6V3h4v-.5zM4.1 4l.55 8.06a.5.5 0 0 0 .5.44h6.7a.5.5 0 0 0 .5-.44L12.9 4H4.1zM6 5.5a.5.5 0 0 1 .5.5v4.5a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v4.5a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/>
               </svg>
               <span data-i18n="cabinet.account.delete">${t('cabinet.account.delete')}</span>
             </button>
