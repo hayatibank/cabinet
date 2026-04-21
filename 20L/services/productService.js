@@ -7,24 +7,37 @@
 import { getSession } from '../../js/session.js';
 import { API_URL } from '../../js/config.js';
 
+function authHeaders(session) {
+  return {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true',
+    ...(session?.authToken ? { Authorization: `Bearer ${session.authToken}` } : {})
+  };
+}
+
+function withAuthTokenQuery(url, session) {
+  const nextUrl = new URL(url, window.location.origin);
+  if (session?.authToken && !nextUrl.searchParams.has('authToken')) {
+    nextUrl.searchParams.set('authToken', session.authToken);
+  }
+  return nextUrl.toString();
+}
+
 /**
  * Get all products for account
  */
 export async function getProducts(accountId) {
   try {
     const session = getSession();
-    if (!session) throw new Error('No active session');
+    if (!session?.authToken) throw new Error('No active session');
     
     console.log('📋 Fetching products...');
     
     const response = await fetch(
-      `${API_URL}/api/20L/products?accountId=${accountId}&authToken=${encodeURIComponent(session.authToken)}`,
+      withAuthTokenQuery(`${API_URL}/api/20L/products?accountId=${encodeURIComponent(accountId)}`, session),
       {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
-        }
+        headers: authHeaders(session)
       }
     );
     

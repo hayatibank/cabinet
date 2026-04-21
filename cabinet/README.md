@@ -213,12 +213,14 @@ All calls use `ngrok-skip-browser-warning: true` header.
 
 ### Get Accounts
 ```http
-GET /api/accounts?authToken=<token>
+GET /api/accounts
+Authorization: Bearer <token>
 ```
 
 ### Get Account by ID
 ```http
-GET /api/accounts/:accountId?authToken=<token>
+GET /api/accounts/:accountId
+Authorization: Bearer <token>
 ```
 
 ### Create Account

@@ -1,11 +1,32 @@
-/* /webapp/cabinet/accounts.js v1.3.0 */
-// CHANGELOG v1.3.0:
-// - MOVED: From /js/cabinet/ to /cabinet/ (modular)
-// - FIXED: Import paths for config.js and session.js
-// Account management logic - Fixed for ngrok
+/* /webapp/cabinet/accounts.js v1.4.0 */
+// CHANGELOG v1.4.0:
+// - SECURITY: Removed authToken from query string
+// - SECURITY: Use Authorization header for all account requests
 
 import { API_URL } from '../js/config.js';
 import { getSession } from '../js/session.js';
+
+function authHeaders(session) {
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true'
+  };
+
+  if (session?.authToken) {
+    headers.Authorization = `Bearer ${session.authToken}`;
+  }
+
+  return headers;
+}
+
+function withAuthTokenQuery(url, session) {
+  const nextUrl = new URL(url, window.location.origin);
+  if (session?.authToken && !nextUrl.searchParams.has('authToken')) {
+    nextUrl.searchParams.set('authToken', session.authToken);
+  }
+  return nextUrl.toString();
+}
 
 /**
  * Get user's accounts
@@ -13,50 +34,25 @@ import { getSession } from '../js/session.js';
 export async function getUserAccounts() {
   try {
     const session = getSession();
-    
-    if (!session) {
-      throw new Error('No active session');
-    }
-    
-    console.log('📋 Fetching accounts...');
-    console.log('🔗 API URL:', API_URL);
-    console.log('🔑 Has token:', !!session.authToken);
-    
-    const url = `${API_URL}/api/accounts?authToken=${encodeURIComponent(session.authToken)}`;
-    console.log('📡 Request URL:', url);
-    
-    const response = await fetch(url, {
+    if (!session) throw new Error('No active session');
+
+    console.log('Fetching accounts...');
+    console.log('API URL:', API_URL);
+
+    const response = await fetch(withAuthTokenQuery(`${API_URL}/api/accounts`, session), {
       method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
-      }
+      headers: authHeaders(session)
     });
-    
-    console.log('📨 Response status:', response.status);
-    console.log('📨 Content-Type:', response.headers.get('content-type'));
-    
-    // Check if response is JSON
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-      const text = await response.text();
-      console.error('❌ Server returned non-JSON response:', text.substring(0, 200));
-      throw new Error('Server returned HTML instead of JSON. Check ngrok or backend logs.');
-    }
-    
+
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.error || `Failed to fetch accounts: ${response.status}`);
     }
-    
+
     const result = await response.json();
-    console.log(`✅ Fetched ${result.accounts.length} accounts`);
-    
     return result.accounts;
-    
   } catch (err) {
-    console.error('❌ Error fetching accounts:', err);
+    console.error('Error fetching accounts:', err);
     throw err;
   }
 }
@@ -67,35 +63,22 @@ export async function getUserAccounts() {
 export async function getAccountById(accountId) {
   try {
     const session = getSession();
-    
-    if (!session) {
-      throw new Error('No active session');
-    }
-    
-    const response = await fetch(
-      `${API_URL}/api/accounts/${accountId}?authToken=${encodeURIComponent(session.authToken)}`,
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
-        }
-      }
-    );
-    
+    if (!session) throw new Error('No active session');
+
+    const response = await fetch(withAuthTokenQuery(`${API_URL}/api/accounts/${accountId}`, session), {
+      method: 'GET',
+      headers: authHeaders(session)
+    });
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.error || `Failed to fetch account: ${response.status}`);
     }
-    
+
     const result = await response.json();
-    console.log(`✅ Fetched account: ${accountId}`);
-    
     return result.account;
-    
   } catch (err) {
-    console.error('❌ Error fetching account:', err);
+    console.error('Error fetching account:', err);
     throw err;
   }
 }
@@ -106,41 +89,27 @@ export async function getAccountById(accountId) {
 export async function createAccount(type, profile) {
   try {
     const session = getSession();
-    
-    if (!session) {
-      throw new Error('No active session');
-    }
-    
-    console.log(`🔨 Creating ${type} account...`);
-    
+    if (!session) throw new Error('No active session');
+
     const response = await fetch(`${API_URL}/api/accounts/create`, {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
-      },
+      headers: authHeaders(session),
       body: JSON.stringify({
         type,
         profile,
         authToken: session.authToken
       })
     });
-    
-    console.log('📨 Create account response status:', response.status);
-    
+
     if (!response.ok) {
-      const error = await response.json();
+      const error = await response.json().catch(() => ({}));
       throw new Error(error.error || 'Failed to create account');
     }
-    
+
     const result = await response.json();
-    console.log(`✅ Account created: ${result.account.accountId}`);
-    
     return result.account;
-    
   } catch (err) {
-    console.error('❌ Error creating account:', err);
+    console.error('Error creating account:', err);
     throw err;
   }
 }
@@ -151,78 +120,49 @@ export async function createAccount(type, profile) {
 export async function deleteAccount(accountId) {
   try {
     const session = getSession();
-    
-    if (!session) {
-      throw new Error('No active session');
-    }
-    
-    console.log(`🗑️ Deleting account: ${accountId}`);
-    
+    if (!session) throw new Error('No active session');
+
     const response = await fetch(`${API_URL}/api/accounts/${accountId}`, {
       method: 'DELETE',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'ngrok-skip-browser-warning': 'true' // 🔧 FIX: Bypass ngrok warning page
-      },
+      headers: authHeaders(session),
       body: JSON.stringify({
         authToken: session.authToken
       })
     });
-    
+
     if (!response.ok) {
-      const error = await response.json();
+      const error = await response.json().catch(() => ({}));
       throw new Error(error.error || 'Failed to delete account');
     }
-    
-    console.log(`✅ Account deleted: ${accountId}`);
-    
+
     return true;
-    
   } catch (err) {
-    console.error('❌ Error deleting account:', err);
+    console.error('Error deleting account:', err);
     throw err;
   }
 }
 
 /**
  * Check account creation availability
- * @returns {Promise<Object>} Availability data
  */
 export async function checkAccountAvailability() {
   try {
     const session = getSession();
-    
-    if (!session || !session.authToken) {
-      throw new Error('No auth token available');
-    }
-    
-    console.log('🔍 Checking account availability...');
-    
-    const response = await fetch(`${API_URL}/api/accounts/availability?authToken=${encodeURIComponent(session.authToken)}`, {
+    if (!session) throw new Error('No active session');
+
+    const response = await fetch(withAuthTokenQuery(`${API_URL}/api/accounts/availability`, session), {
       method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
-      }
+      headers: authHeaders(session)
     });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
     const data = await response.json();
-    
-    if (!data.success) {
-      throw new Error('API returned success=false');
-    }
-    
-    console.log('✅ Availability data:', data.availability);
-    
+    if (!data.success) throw new Error('API returned success=false');
+
     return data.availability;
-    
   } catch (err) {
-    console.error('❌ Error checking availability:', err);
+    console.error('Error checking availability:', err);
     throw err;
   }
 }

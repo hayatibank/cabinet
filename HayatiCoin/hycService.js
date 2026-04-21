@@ -10,6 +10,22 @@
 import { API_URL } from '../js/config.js';
 import { getSession } from '../js/session.js';
 
+function authHeaders(session, contentType = true) {
+  return {
+    ...(contentType ? { 'Content-Type': 'application/json' } : {}),
+    ...(session?.authToken ? { Authorization: `Bearer ${session.authToken}` } : {}),
+    'ngrok-skip-browser-warning': 'true'
+  };
+}
+
+function withAuthTokenQuery(url, session) {
+  const nextUrl = new URL(url, window.location.origin);
+  if (session?.authToken && !nextUrl.searchParams.has('authToken')) {
+    nextUrl.searchParams.set('authToken', session.authToken);
+  }
+  return nextUrl.toString();
+}
+
 /**
  * Request registration reward (1 HYC)
  */
@@ -111,17 +127,17 @@ export async function claimHYC(type, accountId = null) {
 export async function getHYCBalance() {
   try {
     const session = getSession();
-    if (!session) {
+    if (!session?.authToken) {
       return null;
     }
     
     const response = await fetch(
-      `${API_URL}/api/hyc/balance?authToken=${encodeURIComponent(session.authToken)}`,
+      withAuthTokenQuery(`${API_URL}/api/hyc/balance`, session),
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
+          ...authHeaders(session, false)
         }
       }
     );

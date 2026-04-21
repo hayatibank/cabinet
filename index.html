@@ -18,7 +18,7 @@
 <body class="i18n-pending">
   <header class="topbar">
     <div class="brand-wrap">
-      <div class="logo-seal" aria-label="Hayati Bank seal">
+      <a class="logo-seal logo-seal-link" href="https://hayatibank.ru" aria-label="HayatiBank home">
         <svg class="logo-ring" viewBox="0 0 120 120" aria-hidden="true">
           <defs>
             <path id="sealCirclePath" d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0"></path>
@@ -30,47 +30,91 @@
           </text>
         </svg>
         <img class="brand-logo" src="https://hayati-coin.github.io/website/OfficialLogo.jpg" alt="Hayati Bank">
-      </div>
-      <a class="home-button" href="https://hayatibank.ru" title="Back Home">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 11.5L12 4l9 7.5"></path>
-          <path d="M5 10.5V20h14v-9.5"></path>
-          <path d="M9 20v-6h6v6"></path>
-        </svg>
-        <span data-i18n="common.backHome">Back Home</span>
       </a>
+      <div class="header-rail header-rail-left">
+        <div class="header-rail-track header-rail-track-left">
+          <a class="home-button" href="https://hayatibank.ru" title="Back Home" aria-label="Home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 11.5L12 4l9 7.5"></path>
+              <path d="M5 10.5V20h14v-9.5"></path>
+              <path d="M9 20v-6h6v6"></path>
+            </svg>
+          </a>
+          <span class="identity-chip identity-chip-service" id="ecosystemChip" data-i18n="nav.cabinet">Cabinet</span>
+          <span class="identity-chip identity-chip-user is-auth-guest" id="userChip" data-i18n="auth.status.guest">Guest</span>
+        </div>
+      </div>
     </div>
 
     <div class="brand-frame">
       <div class="brand brand-ar" aria-label="Hayati Bank in Arabic">بنك حياتي</div>
     </div>
 
+    <div class="top-actions">
+      <label class="lang-mobile-wrap" for="langMobileSelect">
+        <select id="langMobileSelect" class="lang-mobile-select" aria-label="Language switch mobile">
+          <option value="en">EN</option>
+          <option value="ru">RU</option>
+        </select>
+      </label>
+      <button type="button" class="menu-toggle-btn" id="menuToggleBtn" aria-label="Open menu">☰</button>
+    </div>
+
     <div class="header-meta">
-      <div class="lang-switch" id="langSwitch" role="group" aria-label="Language switch">
-        <button type="button" class="lang-btn" data-lang="en">EN</button>
-        <button type="button" class="lang-btn" data-lang="ru">RU</button>
+      <div class="header-rail header-rail-right">
+        <div class="header-rail-track header-rail-track-right">
+          <span class="identity-chip identity-chip-service menu-ecosystem-chip" id="ecosystemChipMenu" data-i18n="nav.cabinet">Cabinet</span>
+          <span class="identity-chip identity-chip-user menu-user-chip is-auth-guest" id="userChipMenu" data-i18n="auth.status.guest">Guest</span>
+          <div class="menu-mobile-utility">
+            <a class="home-button drawer-home-button" href="https://hayatibank.ru" title="Back Home" aria-label="Home">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 11.5L12 4l9 7.5"></path>
+                <path d="M5 10.5V20h14v-9.5"></path>
+                <path d="M9 20v-6h6v6"></path>
+              </svg>
+            </a>
+            <div class="lang-switch menu-lang-switch" role="group" aria-label="Language switch">
+              <button type="button" class="lang-btn" data-lang="en">EN</button>
+              <button type="button" class="lang-btn" data-lang="ru">RU</button>
+            </div>
+          </div>
+          <div class="lang-switch" id="langSwitch" role="group" aria-label="Language switch">
+            <button type="button" class="lang-btn" data-lang="en">EN</button>
+            <button type="button" class="lang-btn" data-lang="ru">RU</button>
+          </div>
+          <div class="pref-switchers" role="group" aria-label="Display preferences">
+            <label class="pref-switch">
+              <span data-i18n="prefs.currency.short">CCY</span>
+              <select id="topbarCurrencySwitch">
+                <option value="USD">USD</option>
+                <option value="AED">AED</option>
+                <option value="RUB">RUB</option>
+              </select>
+            </label>
+            <label class="pref-switch">
+              <span data-i18n="prefs.metric.short">UNIT</span>
+              <select id="topbarMetricSwitch">
+                <option value="imperial">Imperial</option>
+                <option value="metric">Metric</option>
+              </select>
+            </label>
+            <label class="pref-switch">
+              <span data-i18n="prefs.timezone.short">TZ</span>
+              <select id="topbarTimezoneSwitch">
+                <option value="utc" data-i18n="prefs.timezone.utc">UTC</option>
+                <option value="europe/moscow" data-i18n="prefs.timezone.msk">MSK</option>
+                <option value="asia/dubai" data-i18n="prefs.timezone.dxb">DXB</option>
+                <option value="europe/istanbul" data-i18n="prefs.timezone.ist">IST</option>
+              </select>
+            </label>
+          </div>
+          <span class="data-badge" id="topbarStatusBadge">Secure Access</span>
+          <button type="button" class="auth-btn" id="topbarAuthButton" data-i18n="auth.login.submit">Sign In</button>
+        </div>
       </div>
-      <div class="pref-switchers" role="group" aria-label="Display preferences">
-        <label class="pref-switch">
-          <span>CCY</span>
-          <select id="topbarCurrencySwitch">
-            <option value="USD">USD</option>
-            <option value="AED">AED</option>
-            <option value="RUB">RUB</option>
-          </select>
-        </label>
-        <label class="pref-switch">
-          <span>SYS</span>
-          <select id="topbarMetricSwitch">
-            <option value="imperial">Imperial</option>
-            <option value="metric">Metric</option>
-          </select>
-        </label>
-      </div>
-      <div class="project-meta">Hayati ID | Cabinet</div>
-      <span class="data-badge" id="topbarStatusBadge">Secure Access</span>
     </div>
   </header>
+  <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
 
   <div class="container">
     

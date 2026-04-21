@@ -8,7 +8,10 @@
         "cabinet": [
           "cabinet-hayatibank"
         ],
-        "test": [
+        "cabinet-staging": [
+          "cabinet-hb-staging"
+        ],
+        "test-hb": [
           "test-hb"
         ]
       }

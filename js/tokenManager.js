@@ -188,6 +188,12 @@ export function setupTokenInterceptor() {
         console.log('✅ Fresh token obtained for request');
       }
       
+      if (freshToken) {
+        const nextHeaders = new Headers(options.headers || {});
+        nextHeaders.set('Authorization', `Bearer ${freshToken}`);
+        options.headers = nextHeaders;
+      }
+
       // Update authToken in request body if present
       if (options.body && typeof options.body === 'string') {
         try {
@@ -202,13 +208,6 @@ export function setupTokenInterceptor() {
         }
       }
       
-      // Update authToken in query params if present
-      if (url.includes('authToken=') && freshToken) {
-        console.log('🔄 Updating token in query params');
-        const urlObj = new URL(url, window.location.origin);
-        urlObj.searchParams.set('authToken', freshToken);
-        args[0] = urlObj.toString();
-      }
     }
     
     return originalFetch.apply(this, args);

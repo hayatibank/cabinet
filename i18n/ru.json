@@ -1,4 +1,15 @@
-{
+﻿{
+  "nav.ecosystem": "Экосистема Hayati",
+  "nav.cabinet": "Кабинет",
+  "auth.status.guest": "Гость",
+  "auth.status.logged": "В системе",
+  "prefs.currency.short": "ВАЛ",
+  "prefs.metric.short": "СИСТ",
+  "prefs.timezone.short": "ЧП",
+  "prefs.timezone.utc": "UTC",
+  "prefs.timezone.msk": "MSK",
+  "prefs.timezone.dxb": "DXB",
+  "prefs.timezone.ist": "IST",
   "app.title": "🏦 ФД «Хаяти» — Вход",
   "app.title.loading": "🏦 ФД «Хаяти» — Загрузка",
   "app.title.cabinet": "🏦 ФД «Хаяти» — Кабинет",
@@ -527,3 +538,6 @@
   "settings.language.systemImperial": "Imperial",
   "settings.language.systemMetric": "Metric"
 }
+
+
+

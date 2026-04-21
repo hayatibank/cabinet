@@ -7,6 +7,8 @@ import { getSession } from '../session.js';
 const PREFS_STORAGE_KEY = 'hayati_prefs_v1';
 const PREFS_CHANGED_EVENT = 'hayatiPrefsChanged';
 const ME_API_URL = 'https://api.hayatibank.ru/api/me';
+const CLOUD_FALLBACK_PULL_INTERVAL_MS = 15000;
+const ENABLE_REALTIME_STREAM = false;
 
 const DEFAULT_PREFS = {
   language: 'ru',
@@ -31,6 +33,8 @@ let firebaseApp = null;
 let firebaseAuth = null;
 let firestoreDb = null;
 let boundAuthInstance = null;
+let fallbackPullTimer = null;
+let streamRetryBlockedUntilMs = 0;
 
 function normalizePrefs(raw = {}) {
   return {
@@ -70,17 +74,18 @@ function writeLocalPrefs(prefs, source = 'cloud') {
 
 function getSessionAuth() {
   const session = getSession();
-  if (!session?.uid || !session?.authToken) return null;
+  if (!session?.uid) return null;
   return {
     uid: String(session.uid),
-    authToken: String(session.authToken)
+    authToken: String(session.authToken || '')
   };
 }
 
 function buildHeaders(authToken, includeJson = false) {
-  const headers = {
-    Authorization: `Bearer ${authToken}`
-  };
+  const headers = {};
+  if (authToken) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
 
   if (includeJson) {
     headers['Content-Type'] = 'application/json';
@@ -96,6 +101,7 @@ async function apiGetPreferences(uid, authToken) {
     try {
       const response = await fetch(endpoint, {
         method: 'GET',
+        credentials: 'include',
         headers: buildHeaders(authToken, false)
       });
 
@@ -125,6 +131,7 @@ async function apiPutPreferences(uid, authToken, prefs) {
     try {
       const response = await fetch(endpoint, {
         method: 'PUT',
+        credentials: 'include',
         headers: buildHeaders(authToken, true),
         body: JSON.stringify({
           uid,
@@ -201,6 +208,21 @@ function stopRealtimeListener() {
   realtimeActive = false;
 }
 
+function stopFallbackPullLoop() {
+  if (fallbackPullTimer) {
+    clearInterval(fallbackPullTimer);
+  }
+  fallbackPullTimer = null;
+}
+
+function ensureFallbackPullLoop() {
+  if (fallbackPullTimer) return;
+  fallbackPullTimer = setInterval(() => {
+    if (realtimeActive) return;
+    void pullCloudPrefs();
+  }, CLOUD_FALLBACK_PULL_INTERVAL_MS);
+}
+
 function applyCloudLanguageIfNeeded(nextPrefs) {
   const cloudLang = nextPrefs.language;
   if (!window.i18n?.isSupported?.(cloudLang)) return;
@@ -231,6 +253,9 @@ function processRemotePrefs(rawPrefs = {}, source = 'cloud-stream') {
 }
 
 async function startRealtimeListener(authInstance) {
+  if (!ENABLE_REALTIME_STREAM) return false;
+  if (Date.now() < streamRetryBlockedUntilMs) return false;
+
   const auth = getSessionAuth();
   if (!auth?.uid) {
     stopRealtimeListener();
@@ -253,7 +278,10 @@ async function startRealtimeListener(authInstance) {
         try {
           await signInWithCustomToken(activeAuth, me.customToken);
         } catch (_error) {
-          // Stream may still work if user is already authenticated.
+          streamRetryBlockedUntilMs = Date.now() + (5 * 60 * 1000);
+          stopRealtimeListener();
+          ensureFallbackPullLoop();
+          return false;
         }
       }
     }
@@ -261,6 +289,13 @@ async function startRealtimeListener(authInstance) {
 
   if (!targetUid) {
     stopRealtimeListener();
+    return false;
+  }
+
+  if (activeAuth?.currentUser?.uid !== targetUid) {
+    streamRetryBlockedUntilMs = Date.now() + (5 * 60 * 1000);
+    stopRealtimeListener();
+    ensureFallbackPullLoop();
     return false;
   }
 
@@ -278,12 +313,15 @@ async function startRealtimeListener(authInstance) {
     const data = snapshot.data();
     if (!data || typeof data !== 'object') return;
     realtimeActive = true;
+    stopFallbackPullLoop();
     processRemotePrefs(data, 'cloud-stream');
   }, () => {
     realtimeActive = false;
+    ensureFallbackPullLoop();
   });
 
   realtimeActive = true;
+  stopFallbackPullLoop();
   return true;
 }
 
@@ -340,37 +378,56 @@ export function setupPreferencesCloudSync(authInstance) {
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      void startRealtimeListener(authInstance);
-      if (!realtimeActive) {
+      if (ENABLE_REALTIME_STREAM) {
+        void startRealtimeListener(authInstance);
+      }
+      if (!realtimeActive || !ENABLE_REALTIME_STREAM) {
+        ensureFallbackPullLoop();
         void pullCloudPrefs();
       }
     }
   });
 
   window.addEventListener('focus', () => {
-    void startRealtimeListener(authInstance);
-    if (!realtimeActive) {
+    if (ENABLE_REALTIME_STREAM) {
+      void startRealtimeListener(authInstance);
+    }
+    if (!realtimeActive || !ENABLE_REALTIME_STREAM) {
+      ensureFallbackPullLoop();
       void pullCloudPrefs();
     }
   });
 
-  if (authInstance) {
+  if (ENABLE_REALTIME_STREAM && authInstance) {
     onAuthStateChanged(authInstance, () => {
       void startRealtimeListener(authInstance);
       if (!realtimeActive) {
+        ensureFallbackPullLoop();
         void pullCloudPrefs();
       }
     });
   }
 
-  void startRealtimeListener(authInstance);
+  if (ENABLE_REALTIME_STREAM) {
+    void startRealtimeListener(authInstance);
+  } else {
+    stopRealtimeListener();
+  }
+  ensureFallbackPullLoop();
   void pullCloudPrefs();
 }
 
 export function refreshPreferencesCloudSync() {
   if (!initialized) return;
-  void startRealtimeListener(boundAuthInstance);
-  if (!realtimeActive) {
-    void pullCloudPrefs();
+  if (ENABLE_REALTIME_STREAM) {
+    void startRealtimeListener(boundAuthInstance);
+  } else {
+    stopRealtimeListener();
   }
+  if (!realtimeActive || !ENABLE_REALTIME_STREAM) {
+    ensureFallbackPullLoop();
+    void pullCloudPrefs();
+    return;
+  }
+  stopFallbackPullLoop();
 }
