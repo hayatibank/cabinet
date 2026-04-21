@@ -489,6 +489,29 @@
 /* ==================== RESPONSIVE ==================== */
 
 @media (max-width: 768px) {
+  #cabinetScreen,
+  .cabinet-card,
+  .cabinet-content {
+    width: 100%;
+    max-width: none;
+  }
+
+  .cabinet-card {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    border-radius: 0;
+  }
+
+  .cabinet-content {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    text-align: left;
+  }
+
   .accounts-list {
     grid-template-columns: 1fr;
   }

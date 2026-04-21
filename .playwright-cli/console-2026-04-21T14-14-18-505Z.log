@@ -1,0 +1,58 @@
+[   13210ms] [LOG] [Telegram.WebView] > postEvent web_app_set_header_color {color_key: bg_color} @ https://telegram.org/js/telegram-web-app.js:134
+[   13211ms] [LOG] [Telegram.WebView] > postEvent web_app_set_bottom_bar_color {color: #ffffff} @ https://telegram.org/js/telegram-web-app.js:134
+[   13212ms] [LOG] [Telegram.WebView] > postEvent web_app_request_theme  @ https://telegram.org/js/telegram-web-app.js:134
+[   13212ms] [LOG] [Telegram.WebView] > postEvent web_app_request_viewport  @ https://telegram.org/js/telegram-web-app.js:134
+[   13213ms] [LOG] [Telegram.WebView] > postEvent web_app_request_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[   13213ms] [LOG] [Telegram.WebView] > postEvent web_app_request_content_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[   14552ms] [LOG] ✅ Multi-session manager initialized @ https://test-hb.web.app/js/session.js:248
+[   14761ms] [LOG] ⏳ [LanguageSwitcher] Waiting for i18n... @ https://test-hb.web.app/js/components/languageSwitcher.js:31
+[   14774ms] [LOG] ✅ Token manager v2.0.0 initialized @ https://test-hb.web.app/js/tokenManager.js:271
+[   14776ms] [LOG] рџљЂ [app.js] DOMContentLoaded - Starting initialization... @ https://test-hb.web.app/app.js:258
+[   14777ms] [LOG] рџЊЌ [app.js] Step 1/7: Initializing i18n... @ https://test-hb.web.app/app.js:264
+[   14777ms] [LOG] [i18n] Initializing... @ https://test-hb.web.app/js/i18n-manager.js:47
+[   14782ms] [LOG] [i18n] Language from browser: en @ https://test-hb.web.app/js/i18n-manager.js:104
+[   14782ms] [LOG] [i18n] Detected language: en @ https://test-hb.web.app/js/i18n-manager.js:50
+[   14788ms] [LOG] [i18n] Loading ru.json... @ https://test-hb.web.app/js/i18n-manager.js:115
+[   14799ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://test-hb.web.app/:0
+[   14799ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://test-hb.web.app/:0
+[   14799ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://test-hb.web.app/:0
+[   15323ms] [LOG] [i18n] Loaded ru.json (538 keys) @ https://test-hb.web.app/js/i18n-manager.js:133
+[   15324ms] [LOG] [i18n] Loading en.json... @ https://test-hb.web.app/js/i18n-manager.js:115
+[   15632ms] [LOG] [i18n] Loaded en.json (540 keys) @ https://test-hb.web.app/js/i18n-manager.js:133
+[   15632ms] [LOG] [i18n] Ready (540 keys) @ https://test-hb.web.app/js/i18n-manager.js:61
+[   15633ms] [LOG] [i18n] ready event fired: {lang: en} @ https://test-hb.web.app/:916
+[   15669ms] [LOG]   Time: 5:14:34 PM @ https://test-hb.web.app/:917
+[   15670ms] [LOG] ✅ [LanguageSwitcher] Created @ https://test-hb.web.app/js/components/languageSwitcher.js:55
+[   15670ms] [LOG] вњ… [app.js] i18n ready: en @ https://test-hb.web.app/app.js:271
+[   15670ms] [LOG] рџ“љ [app.js] Loaded 540 translation keys @ https://test-hb.web.app/app.js:272
+[   15671ms] [LOG] вЏі [app.js] Waiting for DOM to be fully ready... @ https://test-hb.web.app/app.js:275
+[   15723ms] [LOG] вњ… [app.js] Initial translations applied to page @ https://test-hb.web.app/app.js:283
+[   15723ms] [LOG] рџ“± [app.js] Step 2/7: Setting up Telegram... @ https://test-hb.web.app/app.js:286
+[   15724ms] [LOG] [Telegram.WebView] > postEvent web_app_ready  @ https://telegram.org/js/telegram-web-app.js:134
+[   15724ms] [LOG] [Telegram.WebView] > postEvent web_app_expand  @ https://telegram.org/js/telegram-web-app.js:134
+[   15725ms] [WARNING] [Telegram.WebApp] Header color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:763
+[   15727ms] [WARNING] [Telegram.WebApp] Background color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:819
+[   15728ms] [LOG] вњ… [app.js] Telegram WebApp initialized @ https://test-hb.web.app/app.js:297
+[   15728ms] [LOG] рџ“± Platform: unknown @ https://test-hb.web.app/app.js:298
+[   15728ms] [LOG] рџ‘¤ User: undefined @ https://test-hb.web.app/app.js:299
+[   15728ms] [LOG] рџ”Ґ [app.js] Step 3/7: Initializing Firebase... @ https://test-hb.web.app/app.js:305
+[   15804ms] [LOG] рџ§№ Cleared stale Firebase auth state @ https://test-hb.web.app/app.js:326
+[   15808ms] [LOG] вњ… Firebase initialized @ https://test-hb.web.app/app.js:336
+[   15808ms] [LOG] рџ”Њ Firestore: WebSocket mode (default) @ https://test-hb.web.app/app.js:337
+[   15808ms] [LOG] рџ”’ [app.js] Step 4/7: Setting up token management... @ https://test-hb.web.app/app.js:340
+[   15809ms] [LOG] 🔒 Token interceptor installed @ https://test-hb.web.app/js/tokenManager.js:215
+[   15809ms] [LOG] ⏰ Periodic token check enabled (every 10 min) @ https://test-hb.web.app/js/tokenManager.js:242
+[   15810ms] [LOG] 🔄 Background token refresh enabled (every 30 min) @ https://test-hb.web.app/js/tokenManager.js:268
+[   15811ms] [LOG] ⏰ [SessionMonitor] Starting session monitoring... @ https://test-hb.web.app/js/sessionMonitor.js:52
+[   15812ms] [LOG] ℹ️ No chatId, checking global session @ https://test-hb.web.app/js/session.js:71
+[   15816ms] [LOG] ℹ️ No chatId, checking global session @ https://test-hb.web.app/js/session.js:71
+[   15817ms] [LOG] вњ… Token auto-refresh enabled @ https://test-hb.web.app/app.js:349
+[   15817ms] [LOG] вњ… Session monitoring enabled @ https://test-hb.web.app/app.js:350
+[   15817ms] [LOG] [app.js] Step 5/7: Unified auth mode active (auth.hayatibank.ru) @ https://test-hb.web.app/app.js:353
+[   15817ms] [LOG] вЏі [app.js] Step 6/7: Showing loading screen... @ https://test-hb.web.app/app.js:356
+[   15818ms] [LOG] рџ”Ќ [app.js] Step 7/7: Checking session... @ https://test-hb.web.app/app.js:361
+[   15818ms] [LOG] рџ“± ChatId: none (browser) @ https://test-hb.web.app/app.js:364
+[   15818ms] [LOG] ℹ️ No chatId, checking global session @ https://test-hb.web.app/js/session.js:71
+[   15819ms] [LOG] в„№пёЏ No session @ https://test-hb.web.app/app.js:408
+[   15819ms] [LOG] ℹ️ No chatId, checking global session @ https://test-hb.web.app/js/session.js:71
+[   15821ms] [LOG] вњ…вњ…вњ… App initialization complete! @ https://test-hb.web.app/app.js:428

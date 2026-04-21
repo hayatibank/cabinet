@@ -29,7 +29,7 @@
 // ==================== STEP 1: LOAD I18N FIRST ====================
 import './js/i18n-manager.js';
 import './js/components/languageSwitcher.js';
-import './js/components/investTopbarControls.js';
+import './js/components/investTopbarControls.js?v=20260421-topbar-fix';
 
 // ==================== STEP 2: FIREBASE IMPORTS ====================
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js';
@@ -69,7 +69,6 @@ function updateBitrixToggleLabel() {
 }
 
 function initBitrixWidgetToggle() {
-  const isMobile = window.matchMedia('(max-width: 760px)').matches;
   const existingBtn = document.getElementById('b24ToggleBtn');
 
   if (b24ToggleTimer) {
@@ -77,44 +76,10 @@ function initBitrixWidgetToggle() {
     b24ToggleTimer = null;
   }
 
-  if (!isMobile) {
-    isB24WidgetHidden = false;
-    applyBitrixWidgetHiddenState(false);
-    if (existingBtn) existingBtn.remove();
-    return;
-  }
-
-  if (localStorage.getItem(B24_WIDGET_STATE_KEY) == null) {
-    isB24WidgetHidden = true;
-    localStorage.setItem(B24_WIDGET_STATE_KEY, '1');
-  } else {
-    isB24WidgetHidden = localStorage.getItem(B24_WIDGET_STATE_KEY) === '1';
-  }
-
-  applyBitrixWidgetHiddenState(isB24WidgetHidden);
+  isB24WidgetHidden = false;
+  localStorage.setItem(B24_WIDGET_STATE_KEY, '0');
+  applyBitrixWidgetHiddenState(false);
   if (existingBtn) existingBtn.remove();
-
-  b24ToggleTimer = window.setTimeout(() => {
-    if (!window.matchMedia('(max-width: 760px)').matches) return;
-
-    let btn = document.getElementById('b24ToggleBtn');
-    if (!btn) {
-      btn = document.createElement('button');
-      btn.type = 'button';
-      btn.id = 'b24ToggleBtn';
-      btn.className = 'b24-toggle-btn';
-      document.body.appendChild(btn);
-    }
-
-    btn.onclick = () => {
-      isB24WidgetHidden = !isB24WidgetHidden;
-      localStorage.setItem(B24_WIDGET_STATE_KEY, isB24WidgetHidden ? '1' : '0');
-      applyBitrixWidgetHiddenState(isB24WidgetHidden);
-      updateBitrixToggleLabel();
-    };
-
-    updateBitrixToggleLabel();
-  }, B24_TOGGLE_DELAY_MS);
 }
 
 function setupMobileTopbarAutoHide() {

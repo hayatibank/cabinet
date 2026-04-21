@@ -195,6 +195,8 @@
    * remove outer dashboard capsules and keep only core section cards.
    */
   .account-dashboard {
+    width: 100%;
+    max-width: none;
     background: transparent;
     border: 0;
     border-radius: 0;
@@ -204,6 +206,8 @@
   }
 
   .dashboard-content {
+    width: 100%;
+    max-width: none;
     border: 0;
     border-radius: 0;
     background: transparent;
@@ -212,6 +216,11 @@
   }
 
   .dashboard-nav {
+    width: 100%;
+    padding: 0 0 8px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
     gap: 4px;
   }
   

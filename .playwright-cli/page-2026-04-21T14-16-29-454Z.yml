@@ -1,0 +1,42 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "FH of Hayati seal" [ref=e4] [cursor=pointer]:
+        - /url: https://hayatibank.ru
+        - img [ref=e5]:
+          - generic [ref=e6]: بنك حياتي • بنك حياتي • بنك حياتي •
+        - img "FH of Hayati" [ref=e7]
+      - generic [ref=e9]:
+        - link "Back Home" [ref=e10] [cursor=pointer]:
+          - /url: https://hayatibank.ru
+          - img [ref=e11]
+        - generic [ref=e15]: Authentication
+    - generic "FH of Hayati in Arabic" [ref=e17]: بنك حياتي
+    - generic [ref=e20]:
+      - group "Language switch" [ref=e21]:
+        - button "EN" [ref=e22] [cursor=pointer]
+        - button "RU" [ref=e23] [cursor=pointer]
+      - generic [ref=e24]: Secure access
+  - main [ref=e26]:
+    - generic [ref=e27]:
+      - heading "FH of Hayati" [level=1] [ref=e28]
+      - paragraph [ref=e29]: Capital Management
+    - generic [ref=e30]:
+      - heading "Sign In" [level=2] [ref=e31]
+      - generic [ref=e32]:
+        - generic [ref=e33]: Email
+        - textbox "Email" [ref=e34]
+        - generic: your@email.com
+      - generic [ref=e35]:
+        - generic [ref=e36]: Password
+        - generic [ref=e37]:
+          - textbox "Password" [ref=e38]
+          - generic: ••••••••
+          - button "Show password" [ref=e39] [cursor=pointer]:
+            - img [ref=e40]
+      - button "Sign In" [ref=e43] [cursor=pointer]:
+        - img [ref=e44]
+        - generic [ref=e46]: Sign In
+      - generic [ref=e47]:
+        - button "Forgot password?" [ref=e48] [cursor=pointer]
+        - button "Register" [ref=e49] [cursor=pointer]

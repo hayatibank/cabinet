@@ -1,0 +1,1231 @@
+[    2129ms] [LOG] [Telegram.WebView] > postEvent web_app_set_header_color {color_key: bg_color} @ https://telegram.org/js/telegram-web-app.js:134
+[    2131ms] [LOG] [Telegram.WebView] > postEvent web_app_set_bottom_bar_color {color: #ffffff} @ https://telegram.org/js/telegram-web-app.js:134
+[    2135ms] [LOG] [Telegram.WebView] > postEvent web_app_request_theme  @ https://telegram.org/js/telegram-web-app.js:134
+[    2135ms] [LOG] [Telegram.WebView] > postEvent web_app_request_viewport  @ https://telegram.org/js/telegram-web-app.js:134
+[    2135ms] [LOG] [Telegram.WebView] > postEvent web_app_request_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[    2136ms] [LOG] [Telegram.WebView] > postEvent web_app_request_content_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[    3505ms] [LOG] ✅ Multi-session manager initialized @ https://test-hb.web.app/js/session.js:248
+[    3573ms] [LOG] ⏳ [LanguageSwitcher] Waiting for i18n... @ https://test-hb.web.app/js/components/languageSwitcher.js:31
+[    3592ms] [LOG] ✅ Token manager v2.0.0 initialized @ https://test-hb.web.app/js/tokenManager.js:271
+[    3594ms] [LOG] рџљЂ [app.js] DOMContentLoaded - Starting initialization... @ https://test-hb.web.app/app.js:258
+[    3595ms] [LOG] рџЊЌ [app.js] Step 1/7: Initializing i18n... @ https://test-hb.web.app/app.js:264
+[    3595ms] [LOG] [i18n] Initializing... @ https://test-hb.web.app/js/i18n-manager.js:47
+[    3596ms] [LOG] [i18n] Language from browser: en @ https://test-hb.web.app/js/i18n-manager.js:104
+[    3596ms] [LOG] [i18n] Detected language: en @ https://test-hb.web.app/js/i18n-manager.js:50
+[    3601ms] [LOG] [i18n] Loading ru.json... @ https://test-hb.web.app/js/i18n-manager.js:115
+[    3607ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://test-hb.web.app/:0
+[    3608ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://test-hb.web.app/:0
+[    3608ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://test-hb.web.app/:0
+[    3841ms] [LOG] [i18n] Loaded ru.json (538 keys) @ https://test-hb.web.app/js/i18n-manager.js:133
+[    3841ms] [LOG] [i18n] Loading en.json... @ https://test-hb.web.app/js/i18n-manager.js:115
+[    3990ms] [LOG] [i18n] Loaded en.json (540 keys) @ https://test-hb.web.app/js/i18n-manager.js:133
+[    3990ms] [LOG] [i18n] Ready (540 keys) @ https://test-hb.web.app/js/i18n-manager.js:61
+[    3991ms] [LOG] [i18n] ready event fired: {lang: en} @ https://test-hb.web.app/:916
+[    4028ms] [LOG]   Time: 5:16:25 PM @ https://test-hb.web.app/:917
+[    4029ms] [LOG] ✅ [LanguageSwitcher] Created @ https://test-hb.web.app/js/components/languageSwitcher.js:55
+[    4030ms] [LOG] вњ… [app.js] i18n ready: en @ https://test-hb.web.app/app.js:271
+[    4030ms] [LOG] рџ“љ [app.js] Loaded 540 translation keys @ https://test-hb.web.app/app.js:272
+[    4034ms] [LOG] вЏі [app.js] Waiting for DOM to be fully ready... @ https://test-hb.web.app/app.js:275
+[    4086ms] [LOG] вњ… [app.js] Initial translations applied to page @ https://test-hb.web.app/app.js:283
+[    4086ms] [LOG] рџ“± [app.js] Step 2/7: Setting up Telegram... @ https://test-hb.web.app/app.js:286
+[    4087ms] [LOG] [Telegram.WebView] > postEvent web_app_ready  @ https://telegram.org/js/telegram-web-app.js:134
+[    4087ms] [LOG] [Telegram.WebView] > postEvent web_app_expand  @ https://telegram.org/js/telegram-web-app.js:134
+[    4088ms] [WARNING] [Telegram.WebApp] Header color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:763
+[    4089ms] [WARNING] [Telegram.WebApp] Background color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:819
+[    4089ms] [LOG] вњ… [app.js] Telegram WebApp initialized @ https://test-hb.web.app/app.js:297
+[    4089ms] [LOG] рџ“± Platform: unknown @ https://test-hb.web.app/app.js:298
+[    4090ms] [LOG] рџ‘¤ User: undefined @ https://test-hb.web.app/app.js:299
+[    4090ms] [LOG] рџ”Ґ [app.js] Step 3/7: Initializing Firebase... @ https://test-hb.web.app/app.js:305
+[    4177ms] [LOG] рџ§№ Cleared stale Firebase auth state @ https://test-hb.web.app/app.js:326
+[    4179ms] [LOG] вњ… Firebase initialized @ https://test-hb.web.app/app.js:336
+[    4179ms] [LOG] рџ”Њ Firestore: WebSocket mode (default) @ https://test-hb.web.app/app.js:337
+[    4179ms] [LOG] рџ”’ [app.js] Step 4/7: Setting up token management... @ https://test-hb.web.app/app.js:340
+[    4180ms] [LOG] 🔒 Token interceptor installed @ https://test-hb.web.app/js/tokenManager.js:215
+[    4184ms] [LOG] ⏰ Periodic token check enabled (every 10 min) @ https://test-hb.web.app/js/tokenManager.js:242
+[    4185ms] [LOG] 🔄 Background token refresh enabled (every 30 min) @ https://test-hb.web.app/js/tokenManager.js:268
+[    4186ms] [LOG] ⏰ [SessionMonitor] Starting session monitoring... @ https://test-hb.web.app/js/sessionMonitor.js:52
+[    4188ms] [LOG] ℹ️ No chatId, checking global session @ https://test-hb.web.app/js/session.js:71
+[    4191ms] [LOG] ℹ️ No chatId, checking global session @ https://test-hb.web.app/js/session.js:71
+[    4191ms] [LOG] вњ… Token auto-refresh enabled @ https://test-hb.web.app/app.js:349
+[    4191ms] [LOG] вњ… Session monitoring enabled @ https://test-hb.web.app/app.js:350
+[    4192ms] [LOG] [app.js] Step 5/7: Unified auth mode active (auth.hayatibank.ru) @ https://test-hb.web.app/app.js:353
+[    4192ms] [LOG] вЏі [app.js] Step 6/7: Showing loading screen... @ https://test-hb.web.app/app.js:356
+[    4193ms] [LOG] рџ”Ќ [app.js] Step 7/7: Checking session... @ https://test-hb.web.app/app.js:361
+[    4193ms] [LOG] рџ“± ChatId: none (browser) @ https://test-hb.web.app/app.js:364
+[    4193ms] [LOG] ℹ️ No chatId, checking global session @ https://test-hb.web.app/js/session.js:71
+[    4194ms] [LOG] в„№пёЏ No session @ https://test-hb.web.app/app.js:408
+[    4194ms] [LOG] ℹ️ No chatId, checking global session @ https://test-hb.web.app/js/session.js:71
+[    4199ms] [LOG] вњ…вњ…вњ… App initialization complete! @ https://test-hb.web.app/app.js:428
+[   39218ms] [LOG] [Telegram.WebView] > postEvent web_app_set_header_color {color_key: bg_color} @ https://telegram.org/js/telegram-web-app.js:134
+[   39219ms] [LOG] [Telegram.WebView] > postEvent web_app_set_bottom_bar_color {color: #ffffff} @ https://telegram.org/js/telegram-web-app.js:134
+[   39220ms] [LOG] [Telegram.WebView] > postEvent web_app_request_theme  @ https://telegram.org/js/telegram-web-app.js:134
+[   39221ms] [LOG] [Telegram.WebView] > postEvent web_app_request_viewport  @ https://telegram.org/js/telegram-web-app.js:134
+[   39221ms] [LOG] [Telegram.WebView] > postEvent web_app_request_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[   39222ms] [LOG] [Telegram.WebView] > postEvent web_app_request_content_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[   40208ms] [LOG] ✅ Multi-session manager initialized @ https://cabinet.hayatibank.ru/js/session.js:248
+[   40491ms] [LOG] ⏳ [LanguageSwitcher] Waiting for i18n... @ https://cabinet.hayatibank.ru/js/components/languageSwitcher.js:31
+[   40503ms] [LOG] ✅ Token manager v2.0.0 initialized @ https://cabinet.hayatibank.ru/js/tokenManager.js:271
+[   40505ms] [LOG] рџљЂ [app.js] DOMContentLoaded - Starting initialization... @ https://cabinet.hayatibank.ru/app.js:258
+[   40505ms] [LOG] рџЊЌ [app.js] Step 1/7: Initializing i18n... @ https://cabinet.hayatibank.ru/app.js:264
+[   40505ms] [LOG] [i18n] Initializing... @ https://cabinet.hayatibank.ru/js/i18n-manager.js:47
+[   40506ms] [LOG] [i18n] Language from browser: en @ https://cabinet.hayatibank.ru/js/i18n-manager.js:104
+[   40506ms] [LOG] [i18n] Detected language: en @ https://cabinet.hayatibank.ru/js/i18n-manager.js:50
+[   40507ms] [LOG] [i18n] Loading ru.json... @ https://cabinet.hayatibank.ru/js/i18n-manager.js:115
+[   40510ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://cabinet.hayatibank.ru/:0
+[   40510ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://cabinet.hayatibank.ru/:0
+[   40511ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://cabinet.hayatibank.ru/:0
+[   40805ms] [LOG] [i18n] Loaded ru.json (538 keys) @ https://cabinet.hayatibank.ru/js/i18n-manager.js:133
+[   40805ms] [LOG] [i18n] Loading en.json... @ https://cabinet.hayatibank.ru/js/i18n-manager.js:115
+[   40973ms] [LOG] [i18n] Loaded en.json (540 keys) @ https://cabinet.hayatibank.ru/js/i18n-manager.js:133
+[   40974ms] [LOG] [i18n] Ready (540 keys) @ https://cabinet.hayatibank.ru/js/i18n-manager.js:61
+[   40975ms] [LOG] [i18n] ready event fired: {lang: en} @ https://cabinet.hayatibank.ru/:916
+[   40995ms] [LOG]   Time: 5:17:02 PM @ https://cabinet.hayatibank.ru/:917
+[   40996ms] [LOG] ✅ [LanguageSwitcher] Created @ https://cabinet.hayatibank.ru/js/components/languageSwitcher.js:55
+[   40996ms] [LOG] вњ… [app.js] i18n ready: en @ https://cabinet.hayatibank.ru/app.js:271
+[   40996ms] [LOG] рџ“љ [app.js] Loaded 540 translation keys @ https://cabinet.hayatibank.ru/app.js:272
+[   40998ms] [LOG] вЏі [app.js] Waiting for DOM to be fully ready... @ https://cabinet.hayatibank.ru/app.js:275
+[   41052ms] [LOG] вњ… [app.js] Initial translations applied to page @ https://cabinet.hayatibank.ru/app.js:283
+[   41052ms] [LOG] рџ“± [app.js] Step 2/7: Setting up Telegram... @ https://cabinet.hayatibank.ru/app.js:286
+[   41053ms] [LOG] [Telegram.WebView] > postEvent web_app_ready  @ https://telegram.org/js/telegram-web-app.js:134
+[   41053ms] [LOG] [Telegram.WebView] > postEvent web_app_expand  @ https://telegram.org/js/telegram-web-app.js:134
+[   41054ms] [WARNING] [Telegram.WebApp] Header color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:763
+[   41054ms] [WARNING] [Telegram.WebApp] Background color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:819
+[   41055ms] [LOG] вњ… [app.js] Telegram WebApp initialized @ https://cabinet.hayatibank.ru/app.js:297
+[   41055ms] [LOG] рџ“± Platform: unknown @ https://cabinet.hayatibank.ru/app.js:298
+[   41055ms] [LOG] рџ‘¤ User: undefined @ https://cabinet.hayatibank.ru/app.js:299
+[   41055ms] [LOG] рџ”Ґ [app.js] Step 3/7: Initializing Firebase... @ https://cabinet.hayatibank.ru/app.js:305
+[   41091ms] [LOG] рџ§№ Cleared stale Firebase auth state @ https://cabinet.hayatibank.ru/app.js:326
+[   41094ms] [LOG] вњ… Firebase initialized @ https://cabinet.hayatibank.ru/app.js:336
+[   41095ms] [LOG] рџ”Њ Firestore: WebSocket mode (default) @ https://cabinet.hayatibank.ru/app.js:337
+[   41095ms] [LOG] рџ”’ [app.js] Step 4/7: Setting up token management... @ https://cabinet.hayatibank.ru/app.js:340
+[   41095ms] [LOG] 🔒 Token interceptor installed @ https://cabinet.hayatibank.ru/js/tokenManager.js:215
+[   41097ms] [LOG] ⏰ Periodic token check enabled (every 10 min) @ https://cabinet.hayatibank.ru/js/tokenManager.js:242
+[   41100ms] [LOG] 🔄 Background token refresh enabled (every 30 min) @ https://cabinet.hayatibank.ru/js/tokenManager.js:268
+[   41101ms] [LOG] ⏰ [SessionMonitor] Starting session monitoring... @ https://cabinet.hayatibank.ru/js/sessionMonitor.js:52
+[   41103ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   41106ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   41107ms] [LOG] вњ… Token auto-refresh enabled @ https://cabinet.hayatibank.ru/app.js:349
+[   41107ms] [LOG] вњ… Session monitoring enabled @ https://cabinet.hayatibank.ru/app.js:350
+[   41107ms] [LOG] [app.js] Step 5/7: Unified auth mode active (auth.hayatibank.ru) @ https://cabinet.hayatibank.ru/app.js:353
+[   41108ms] [LOG] вЏі [app.js] Step 6/7: Showing loading screen... @ https://cabinet.hayatibank.ru/app.js:356
+[   41109ms] [LOG] рџ”Ќ [app.js] Step 7/7: Checking session... @ https://cabinet.hayatibank.ru/app.js:361
+[   41110ms] [LOG] рџ“± ChatId: none (browser) @ https://cabinet.hayatibank.ru/app.js:364
+[   41111ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   41112ms] [LOG] в„№пёЏ No session @ https://cabinet.hayatibank.ru/app.js:408
+[   41113ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   41116ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   41118ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   41119ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   41119ms] [WARNING] ⚠️ No fresh token available @ https://cabinet.hayatibank.ru/js/tokenManager.js:185
+[   43907ms] [WARNING] ⚠️ No chatId for session save @ https://cabinet.hayatibank.ru/js/session.js:38
+[   43908ms] [LOG] 💾 Session saved (global fallback) @ https://cabinet.hayatibank.ru/js/session.js:41
+[   43908ms] [LOG] [UserService] Fetching user data for: 7Ju0eOj1TMND0VRSfiq5jexys672 @ https://cabinet.hayatibank.ru/js/userService.js:18
+[   43909ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   43909ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   43909ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   43910ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   43910ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   43910ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   43910ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   43910ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   44551ms] [LOG] [ui] cabinet opened for: dubai@hayatibank.ru @ https://cabinet.hayatibank.ru/js/ui.js:204
+[   44552ms] [WARNING] [hayati-id] No Hayati ID found in user data @ https://cabinet.hayatibank.ru/js/components/hayatiIdDisplay.js:12
+[   44553ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   44553ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   44554ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   44554ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   44554ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   44554ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   44555ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   44555ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   44555ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   44556ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   44556ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   44556ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   44556ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   44556ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   44556ms] [LOG] Session restored from server cookie @ https://cabinet.hayatibank.ru/app.js:420
+[   44556ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   44557ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   45421ms] [LOG] [HYC] Balance rendered: 0.02 @ https://cabinet.hayatibank.ru/HayatiCoin/hycUI.js:37
+[   45422ms] [LOG] [ui] HYC balance displayed: 0.02 @ https://cabinet.hayatibank.ru/js/ui.js:216
+[   45423ms] [LOG] 📋 Cabinet ready: {uid: 7Ju0eOj1TMND0VRSfiq5jexys672, email: dubai@hayatibank.ru, accountIds: Array(1), hycBalance: 0.02, createdAt: Object} @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:311
+[   45424ms] [LOG] 📋 Loading accounts... @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:25
+[   45425ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   45425ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   45425ms] [LOG] Fetching accounts... @ https://cabinet.hayatibank.ru/cabinet/accounts.js:38
+[   45425ms] [LOG] API URL: https://api.hayatibank.ru @ https://cabinet.hayatibank.ru/cabinet/accounts.js:39
+[   45426ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   45426ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   45426ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   45427ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   45427ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   45427ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   45429ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   45429ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   45431ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   45431ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   45432ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   45433ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   45433ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   45433ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   45635ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   45636ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   45637ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   45637ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   45637ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   45638ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   45638ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   45638ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   46278ms] [LOG] 🔍 Account creation availability: false @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:269
+[   46279ms] [LOG] ℹ️ Create account button hidden (no available types) @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:305
+[   46291ms] [LOG] ✅ Rendered 1 accounts @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:52
+[   48488ms] [LOG] [accounts] entering account: ind_mjijd0nl_ll8hr @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:234
+[   49090ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   49090ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   49091ms] [LOG] 🪙 [HYC] Claiming dashboard_entry... @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:83
+[   49092ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   49092ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   49092ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   49093ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   49093ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   49093ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   49094ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[   49938ms] [ERROR] Failed to load resource: the server responded with a status of 429 () @ https://api.hayatibank.ru/api/hyc/claim:0
+[   49994ms] [LOG] ℹ️ [HYC] Cooldown active: Cooldown active @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:102
+[   49994ms] [LOG] [dashboard] loading account: ind_mjijd0nl_ll8hr @ https://cabinet.hayatibank.ru/accountDashboard/accountNavigation.js:191
+[   49995ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   49995ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   49996ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   49996ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   49997ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   49998ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   50000ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   50000ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   50805ms] [LOG] [permissions] Loaded: {ok: true, uid: 7Ju0eOj1TMND0VRSfiq5jexys672, permissions: Object, unlockedSteps: Array(1), lockedSteps: Array(6)} @ https://cabinet.hayatibank.ru/js/utils/premiumAccess.js:92
+[   50805ms] [LOG] [dashboard] premium status loaded: {uid: 7Ju0eOj1TMND0VRSfiq5jexys672, permissions: Object, unlockedSteps: Array(1), lockedSteps: Array(6)} @ https://cabinet.hayatibank.ru/accountDashboard/accountNavigation.js:204
+[   50806ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   50806ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   50807ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   50807ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   50807ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   50807ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   50808ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   50808ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   51755ms] [LOG] 📊 Rendering financial report: ind_mjijd0nl_ll8hr, 2026 @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:36
+[   51756ms] [LOG] 📊 Fetching financial report: ind_mjijd0nl_ll8hr, year 2026 @ https://cabinet.hayatibank.ru/finStatement/reportService.js:77
+[   51756ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   51756ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   51757ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   51757ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   51757ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   51757ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   51757ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   51758ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   51758ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   51758ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   51758ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   51759ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   51759ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   51759ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   51759ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   51760ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   51760ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   51760ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   51760ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   51760ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   51761ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   51761ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   51761ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   51761ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[   51762ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   51763ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[   51766ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   51767ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[   51769ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   51770ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[   52640ms] [LOG] ✅ Financial report loaded @ https://cabinet.hayatibank.ru/finStatement/reportService.js:96
+[   52642ms] [LOG] 📊 Report manager initialized: ind_mjijd0nl_ll8hr 2026 @ https://cabinet.hayatibank.ru/finStatement/reportManager.js:19
+[   52771ms] [LOG] вњ… Financial report rendered @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:85
+[   52773ms] [LOG] 🎁 [Background] Loading offering zone... @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:116
+[   56110ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   56110ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   56111ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   56111ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   56111ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   56111ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   56111ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   56112ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   69164ms] [LOG] 💱 Exchange rates: {rub: 20.4866, usd: 0.272} @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:167
+[   69165ms] [LOG] 🎁 Rendering offering zone... @ https://cabinet.hayatibank.ru/offeringZone/offeringZone.js:30
+[   69166ms] [LOG] 💰 Budget calculation: {totalIncome: 23000000, totalExpenses: 0, cashFlow: 23000000, liquidAssets: 0, availableBudget: 69000000} @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:39
+[   69168ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   69168ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   69169ms] [LOG] 📊 Fetching market snapshot from pool... @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:65
+[   69169ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   69169ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   69169ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   69169ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   69170ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   69170ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   69170ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[   71113ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   71113ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   71114ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   71114ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   71115ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   71116ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   71116ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   71117ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   71493ms] [LOG] ✅ Fetched 527 units from market pool @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:93
+[   71494ms] [LOG] 📅 Snapshot generated at: [object Object] @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:98
+[   71494ms] [LOG] 📍 Source: aggregator-v2 @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:99
+[   71494ms] [LOG] 🔍 Filtering units: {totalUnits: 527, budgetRub: 69,000,000, budgetAED: 3368055} @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:126
+[   71500ms] [LOG] ✅ Filtered to 280 units within budget @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:150
+[   71504ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   71505ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   71505ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   71506ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   71506ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   71506ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   71507ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   71507ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[   71508ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[   71957ms] [LOG] ✅ Offering zone rendered @ https://cabinet.hayatibank.ru/offeringZone/offeringZone.js:63
+[   71957ms] [LOG] ✅ [Background] Offering zone loaded successfully (attempt 1) @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:133
+[   86120ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   86120ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   86120ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[   86120ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   86121ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   86121ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[   86121ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[   86121ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  101109ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  101110ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  101110ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  101110ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  101111ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  101111ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  101112ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  101112ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  101113ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  101113ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  101117ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  101118ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  116114ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  116114ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  116115ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  116116ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  116117ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  116117ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  116118ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  116118ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  131113ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  131113ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  131114ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  131114ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  131114ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  131115ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  131116ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  131116ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  146120ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  146120ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  146121ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  146121ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  146122ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  146122ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  146122ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  146123ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  161104ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  161104ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  161104ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  161105ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  161127ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  161128ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  161129ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  161129ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  161129ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  161129ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  161132ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  161133ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  176112ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  176112ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  176113ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  176114ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  176114ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  176114ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  176114ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  176115ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  191120ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  191121ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  191121ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  191122ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  191122ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  191123ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  191123ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  191124ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  206112ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  206113ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  206115ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  206116ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  206116ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  206117ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  206117ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  206118ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  206851ms] [LOG] [i18n] Switching to ru... @ https://cabinet.hayatibank.ru/js/i18n-manager.js:169
+[  206852ms] [LOG] [i18n] Loading ru.json... @ https://cabinet.hayatibank.ru/js/i18n-manager.js:115
+[  206861ms] [LOG] [i18n] Loaded ru.json (538 keys) @ https://cabinet.hayatibank.ru/js/i18n-manager.js:133
+[  206896ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  206897ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  206898ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  206899ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  206900ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  206900ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  206901ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  206902ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  207271ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  207272ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  207273ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  207273ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  207274ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  207274ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  207275ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  207276ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  207776ms] [LOG] 🔍 Account creation availability: false @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:269
+[  207777ms] [LOG] ℹ️ Create account button hidden (no available types) @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:305
+[  207777ms] [LOG] 📋 Loading accounts... @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:25
+[  207778ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  207778ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  207778ms] [LOG] Fetching accounts... @ https://cabinet.hayatibank.ru/cabinet/accounts.js:38
+[  207779ms] [LOG] API URL: https://api.hayatibank.ru @ https://cabinet.hayatibank.ru/cabinet/accounts.js:39
+[  207779ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  207782ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  207783ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  207785ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  207787ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  207788ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  208526ms] [LOG] ✅ Rendered 1 accounts @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:52
+[  221119ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  221120ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  221122ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  221123ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  221123ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  221124ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  221124ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  221124ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  221125ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  221125ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  221125ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  221125ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  236118ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  236119ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  236119ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  236120ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  236120ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  236120ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  236121ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  236121ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  251113ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  251113ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  251114ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  251114ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  251115ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  251115ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  251115ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  251115ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  266117ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  266117ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  266117ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  266117ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  266118ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  266118ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  266118ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  266119ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  281117ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  281119ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  281120ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  281120ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  281121ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  281122ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  281122ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  281122ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  281123ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  281123ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  281123ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  281124ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  296117ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  296118ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  296119ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  296120ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  296120ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  296121ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  296121ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  296122ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  311111ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  311111ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  311111ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  311111ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  311112ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  311112ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  311112ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  311112ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  326112ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  326112ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  326112ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  326112ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  326112ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  326112ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  326113ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  326114ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  339233ms] [LOG] [freeze] detector stopped (5min timeout) @ https://cabinet.hayatibank.ru/:926
+[  341121ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  341121ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  341121ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  341122ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  341122ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  341122ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  341123ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  341123ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  341123ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  341124ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  341124ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  341124ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  354846ms] [LOG] [Telegram.WebView] > postEvent web_app_set_header_color {color_key: bg_color} @ https://telegram.org/js/telegram-web-app.js:134
+[  354849ms] [LOG] [Telegram.WebView] > postEvent web_app_set_bottom_bar_color {color: #ffffff} @ https://telegram.org/js/telegram-web-app.js:134
+[  354851ms] [LOG] [Telegram.WebView] > postEvent web_app_request_theme  @ https://telegram.org/js/telegram-web-app.js:134
+[  354851ms] [LOG] [Telegram.WebView] > postEvent web_app_request_viewport  @ https://telegram.org/js/telegram-web-app.js:134
+[  354851ms] [LOG] [Telegram.WebView] > postEvent web_app_request_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[  354852ms] [LOG] [Telegram.WebView] > postEvent web_app_request_content_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[  356575ms] [LOG] ✅ Multi-session manager initialized @ https://cabinet.hayatibank.ru/js/session.js:248
+[  356576ms] [LOG] ⏳ [LanguageSwitcher] Waiting for i18n... @ https://cabinet.hayatibank.ru/js/components/languageSwitcher.js:31
+[  356592ms] [LOG] ✅ Token manager v2.0.0 initialized @ https://cabinet.hayatibank.ru/js/tokenManager.js:271
+[  356593ms] [LOG] рџљЂ [app.js] DOMContentLoaded - Starting initialization... @ https://cabinet.hayatibank.ru/app.js:258
+[  356594ms] [LOG] рџЊЌ [app.js] Step 1/7: Initializing i18n... @ https://cabinet.hayatibank.ru/app.js:264
+[  356594ms] [LOG] [i18n] Initializing... @ https://cabinet.hayatibank.ru/js/i18n-manager.js:47
+[  356594ms] [LOG] [i18n] Language from shared prefs: ru @ https://cabinet.hayatibank.ru/js/i18n-manager.js:77
+[  356594ms] [LOG] [i18n] Detected language: ru @ https://cabinet.hayatibank.ru/js/i18n-manager.js:50
+[  356595ms] [LOG] [i18n] Loading ru.json... @ https://cabinet.hayatibank.ru/js/i18n-manager.js:115
+[  356602ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://cabinet.hayatibank.ru/:0
+[  356602ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://cabinet.hayatibank.ru/:0
+[  356603ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://cabinet.hayatibank.ru/:0
+[  356745ms] [LOG] [i18n] Loaded ru.json (538 keys) @ https://cabinet.hayatibank.ru/js/i18n-manager.js:133
+[  356750ms] [LOG] [i18n] Ready (538 keys) @ https://cabinet.hayatibank.ru/js/i18n-manager.js:61
+[  356750ms] [LOG] [i18n] ready event fired: {lang: ru} @ https://cabinet.hayatibank.ru/:916
+[  356751ms] [LOG]   Time: 5:22:18 PM @ https://cabinet.hayatibank.ru/:917
+[  356756ms] [LOG] ✅ [LanguageSwitcher] Created @ https://cabinet.hayatibank.ru/js/components/languageSwitcher.js:55
+[  356756ms] [LOG] вњ… [app.js] i18n ready: ru @ https://cabinet.hayatibank.ru/app.js:271
+[  356757ms] [LOG] рџ“љ [app.js] Loaded 538 translation keys @ https://cabinet.hayatibank.ru/app.js:272
+[  356757ms] [LOG] вЏі [app.js] Waiting for DOM to be fully ready... @ https://cabinet.hayatibank.ru/app.js:275
+[  356818ms] [LOG] вњ… [app.js] Initial translations applied to page @ https://cabinet.hayatibank.ru/app.js:283
+[  356818ms] [LOG] рџ“± [app.js] Step 2/7: Setting up Telegram... @ https://cabinet.hayatibank.ru/app.js:286
+[  356819ms] [LOG] [Telegram.WebView] > postEvent web_app_ready  @ https://telegram.org/js/telegram-web-app.js:134
+[  356819ms] [LOG] [Telegram.WebView] > postEvent web_app_expand  @ https://telegram.org/js/telegram-web-app.js:134
+[  356820ms] [WARNING] [Telegram.WebApp] Header color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:763
+[  356821ms] [WARNING] [Telegram.WebApp] Background color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:819
+[  356821ms] [LOG] вњ… [app.js] Telegram WebApp initialized @ https://cabinet.hayatibank.ru/app.js:297
+[  356821ms] [LOG] рџ“± Platform: unknown @ https://cabinet.hayatibank.ru/app.js:298
+[  356822ms] [LOG] рџ‘¤ User: undefined @ https://cabinet.hayatibank.ru/app.js:299
+[  356822ms] [LOG] рџ”Ґ [app.js] Step 3/7: Initializing Firebase... @ https://cabinet.hayatibank.ru/app.js:305
+[  358448ms] [LOG] рџ§№ Cleared stale Firebase auth state @ https://cabinet.hayatibank.ru/app.js:326
+[  358452ms] [LOG] вњ… Firebase initialized @ https://cabinet.hayatibank.ru/app.js:336
+[  358452ms] [LOG] рџ”Њ Firestore: WebSocket mode (default) @ https://cabinet.hayatibank.ru/app.js:337
+[  358452ms] [LOG] рџ”’ [app.js] Step 4/7: Setting up token management... @ https://cabinet.hayatibank.ru/app.js:340
+[  358453ms] [LOG] 🔒 Token interceptor installed @ https://cabinet.hayatibank.ru/js/tokenManager.js:215
+[  358454ms] [LOG] ⏰ Periodic token check enabled (every 10 min) @ https://cabinet.hayatibank.ru/js/tokenManager.js:242
+[  358454ms] [LOG] 🔄 Background token refresh enabled (every 30 min) @ https://cabinet.hayatibank.ru/js/tokenManager.js:268
+[  358455ms] [LOG] ⏰ [SessionMonitor] Starting session monitoring... @ https://cabinet.hayatibank.ru/js/sessionMonitor.js:52
+[  358455ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358456ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358456ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358456ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358457ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358458ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358458ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  358459ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358459ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358459ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358459ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358460ms] [LOG] вњ… Token auto-refresh enabled @ https://cabinet.hayatibank.ru/app.js:349
+[  358460ms] [LOG] вњ… Session monitoring enabled @ https://cabinet.hayatibank.ru/app.js:350
+[  358460ms] [LOG] [app.js] Step 5/7: Unified auth mode active (auth.hayatibank.ru) @ https://cabinet.hayatibank.ru/app.js:353
+[  358460ms] [LOG] вЏі [app.js] Step 6/7: Showing loading screen... @ https://cabinet.hayatibank.ru/app.js:356
+[  358461ms] [LOG] рџ”Ќ [app.js] Step 7/7: Checking session... @ https://cabinet.hayatibank.ru/app.js:361
+[  358461ms] [LOG] рџ“± ChatId: none (browser) @ https://cabinet.hayatibank.ru/app.js:364
+[  358461ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358462ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358462ms] [LOG] вњ… Session found: {email: dubai@hayatibank.ru, uid: 7Ju0eOj1TMND0VRSfiq5jexys672, expires: 4/21/2026, 6:17:05 PM} @ https://cabinet.hayatibank.ru/app.js:369
+[  358463ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358464ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358464ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358465ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358466ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  358467ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358467ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358468ms] [LOG] 🪙 [HYC] Claiming app_login... @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:83
+[  358468ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  358468ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358469ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358469ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  358469ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  358469ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  358469ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  359379ms] [LOG] ✅ [HYC] Claim successful: 0.01 @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:111
+[  359380ms] [LOG] [UserService] Fetching user data for: 7Ju0eOj1TMND0VRSfiq5jexys672 @ https://cabinet.hayatibank.ru/js/userService.js:18
+[  359380ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  359381ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  359382ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  359382ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  359383ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  359384ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  359384ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  359384ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  360006ms] [LOG] [ui] cabinet opened for: dubai@hayatibank.ru @ https://cabinet.hayatibank.ru/js/ui.js:204
+[  360006ms] [WARNING] [hayati-id] No Hayati ID found in user data @ https://cabinet.hayatibank.ru/js/components/hayatiIdDisplay.js:12
+[  360007ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360007ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360007ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  360008ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360008ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360008ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360008ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360008ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360008ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360009ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  360009ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360009ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360009ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360009ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360009ms] [LOG] вњ…вњ…вњ… App initialization complete! @ https://cabinet.hayatibank.ru/app.js:428
+[  360009ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  360010ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  360741ms] [LOG] [HYC] Balance rendered: 0.03 @ https://cabinet.hayatibank.ru/HayatiCoin/hycUI.js:37
+[  360742ms] [LOG] [ui] HYC balance displayed: 0.03 @ https://cabinet.hayatibank.ru/js/ui.js:216
+[  360742ms] [LOG] 📋 Cabinet ready: {uid: 7Ju0eOj1TMND0VRSfiq5jexys672, email: dubai@hayatibank.ru, accountIds: Array(1), hycBalance: 0.03, createdAt: Object} @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:311
+[  360743ms] [LOG] 📋 Loading accounts... @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:25
+[  360743ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360743ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360743ms] [LOG] Fetching accounts... @ https://cabinet.hayatibank.ru/cabinet/accounts.js:38
+[  360743ms] [LOG] API URL: https://api.hayatibank.ru @ https://cabinet.hayatibank.ru/cabinet/accounts.js:39
+[  360744ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  360744ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360744ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360744ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360744ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360744ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  360746ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360746ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360747ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  360748ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360749ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360749ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  360749ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  360750ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  361414ms] [LOG] 🔍 Account creation availability: false @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:269
+[  361415ms] [LOG] ℹ️ Create account button hidden (no available types) @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:305
+[  361521ms] [LOG] ✅ Rendered 1 accounts @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:52
+[  362753ms] [LOG] [accounts] entering account: ind_mjijd0nl_ll8hr @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:234
+[  362788ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  362788ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  362789ms] [LOG] 🪙 [HYC] Claiming dashboard_entry... @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:83
+[  362789ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  362789ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  362790ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  362790ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  362790ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  362790ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  362790ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  363204ms] [ERROR] Failed to load resource: the server responded with a status of 429 () @ https://api.hayatibank.ru/api/hyc/claim:0
+[  363206ms] [LOG] ℹ️ [HYC] Cooldown active: Cooldown active @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:102
+[  363207ms] [LOG] [dashboard] loading account: ind_mjijd0nl_ll8hr @ https://cabinet.hayatibank.ru/accountDashboard/accountNavigation.js:191
+[  363207ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  363207ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  363208ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  363208ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  363208ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  363208ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  363208ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  363208ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  364023ms] [LOG] [permissions] Loaded: {ok: true, uid: 7Ju0eOj1TMND0VRSfiq5jexys672, permissions: Object, unlockedSteps: Array(1), lockedSteps: Array(6)} @ https://cabinet.hayatibank.ru/js/utils/premiumAccess.js:92
+[  364024ms] [LOG] [dashboard] premium status loaded: {uid: 7Ju0eOj1TMND0VRSfiq5jexys672, permissions: Object, unlockedSteps: Array(1), lockedSteps: Array(6)} @ https://cabinet.hayatibank.ru/accountDashboard/accountNavigation.js:204
+[  364024ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364024ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364024ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  364025ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364025ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364025ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364025ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364025ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  364772ms] [LOG] 📊 Rendering financial report: ind_mjijd0nl_ll8hr, 2026 @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:36
+[  364772ms] [LOG] 📊 Fetching financial report: ind_mjijd0nl_ll8hr, year 2026 @ https://cabinet.hayatibank.ru/finStatement/reportService.js:77
+[  364773ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364773ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364773ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  364773ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364773ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364773ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364773ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364773ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  364774ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364774ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364774ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364774ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364774ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  364774ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364774ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364774ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364774ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364775ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  364775ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364775ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364775ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  364775ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  364775ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  364775ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  364777ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  364777ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  364778ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  364778ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  364782ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  364783ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  365620ms] [LOG] ✅ Financial report loaded @ https://cabinet.hayatibank.ru/finStatement/reportService.js:96
+[  365622ms] [LOG] 📊 Report manager initialized: ind_mjijd0nl_ll8hr 2026 @ https://cabinet.hayatibank.ru/finStatement/reportManager.js:19
+[  365704ms] [LOG] вњ… Financial report rendered @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:85
+[  365705ms] [LOG] 🎁 [Background] Loading offering zone... @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:116
+[  365749ms] [LOG] 💱 Exchange rates: {rub: 20.4866, usd: 0.272} @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:167
+[  365750ms] [LOG] 🎁 Rendering offering zone... @ https://cabinet.hayatibank.ru/offeringZone/offeringZone.js:30
+[  365751ms] [LOG] 💰 Budget calculation: {totalIncome: 23000000, totalExpenses: 0, cashFlow: 23000000, liquidAssets: 0, availableBudget: 69000000} @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:39
+[  365753ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  365753ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  365753ms] [LOG] 📊 Fetching market snapshot from pool... @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:65
+[  365754ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  365754ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  365754ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  365755ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  365755ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  365756ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  365756ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  366776ms] [LOG] ✅ Fetched 527 units from market pool @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:93
+[  366776ms] [LOG] 📅 Snapshot generated at: [object Object] @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:98
+[  366776ms] [LOG] 📍 Source: aggregator-v2 @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:99
+[  366777ms] [LOG] 🔍 Filtering units: {totalUnits: 527, budgetRub: 69,000,000, budgetAED: 3368055} @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:126
+[  366778ms] [LOG] ✅ Filtered to 280 units within budget @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:150
+[  366780ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  366783ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  366784ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  366784ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  366785ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  366786ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  366787ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  366788ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  366788ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  367273ms] [LOG] ✅ Offering zone rendered @ https://cabinet.hayatibank.ru/offeringZone/offeringZone.js:63
+[  367273ms] [LOG] ✅ [Background] Offering zone loaded successfully (attempt 1) @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:133
+[  373471ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  373471ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  373471ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  373471ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  373471ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  373472ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  373472ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  373472ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  388465ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  388466ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  388466ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  388467ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  388467ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  388468ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  388469ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  388469ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  403468ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  403469ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  403469ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  403470ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  403470ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  403471ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  403472ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  403472ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  418479ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  418482ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  418483ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  418483ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  418492ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  418492ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  418493ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  418493ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  418493ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  418494ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  418494ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  418494ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  428222ms] [LOG] [Telegram.WebView] > postEvent web_app_set_header_color {color_key: bg_color} @ https://telegram.org/js/telegram-web-app.js:134
+[  428222ms] [LOG] [Telegram.WebView] > postEvent web_app_set_bottom_bar_color {color: #ffffff} @ https://telegram.org/js/telegram-web-app.js:134
+[  428223ms] [LOG] [Telegram.WebView] > postEvent web_app_request_theme  @ https://telegram.org/js/telegram-web-app.js:134
+[  428224ms] [LOG] [Telegram.WebView] > postEvent web_app_request_viewport  @ https://telegram.org/js/telegram-web-app.js:134
+[  428225ms] [LOG] [Telegram.WebView] > postEvent web_app_request_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[  428225ms] [LOG] [Telegram.WebView] > postEvent web_app_request_content_safe_area  @ https://telegram.org/js/telegram-web-app.js:134
+[  428840ms] [LOG] ✅ Multi-session manager initialized @ https://cabinet.hayatibank.ru/js/session.js:248
+[  428891ms] [LOG] ⏳ [LanguageSwitcher] Waiting for i18n... @ https://cabinet.hayatibank.ru/js/components/languageSwitcher.js:31
+[  428900ms] [LOG] ✅ Token manager v2.0.0 initialized @ https://cabinet.hayatibank.ru/js/tokenManager.js:271
+[  428901ms] [LOG] рџљЂ [app.js] DOMContentLoaded - Starting initialization... @ https://cabinet.hayatibank.ru/app.js:258
+[  428903ms] [LOG] рџЊЌ [app.js] Step 1/7: Initializing i18n... @ https://cabinet.hayatibank.ru/app.js:264
+[  428903ms] [LOG] [i18n] Initializing... @ https://cabinet.hayatibank.ru/js/i18n-manager.js:47
+[  428904ms] [LOG] [i18n] Language from shared prefs: ru @ https://cabinet.hayatibank.ru/js/i18n-manager.js:77
+[  428905ms] [LOG] [i18n] Detected language: ru @ https://cabinet.hayatibank.ru/js/i18n-manager.js:50
+[  428905ms] [LOG] [i18n] Loading ru.json... @ https://cabinet.hayatibank.ru/js/i18n-manager.js:115
+[  428917ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://cabinet.hayatibank.ru/:0
+[  428919ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://cabinet.hayatibank.ru/:0
+[  428921ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://cabinet.hayatibank.ru/:0
+[  429257ms] [LOG] [i18n] Loaded ru.json (538 keys) @ https://cabinet.hayatibank.ru/js/i18n-manager.js:133
+[  429260ms] [LOG] [i18n] Ready (538 keys) @ https://cabinet.hayatibank.ru/js/i18n-manager.js:61
+[  429260ms] [LOG] [i18n] ready event fired: {lang: ru} @ https://cabinet.hayatibank.ru/:916
+[  429261ms] [LOG]   Time: 5:23:30 PM @ https://cabinet.hayatibank.ru/:917
+[  429261ms] [LOG] ✅ [LanguageSwitcher] Created @ https://cabinet.hayatibank.ru/js/components/languageSwitcher.js:55
+[  429262ms] [LOG] вњ… [app.js] i18n ready: ru @ https://cabinet.hayatibank.ru/app.js:271
+[  429262ms] [LOG] рџ“љ [app.js] Loaded 538 translation keys @ https://cabinet.hayatibank.ru/app.js:272
+[  429262ms] [LOG] вЏі [app.js] Waiting for DOM to be fully ready... @ https://cabinet.hayatibank.ru/app.js:275
+[  429313ms] [LOG] вњ… [app.js] Initial translations applied to page @ https://cabinet.hayatibank.ru/app.js:283
+[  429314ms] [LOG] рџ“± [app.js] Step 2/7: Setting up Telegram... @ https://cabinet.hayatibank.ru/app.js:286
+[  429314ms] [LOG] [Telegram.WebView] > postEvent web_app_ready  @ https://telegram.org/js/telegram-web-app.js:134
+[  429315ms] [LOG] [Telegram.WebView] > postEvent web_app_expand  @ https://telegram.org/js/telegram-web-app.js:134
+[  429316ms] [WARNING] [Telegram.WebApp] Header color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:763
+[  429316ms] [WARNING] [Telegram.WebApp] Background color is not supported in version 6.0 @ https://telegram.org/js/telegram-web-app.js:819
+[  429316ms] [LOG] вњ… [app.js] Telegram WebApp initialized @ https://cabinet.hayatibank.ru/app.js:297
+[  429317ms] [LOG] рџ“± Platform: unknown @ https://cabinet.hayatibank.ru/app.js:298
+[  429317ms] [LOG] рџ‘¤ User: undefined @ https://cabinet.hayatibank.ru/app.js:299
+[  429318ms] [LOG] рџ”Ґ [app.js] Step 3/7: Initializing Firebase... @ https://cabinet.hayatibank.ru/app.js:305
+[  429362ms] [LOG] рџ§№ Cleared stale Firebase auth state @ https://cabinet.hayatibank.ru/app.js:326
+[  429365ms] [LOG] вњ… Firebase initialized @ https://cabinet.hayatibank.ru/app.js:336
+[  429365ms] [LOG] рџ”Њ Firestore: WebSocket mode (default) @ https://cabinet.hayatibank.ru/app.js:337
+[  429366ms] [LOG] рџ”’ [app.js] Step 4/7: Setting up token management... @ https://cabinet.hayatibank.ru/app.js:340
+[  429366ms] [LOG] 🔒 Token interceptor installed @ https://cabinet.hayatibank.ru/js/tokenManager.js:215
+[  429366ms] [LOG] ⏰ Periodic token check enabled (every 10 min) @ https://cabinet.hayatibank.ru/js/tokenManager.js:242
+[  429366ms] [LOG] 🔄 Background token refresh enabled (every 30 min) @ https://cabinet.hayatibank.ru/js/tokenManager.js:268
+[  429367ms] [LOG] ⏰ [SessionMonitor] Starting session monitoring... @ https://cabinet.hayatibank.ru/js/sessionMonitor.js:52
+[  429367ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429368ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429368ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429368ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429369ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429369ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429369ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  429370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429371ms] [LOG] вњ… Token auto-refresh enabled @ https://cabinet.hayatibank.ru/app.js:349
+[  429371ms] [LOG] вњ… Session monitoring enabled @ https://cabinet.hayatibank.ru/app.js:350
+[  429371ms] [LOG] [app.js] Step 5/7: Unified auth mode active (auth.hayatibank.ru) @ https://cabinet.hayatibank.ru/app.js:353
+[  429371ms] [LOG] вЏі [app.js] Step 6/7: Showing loading screen... @ https://cabinet.hayatibank.ru/app.js:356
+[  429372ms] [LOG] рџ”Ќ [app.js] Step 7/7: Checking session... @ https://cabinet.hayatibank.ru/app.js:361
+[  429373ms] [LOG] рџ“± ChatId: none (browser) @ https://cabinet.hayatibank.ru/app.js:364
+[  429373ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429374ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429374ms] [LOG] вњ… Session found: {email: dubai@hayatibank.ru, uid: 7Ju0eOj1TMND0VRSfiq5jexys672, expires: 4/21/2026, 6:17:05 PM} @ https://cabinet.hayatibank.ru/app.js:369
+[  429374ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429375ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429375ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429375ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429375ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  429377ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429377ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429377ms] [LOG] 🪙 [HYC] Claiming app_login... @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:83
+[  429378ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  429378ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429378ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429378ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  429379ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  429379ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  429380ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  430102ms] [ERROR] Failed to load resource: the server responded with a status of 429 () @ https://api.hayatibank.ru/api/hyc/claim:0
+[  430104ms] [LOG] ℹ️ [HYC] Cooldown active: Cooldown active @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:102
+[  430105ms] [LOG] [UserService] Fetching user data for: 7Ju0eOj1TMND0VRSfiq5jexys672 @ https://cabinet.hayatibank.ru/js/userService.js:18
+[  430105ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  430105ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  430106ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  430106ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  430106ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  430107ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  430107ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  430108ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  430877ms] [LOG] [ui] cabinet opened for: dubai@hayatibank.ru @ https://cabinet.hayatibank.ru/js/ui.js:204
+[  430878ms] [WARNING] [hayati-id] No Hayati ID found in user data @ https://cabinet.hayatibank.ru/js/components/hayatiIdDisplay.js:12
+[  430878ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  430878ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  430878ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  430879ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  430880ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  430881ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  430882ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  430882ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  430883ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  430883ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  430884ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  430885ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  430886ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  430886ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  430887ms] [LOG] вњ…вњ…вњ… App initialization complete! @ https://cabinet.hayatibank.ru/app.js:428
+[  430887ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  430888ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  431586ms] [LOG] [HYC] Balance rendered: 0.03 @ https://cabinet.hayatibank.ru/HayatiCoin/hycUI.js:37
+[  431587ms] [LOG] [ui] HYC balance displayed: 0.03 @ https://cabinet.hayatibank.ru/js/ui.js:216
+[  431588ms] [LOG] 📋 Cabinet ready: {uid: 7Ju0eOj1TMND0VRSfiq5jexys672, email: dubai@hayatibank.ru, accountIds: Array(1), hycBalance: 0.03, createdAt: Object} @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:311
+[  431589ms] [LOG] 📋 Loading accounts... @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:25
+[  431589ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  431590ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  431590ms] [LOG] Fetching accounts... @ https://cabinet.hayatibank.ru/cabinet/accounts.js:38
+[  431590ms] [LOG] API URL: https://api.hayatibank.ru @ https://cabinet.hayatibank.ru/cabinet/accounts.js:39
+[  431591ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  431591ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  431591ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  431591ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  431592ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  431592ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  431594ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  431594ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  431594ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  431595ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  431595ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  431595ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  431595ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  431595ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  432253ms] [LOG] 🔍 Account creation availability: false @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:269
+[  432253ms] [LOG] ℹ️ Create account button hidden (no available types) @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:305
+[  432278ms] [LOG] ✅ Rendered 1 accounts @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:52
+[  434635ms] [LOG] [accounts] entering account: ind_mjijd0nl_ll8hr @ https://cabinet.hayatibank.ru/cabinet/accountsUI.js:234
+[  434673ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  434673ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  434674ms] [LOG] 🪙 [HYC] Claiming dashboard_entry... @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:83
+[  434674ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  434675ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  434675ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  434676ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  434676ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  434676ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  434676ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  435103ms] [ERROR] Failed to load resource: the server responded with a status of 429 () @ https://api.hayatibank.ru/api/hyc/claim:0
+[  435105ms] [LOG] ℹ️ [HYC] Cooldown active: Cooldown active @ https://cabinet.hayatibank.ru/HayatiCoin/hycService.js:102
+[  435105ms] [LOG] [dashboard] loading account: ind_mjijd0nl_ll8hr @ https://cabinet.hayatibank.ru/accountDashboard/accountNavigation.js:191
+[  435105ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  435106ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  435106ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  435106ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  435107ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  435107ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  435107ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  435108ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  435962ms] [LOG] [permissions] Loaded: {ok: true, uid: 7Ju0eOj1TMND0VRSfiq5jexys672, permissions: Object, unlockedSteps: Array(1), lockedSteps: Array(6)} @ https://cabinet.hayatibank.ru/js/utils/premiumAccess.js:92
+[  435964ms] [LOG] [dashboard] premium status loaded: {uid: 7Ju0eOj1TMND0VRSfiq5jexys672, permissions: Object, unlockedSteps: Array(1), lockedSteps: Array(6)} @ https://cabinet.hayatibank.ru/accountDashboard/accountNavigation.js:204
+[  435965ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  435966ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  435966ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  435966ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  435967ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  435967ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  435967ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  435968ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  436673ms] [LOG] 📊 Rendering financial report: ind_mjijd0nl_ll8hr, 2026 @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:36
+[  436673ms] [LOG] 📊 Fetching financial report: ind_mjijd0nl_ll8hr, year 2026 @ https://cabinet.hayatibank.ru/finStatement/reportService.js:77
+[  436673ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  436673ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  436674ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  436674ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  436674ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  436674ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  436674ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  436674ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  436674ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  436674ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  436675ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  436675ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  436675ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  436675ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  436675ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  436675ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  436675ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  436675ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  436676ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  436676ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  436676ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  436676ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  436676ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  436676ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  436677ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  436678ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  436679ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  436679ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  436682ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  436683ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  437428ms] [LOG] ✅ Financial report loaded @ https://cabinet.hayatibank.ru/finStatement/reportService.js:96
+[  437429ms] [LOG] 📊 Report manager initialized: ind_mjijd0nl_ll8hr 2026 @ https://cabinet.hayatibank.ru/finStatement/reportManager.js:19
+[  437511ms] [LOG] вњ… Financial report rendered @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:85
+[  437512ms] [LOG] 🎁 [Background] Loading offering zone... @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:116
+[  437542ms] [LOG] 💱 Exchange rates: {rub: 20.4866, usd: 0.272} @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:167
+[  437543ms] [LOG] 🎁 Rendering offering zone... @ https://cabinet.hayatibank.ru/offeringZone/offeringZone.js:30
+[  437543ms] [LOG] 💰 Budget calculation: {totalIncome: 23000000, totalExpenses: 0, cashFlow: 23000000, liquidAssets: 0, availableBudget: 69000000} @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:39
+[  437544ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  437544ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  437545ms] [LOG] 📊 Fetching market snapshot from pool... @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:65
+[  437545ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  437546ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  437547ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  437549ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  437550ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  437551ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  437551ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  438888ms] [LOG] ✅ Fetched 527 units from market pool @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:93
+[  438889ms] [LOG] 📅 Snapshot generated at: [object Object] @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:98
+[  438889ms] [LOG] 📍 Source: aggregator-v2 @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:99
+[  438889ms] [LOG] 🔍 Filtering units: {totalUnits: 527, budgetRub: 69,000,000, budgetAED: 3368055} @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:126
+[  438892ms] [LOG] ✅ Filtered to 280 units within budget @ https://cabinet.hayatibank.ru/offeringZone/offeringService.js:150
+[  438894ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  438894ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  438895ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  438895ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  438899ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  438900ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  438901ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  438901ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  438902ms] [LOG] 🔄 Updating token in request body @ https://cabinet.hayatibank.ru/js/tokenManager.js:201
+[  439374ms] [LOG] ✅ Offering zone rendered @ https://cabinet.hayatibank.ru/offeringZone/offeringZone.js:63
+[  439374ms] [LOG] ✅ [Background] Offering zone loaded successfully (attempt 1) @ https://cabinet.hayatibank.ru/finStatement/financialReport.js:133
+[  444378ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  444378ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  444379ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  444379ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  444380ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  444381ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  444382ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  444382ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  459384ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  459385ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  459385ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  459385ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  459386ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  459386ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  459386ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  459386ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  474384ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  474385ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  474385ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  474385ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  474385ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  474386ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  474386ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  474387ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  489371ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  489371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  489371ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  489371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  489372ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  489372ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  489372ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  489372ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  489373ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  489373ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  489373ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  489374ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  504385ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  504386ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  504387ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  504388ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  504388ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  504389ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  504389ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  504390ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  519376ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  519377ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  519377ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  519377ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  519377ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  519378ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  519378ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  519378ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  534379ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  534380ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  534381ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  534381ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  534382ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  534382ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  534382ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  534383ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  549376ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  549376ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  549376ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  549377ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  549377ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  549377ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  549377ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  549378ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  549378ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  549378ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  549378ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  549378ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  564370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  564371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  564371ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  564372ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  564372ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  564373ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  564373ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  564374ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  579369ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  579370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  579370ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  579370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  579370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  579371ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  579371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  579371ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  594380ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  594380ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  594381ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  594382ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  594384ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  594385ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  594385ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  594386ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  609374ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  609374ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  609375ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  609375ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  609375ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  609376ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  609376ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  609377ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  609377ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  609377ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  609378ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  609378ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  624372ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  624373ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  624373ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  624373ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  624373ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  624374ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  624374ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  624374ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  639369ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  639369ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  639370ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  639370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  639370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  639370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  639371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  639371ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  654384ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  654385ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  654385ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  654386ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  654386ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  654386ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  654386ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  654387ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  669375ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  669376ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  669376ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  669377ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  669377ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  669378ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  669381ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  669382ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  669383ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  669383ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  669384ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  669384ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  684369ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  684370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  684370ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  684370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  684370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  684371ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  684371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  684371ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  699372ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  699373ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  699373ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  699374ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  699374ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  699375ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  699375ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  699376ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  714372ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  714372ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  714373ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  714373ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  714374ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  714374ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  714374ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  714374ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  728234ms] [LOG] [freeze] detector stopped (5min timeout) @ https://cabinet.hayatibank.ru/:926
+[  729369ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  729370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  729370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  729370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  729371ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  729371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  729371ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  729372ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  729372ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  729373ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  729373ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  729373ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  744371ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  744371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  744372ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  744372ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  744372ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  744373ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  744373ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  744374ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  759383ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  759384ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  759385ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  759385ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  759385ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  759385ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  759386ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  759386ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  774370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  774370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  774370ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  774371ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  774371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  774371ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  774371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  774371ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  789369ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  789369ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  789369ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  789370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  789370ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  789370ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  789371ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  789371ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  789371ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  789372ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  789372ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  789373ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  804383ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  804384ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  804384ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  804385ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  804385ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  804385ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  804386ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  804386ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  819379ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  819380ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  819380ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  819380ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  819380ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  819382ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  819383ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  819383ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187
+[  834394ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  834401ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  834404ms] [LOG] 🔒 Token interceptor: checking token freshness @ https://cabinet.hayatibank.ru/js/tokenManager.js:179
+[  834404ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  834405ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  834407ms] [LOG] ℹ️ No chatId, checking global session @ https://cabinet.hayatibank.ru/js/session.js:71
+[  834409ms] [LOG] ✅ Valid global session found @ https://cabinet.hayatibank.ru/js/session.js:77
+[  834410ms] [LOG] ✅ Fresh token obtained for request @ https://cabinet.hayatibank.ru/js/tokenManager.js:187

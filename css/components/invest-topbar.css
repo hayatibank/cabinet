@@ -283,6 +283,10 @@ body {
   display: none;
 }
 
+.menu-lang-switch {
+  display: none !important;
+}
+
 .data-badge {
   font-size: 11px;
   line-height: 1;
@@ -345,10 +349,10 @@ body {
 
   /* Mobile-only autohide: JS toggles this class on body while scrolling */
   body.mobile-topbar-hidden .topbar {
-    transform: translateY(calc(-100% - 8px));
-    opacity: 0;
-    border-color: transparent;
-    pointer-events: none;
+    transform: none;
+    opacity: 1;
+    border-color: rgba(0, 240, 255, 0.16);
+    pointer-events: auto;
   }
 }
 
@@ -550,10 +554,9 @@ body {
 
 .lang-mobile-wrap {
   display: none;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
+  position: static;
+  transform: none;
+  z-index: auto;
 }
 
 .lang-mobile-select {
@@ -753,20 +756,21 @@ body {
   .top-actions {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 3px !important;
     justify-self: end !important;
     position: static !important;
     transform: none !important;
-    z-index: auto !important;
+    z-index: 62 !important;
   }
 
   .lang-mobile-wrap {
     display: inline-flex !important;
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    z-index: 61 !important;
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    z-index: auto !important;
+    order: 0 !important;
   }
 
   .menu-toggle-btn {
@@ -774,13 +778,14 @@ body {
     width: 40px !important;
     height: 40px !important;
     position: relative !important;
-    z-index: 62 !important;
+    z-index: 1 !important;
+    order: 1 !important;
   }
 
   .menu-open .menu-toggle-btn,
   body.menu-open .menu-toggle-btn {
-    opacity: 0 !important;
-    pointer-events: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
 
   .header-meta {
@@ -845,8 +850,9 @@ body {
     text-align: center !important;
   }
 
-  .header-meta > .lang-switch,
-  .menu-mobile-utility {
+  .header-meta .lang-switch,
+  .menu-mobile-utility,
+  .menu-lang-switch {
     display: none !important;
   }
 
@@ -887,9 +893,9 @@ body {
   }
 
   body.mobile-topbar-hidden .topbar {
-    transform: translateY(calc(-100% - 8px));
-    opacity: 0;
-    border-color: transparent;
-    pointer-events: none;
+    transform: none;
+    opacity: 1;
+    border-color: rgba(0, 240, 255, 0.16);
+    pointer-events: auto;
   }
 }

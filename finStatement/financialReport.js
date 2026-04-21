@@ -25,6 +25,23 @@ let mobileExpandKeydownBound = false;
 let mobileExpandedSection = null;
 let mobileExpandedPlaceholder = null;
 let mobileOverlayNode = null;
+
+function syncReportLabelOverflow() {
+  const tracks = document.querySelectorAll('.report-label-track');
+  tracks.forEach((track) => {
+    const text = track.querySelector('.report-label-text');
+    if (!text) return;
+
+    track.classList.remove('is-overflowing');
+    track.style.removeProperty('--marquee-distance');
+
+    const overflow = text.scrollWidth - track.clientWidth;
+    if (overflow > 6) {
+      track.classList.add('is-overflowing');
+      track.style.setProperty('--marquee-distance', `-${overflow + 20}px`);
+    }
+  });
+}
 /**
  * Render financial report
  */
@@ -44,9 +61,9 @@ export async function renderFinancialReport(accountId, year = new Date().getFull
     }
     
     container.innerHTML = `
-      <div class="financial-report-loading">
+      <div class="loading-stack financial-report-loading" aria-live="polite" aria-busy="true">
         <div class="spinner"></div>
-        <p>Загрузка финансового отчета...</p>
+        <p class="loading-copy">Загрузка финансового отчета...</p>
       </div>
     `;
     
@@ -82,14 +99,14 @@ export async function renderFinancialReport(accountId, year = new Date().getFull
     
     // Attach listeners
     attachReportListeners(accountId);
+    syncReportLabelOverflow();
     
     console.log('вњ… Financial report rendered');
     
-    // вњ… NEW: Render Offering Zone (NON-BLOCKING, ISOLATED)
-    // Don't wait for offering zone - let it load in background
-    renderOfferingZoneAsync(accountId, year, reportData).catch(err => {
-      console.error('❌ Offering zone failed (non-critical):', err);
-    });
+    // Offering zone is temporarily disabled.
+    // renderOfferingZoneAsync(accountId, year, reportData).catch(err => {
+    //   console.error('❌ Offering zone failed (non-critical):', err);
+    // });
     
   } catch (err) {
     console.error('❌ Error rendering financial report:', err);
@@ -318,6 +335,7 @@ function attachReportListeners(accountId) {
         closeMobileExpandedSection();
       }
       setupMobileExpandHints();
+      syncReportLabelOverflow();
     }, { passive: true });
     mobileExpandResizeBound = true;
   }

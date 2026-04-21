@@ -226,9 +226,9 @@ export async function showAccountDashboard(accountId) {
     renderTopDashboardContext(account);
 
     container.innerHTML = `
-      <div class="loading-dashboard" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:16px;">
-        <div class="spinner" style="border:3px solid rgba(0, 240, 255, 0.1);border-top:3px solid var(--neon-blue);border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div>
-        <p style="color: var(--text-muted);">${t('dashboard.loading')}</p>
+      <div class="loading-stack loading-dashboard" aria-live="polite" aria-busy="true">
+        <div class="spinner"></div>
+        <p class="loading-copy">${t('dashboard.loading')}</p>
       </div>
     `;
 

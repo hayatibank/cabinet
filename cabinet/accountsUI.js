@@ -19,20 +19,26 @@ import { showCreateAccountForm } from './createAccount.js';
  * Render accounts list in cabinet
  */
 export async function renderAccountsList() {
-  // ✅ i18n is guaranteed to be ready (no need to wait)
   const t = window.i18n.t.bind(window.i18n);
-  
+  const container = document.querySelector('.cabinet-content');
+
+  if (!container) {
+    console.error('Cabinet content container not found');
+    return;
+  }
+
   try {
-    console.log('📋 Loading accounts...');
-    
+    console.log('Loading accounts...');
+
+    container.innerHTML = `
+      <div class="loading-stack accounts-loading" aria-live="polite" aria-busy="true">
+        <div class="spinner"></div>
+        <p class="loading-copy" data-i18n="cabinet.loadingAccounts">${t('cabinet.loadingAccounts')}</p>
+      </div>
+    `;
+
     const accounts = await getUserAccounts();
-    const container = document.querySelector('.cabinet-content');
-    
-    if (!container) {
-      console.error('❌ Cabinet content container not found');
-      return;
-    }
-    
+
     if (accounts.length === 0) {
       container.innerHTML = `
         <div class="no-accounts">
@@ -46,19 +52,18 @@ export async function renderAccountsList() {
           ${accounts.map(acc => renderAccountCard(acc)).join('')}
         </div>
       `;
-      
+
       attachAccountListeners();
     }
-    
-    console.log(`✅ Rendered ${accounts.length} accounts`);
-    
+
+    console.log(`Rendered ${accounts.length} accounts`);
+
   } catch (err) {
-    console.error('❌ Error rendering accounts:', err);
-    
-    // ✅ GRACEFUL DEGRADATION: Show error message but keep cabinet functional
-    const t = window.i18n.t.bind(window.i18n);
+    console.error('Error rendering accounts:', err);
+
+    // Graceful degradation: show error message but keep cabinet functional
     const container = document.querySelector('.cabinet-content');
-    
+
     if (container) {
       container.innerHTML = `
         <div class="error-message">
@@ -87,13 +92,8 @@ export async function renderAccountsList() {
         </div>
       `;
     }
-    
-    // ✅ DON'T throw - keep cabinet functional
-    // throw err;  // ❌ NO! This would crash the whole cabinet
   }
 }
-
-// ... rest of the file stays the same ...
 
 /**
  * Render single account card
@@ -161,8 +161,6 @@ function renderAccountCard(account) {
   `;
 }
 
-// ... rest stays the same (attachAccountListeners, etc) ...
-
 function attachAccountListeners() {
   document.querySelectorAll('.btn-menu-toggle').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -213,12 +211,12 @@ async function handleDeleteAccount(accountId) {
     const confirmed = confirm(t('cabinet.account.deleteConfirm'));
     if (!confirmed) return;
     
-    console.log(`🗑️ Deleting account: ${accountId}`);
+    console.log(`Deleting account: ${accountId}`);
     await deleteAccount(accountId);
     alert(t('cabinet.accountDeleted'));
     await renderAccountsList();
   } catch (err) {
-    console.error('❌ Error deleting account:', err);
+    console.error('Error deleting account:', err);
     alert(t('cabinet.createAccount.error'));
   }
 }
@@ -256,7 +254,6 @@ export async function showCreateAccountButton() {
     return;
   }
   
-  // ✅ Check availability before showing button
   let canCreateAnything = false;
   try {
     const { checkAccountAvailability } = await import('./accounts.js');
@@ -267,14 +264,12 @@ export async function showCreateAccountButton() {
       availability.business.canCreate ||
       availability.government.canCreate;
     
-    console.log('🔍 Account creation availability:', canCreateAnything);
+    console.log('Account creation availability:', canCreateAnything);
   } catch (err) {
-    console.error('⚠️ Failed to check availability:', err);
-    // Default to showing button if check fails
+    console.error('Failed to check availability:', err);
     canCreateAnything = true;
   }
   
-  // ✅ Only show create button if user can create something
   if (canCreateAnything) {
     actionsContainer.innerHTML = `
       <button class="btn btn-primary btn-create-account">
@@ -293,7 +288,6 @@ export async function showCreateAccountButton() {
       createBtn.onclick = showCreateAccountForm;
     }
   } else {
-    // ✅ No create button, just settings and logout
     actionsContainer.innerHTML = `
       <button onclick="showProfileMenu()" class="btn btn-ghost">
         <span data-i18n="cabinet.settings">${t('cabinet.settings')}</span>
@@ -303,13 +297,13 @@ export async function showCreateAccountButton() {
       </button>
     `;
     
-    console.log('ℹ️ Create account button hidden (no available types)');
+    console.log('Create account button hidden (no available types)');
   }
 }
 
 if (typeof window !== 'undefined') {
   window.addEventListener('cabinetReady', async (event) => {
-    console.log('📋 Cabinet ready:', event.detail);
+    console.log('Cabinet ready:', event.detail);
     showCreateAccountButton();
     await renderAccountsList();
   });

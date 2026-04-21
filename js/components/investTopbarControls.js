@@ -97,7 +97,6 @@ function initResponsiveTopbar() {
   }
 
   if (!btn || !backdrop || !panel) {
-    positionMobileLangControl();
     return;
   }
 
@@ -125,22 +124,7 @@ function initResponsiveTopbar() {
 
   window.addEventListener('resize', () => {
     if (window.innerWidth > 900) closeMenu();
-    positionMobileLangControl();
   });
-  positionMobileLangControl();
-  window.setTimeout(positionMobileLangControl, 0);
-  window.addEventListener('orientationchange', () => {
-    window.setTimeout(positionMobileLangControl, 80);
-  });
-  window.addEventListener('load', () => {
-    window.setTimeout(positionMobileLangControl, 120);
-    window.setTimeout(positionMobileLangControl, 420);
-  });
-  if (document.fonts && typeof document.fonts.ready?.then === 'function') {
-    document.fonts.ready.then(() => {
-      window.setTimeout(positionMobileLangControl, 80);
-    });
-  }
 }
 
 function initHeaderRailWheelScroll() {
@@ -164,27 +148,6 @@ function initHeaderRailWheelScroll() {
       el.scrollBy({ left: dominantDelta, behavior: 'auto' });
     }, { passive: false });
   });
-}
-
-function positionMobileLangControl() {
-  const topbar = document.querySelector('.topbar');
-  const brandFrame = document.querySelector('.brand-frame');
-  const menuBtn = document.getElementById('menuToggleBtn');
-  const langWrap = document.querySelector('.lang-mobile-wrap');
-  if (!topbar || !brandFrame || !menuBtn || !langWrap) return;
-
-  if (window.innerWidth > 900) {
-    langWrap.style.removeProperty('left');
-    langWrap.style.removeProperty('right');
-    return;
-  }
-
-  const topRect = topbar.getBoundingClientRect();
-  const brandRect = brandFrame.getBoundingClientRect();
-  const menuRect = menuBtn.getBoundingClientRect();
-  const midpointX = (brandRect.right + menuRect.left) / 2;
-  langWrap.style.setProperty('right', 'auto', 'important');
-  langWrap.style.setProperty('left', `${midpointX - topRect.left}px`, 'important');
 }
 
 function attachListeners() {
