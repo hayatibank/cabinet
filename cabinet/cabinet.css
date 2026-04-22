@@ -490,13 +490,13 @@
 
 @media (max-width: 768px) {
   #cabinetScreen,
-  .cabinet-card,
-  .cabinet-content {
+  #cabinetScreen .cabinet-card,
+  #cabinetScreen .cabinet-content {
     width: 100%;
     max-width: none;
   }
 
-  .cabinet-card {
+  #cabinetScreen.cabinet-screen-in-account .cabinet-card {
     padding: 0;
     background: transparent;
     border: 0;
@@ -505,11 +505,29 @@
     border-radius: 0;
   }
 
-  .cabinet-content {
+  #cabinetScreen.cabinet-screen-in-account .cabinet-content {
     padding: 0;
     background: transparent;
     border-radius: 0;
     text-align: left;
+  }
+
+  #cabinetScreen.cabinet-screen-picker .cabinet-card {
+    padding: 20px;
+    background: var(--glass-bg);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 16px;
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.3),
+      0 0 40px rgba(0, 240, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  #cabinetScreen.cabinet-screen-picker .cabinet-content {
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 8px;
+    text-align: center;
   }
 
   .accounts-list {

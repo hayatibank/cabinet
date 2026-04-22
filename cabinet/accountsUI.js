@@ -15,12 +15,20 @@
 import { getUserAccounts, deleteAccount } from './accounts.js';
 import { showCreateAccountForm } from './createAccount.js';
 
+function setCabinetScreenMode(mode) {
+  const cabinetScreen = document.getElementById('cabinetScreen');
+  if (!cabinetScreen) return;
+  cabinetScreen.classList.remove('cabinet-screen-picker', 'cabinet-screen-in-account');
+  cabinetScreen.classList.add(mode === 'in-account' ? 'cabinet-screen-in-account' : 'cabinet-screen-picker');
+}
+
 /**
  * Render accounts list in cabinet
  */
 export async function renderAccountsList() {
   const t = window.i18n.t.bind(window.i18n);
   const container = document.querySelector('.cabinet-content');
+  setCabinetScreenMode('picker');
 
   if (!container) {
     console.error('Cabinet content container not found');
@@ -298,7 +306,11 @@ if (typeof window !== 'undefined') {
   window.addEventListener('cabinetReady', async (event) => {
     console.log('Cabinet ready:', event.detail);
     showCreateAccountButton();
-    await renderAccountsList();
+    const navigation = await import('../accountDashboard/accountNavigation.js');
+    const restored = await navigation.restoreActiveAccountView();
+    if (!restored) {
+      await renderAccountsList();
+    }
   });
 }
 
@@ -313,6 +325,11 @@ if (typeof window !== 'undefined') {
     }
 
     await showCreateAccountButton();
+    if (window.currentAccountId) {
+      const navigation = await import('../accountDashboard/accountNavigation.js');
+      const restored = await navigation.restoreActiveAccountView();
+      if (restored) return;
+    }
     await renderAccountsList();
   });
 }

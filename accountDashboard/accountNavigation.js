@@ -11,8 +11,57 @@ import { renderLevel1 } from '../investments/level1.js';
 import { claimHYC } from '../HayatiCoin/hycService.js';
 import { checkPremiumStatus, isStepUnlocked } from '../js/utils/premiumAccess.js';
 
+const ACTIVE_ACCOUNT_STORAGE_KEY = 'hayati_active_account_runtime_v1';
+
 function t(key) {
   return window.i18n?.t?.(key) || key;
+}
+
+function setCabinetScreenMode(mode) {
+  const cabinetScreen = document.getElementById('cabinetScreen');
+  if (!cabinetScreen) return;
+  cabinetScreen.classList.remove('cabinet-screen-picker', 'cabinet-screen-in-account');
+  cabinetScreen.classList.add(mode === 'in-account' ? 'cabinet-screen-in-account' : 'cabinet-screen-picker');
+}
+
+function saveActiveAccountRuntime(accountId, step = 1) {
+  const payload = {
+    accountId: String(accountId || ''),
+    step: Number(step || 1) || 1
+  };
+
+  window.currentAccountId = payload.accountId;
+  window.currentDashboardStep = payload.step;
+
+  try {
+    sessionStorage.setItem(ACTIVE_ACCOUNT_STORAGE_KEY, JSON.stringify(payload));
+  } catch (_error) {
+    // no-op
+  }
+}
+
+function loadActiveAccountRuntime() {
+  try {
+    const raw = sessionStorage.getItem(ACTIVE_ACCOUNT_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    if (!parsed?.accountId) return null;
+    return {
+      accountId: String(parsed.accountId),
+      step: Number(parsed.step || 1) || 1
+    };
+  } catch (_error) {
+    return null;
+  }
+}
+
+function clearActiveAccountRuntime() {
+  delete window.currentAccountId;
+  delete window.currentDashboardStep;
+  try {
+    sessionStorage.removeItem(ACTIVE_ACCOUNT_STORAGE_KEY);
+  } catch (_error) {
+    // no-op
+  }
 }
 
 function getDefaultPremiumStatus() {
@@ -136,6 +185,7 @@ function renderComingSoon(stepNumber, title) {
 
 async function renderStepContent(stepNumber, account) {
   const contentContainer = document.getElementById('dashboardContent');
+  saveActiveAccountRuntime(account?.accountId, stepNumber);
 
   switch (stepNumber) {
     case 1:
@@ -179,18 +229,21 @@ function attachDashboardListeners(account, premiumStatus) {
 
       navButtons.forEach((node) => node.classList.remove('active'));
       btn.classList.add('active');
+      window.currentDashboardStep = step;
 
       await renderStepContent(step, account);
     });
   });
 }
 
-export async function showAccountDashboard(accountId) {
+export async function showAccountDashboard(accountId, options = {}) {
   await claimHYC('dashboard_entry', accountId);
 
   try {
     console.log('[dashboard] loading account:', accountId);
-    window.currentAccountId = accountId;
+    const selectedStep = Number(options?.step || window.currentDashboardStep || 1) || 1;
+    saveActiveAccountRuntime(accountId, selectedStep);
+    setCabinetScreenMode('in-account');
 
     const container = document.querySelector('.cabinet-content');
     if (!container) {
@@ -210,6 +263,8 @@ export async function showAccountDashboard(accountId) {
 
     const account = await getAccountById(accountId);
     if (!account) {
+      clearActiveAccountRuntime();
+      setCabinetScreenMode('picker');
       clearTopDashboardContext();
       container.innerHTML = `
         <div class="error-screen" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:16px;padding:40px;text-align:center;">
@@ -235,23 +290,24 @@ export async function showAccountDashboard(accountId) {
     container.innerHTML = `
       <div class="account-dashboard">
         <nav class="dashboard-nav">
-          ${renderStep(1, t('dashboard.step1'), true, premiumStatus)}
-          ${renderStep(2, t('dashboard.step2'), false, premiumStatus)}
-          ${renderStep(3, t('dashboard.step3'), false, premiumStatus)}
-          ${renderStep(4, t('dashboard.step4'), false, premiumStatus)}
-          ${renderStep(5, t('dashboard.step5'), false, premiumStatus)}
-          ${renderStep(6, t('dashboard.step6'), false, premiumStatus)}
-          ${renderStep(7, t('dashboard.step7'), false, premiumStatus)}
+          ${renderStep(1, t('dashboard.step1'), selectedStep === 1, premiumStatus)}
+          ${renderStep(2, t('dashboard.step2'), selectedStep === 2, premiumStatus)}
+          ${renderStep(3, t('dashboard.step3'), selectedStep === 3, premiumStatus)}
+          ${renderStep(4, t('dashboard.step4'), selectedStep === 4, premiumStatus)}
+          ${renderStep(5, t('dashboard.step5'), selectedStep === 5, premiumStatus)}
+          ${renderStep(6, t('dashboard.step6'), selectedStep === 6, premiumStatus)}
+          ${renderStep(7, t('dashboard.step7'), selectedStep === 7, premiumStatus)}
         </nav>
 
         <div class="dashboard-content" id="dashboardContent"></div>
       </div>
     `;
 
-    await renderFinancialReport(account.accountId);
+    await renderStepContent(selectedStep, account);
     attachDashboardListeners(account, premiumStatus);
   } catch (err) {
     console.error('[dashboard] error loading:', err);
+    clearActiveAccountRuntime();
     clearTopDashboardContext();
     const container = document.querySelector('.cabinet-content');
     if (!container) return;
@@ -271,10 +327,18 @@ export async function showAccountDashboard(accountId) {
 
 function goBack() {
   clearTopDashboardContext();
-  delete window.currentAccountId;
+  clearActiveAccountRuntime();
+  setCabinetScreenMode('picker');
   import('../cabinet/accountsUI.js').then((module) => {
     module.renderAccountsList();
   });
 }
 
-window.accountNavigation = { goBack };
+export async function restoreActiveAccountView() {
+  const runtime = loadActiveAccountRuntime();
+  if (!runtime?.accountId) return false;
+  await showAccountDashboard(runtime.accountId, { step: runtime.step || 1 });
+  return true;
+}
+
+window.accountNavigation = { goBack, restoreActiveAccountView };
