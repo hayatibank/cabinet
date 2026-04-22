@@ -44,6 +44,11 @@ function statusMark(ok, fallbackDown = false) {
 
 export function formatIncomeSection(incomeData) {
   const t = window.i18n.t.bind(window.i18n);
+  const getIncomeTotalLabel = (groupKey, fallbackLabel) => {
+    const totalKey = `income.${letterMapping[groupKey].total}`;
+    const translated = t(totalKey);
+    return translated === totalKey ? `${fallbackLabel} ${t('report.total')}` : translated;
+  };
 
   const groups = [
     { key: 'A', label: t('income.A'), items: [] },
@@ -98,7 +103,7 @@ export function formatIncomeSection(incomeData) {
 
     html += `
       <div class="report-row group-total-row">
-        ${renderLabelCell(`${letters.total}. ${group.label} ${t('report.total')}`)}
+        ${renderLabelCell(`${letters.total}. ${getIncomeTotalLabel(group.key, group.label)}`)}
         <div class="report-cell amount-cell group-total-amount">${formatCurrency(groupTotal)}</div>
       </div>
     `;

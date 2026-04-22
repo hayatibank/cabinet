@@ -1,4 +1,4 @@
-/* /webapp/js/cabinet/reports/reportManager.js v1.1.0 */
+/* /webapp/js/cabinet/reports/reportManager.js v1.2.0 */
 // CRUD management for financial report items
 
 import { getSession } from '../js/session.js';
@@ -43,20 +43,21 @@ export async function showEditModal(section, categoryCode) {
     }, 100);
   } catch (err) {
     console.error('Error showing edit modal:', err);
-    alert('Ошибка открытия редактора');
+    alert(window.i18n.t('report.modal.openError'));
   }
 }
 
 function createEditModal(template, currentAmount, section, categoryCode) {
+  const t = window.i18n.t.bind(window.i18n);
   const modal = document.createElement('div');
   modal.className = 'modal report-edit-modal';
   modal.id = 'reportEditModal';
 
   const sectionInfo = {
-    income: { emoji: '💰', title: 'Доходы', color: '#00ff9f' },
-    expenses: { emoji: '💸', title: 'Расходы', color: '#ff006e' },
-    assets: { emoji: '📊', title: 'Активы', color: '#00f0ff' },
-    liabilities: { emoji: '📉', title: 'Пассивы', color: '#ffd700' }
+    income: { title: t('report.income'), color: '#00ff9f' },
+    expenses: { title: t('report.expenses'), color: '#ff006e' },
+    assets: { title: t('report.assets'), color: '#00f0ff' },
+    liabilities: { title: t('report.liabilities'), color: '#ffd700' }
   };
 
   const info = sectionInfo[section];
@@ -65,7 +66,7 @@ function createEditModal(template, currentAmount, section, categoryCode) {
     <div class="modal-overlay" onclick="window.closeReportEditModal()"></div>
     <div class="modal-content report-modal-content">
       <div class="modal-header">
-        <h3 style="color: ${info.color}">${info.emoji} ${info.title}</h3>
+        <h3 style="color: ${info.color}">${info.title}</h3>
         <button onclick="window.closeReportEditModal()" class="btn-close">×</button>
       </div>
       <div class="modal-body">
@@ -76,7 +77,7 @@ function createEditModal(template, currentAmount, section, categoryCode) {
           </div>
 
           <div class="input-group">
-            <label for="editAmount">Сумма (₽)</label>
+            <label for="editAmount">${t('report.modal.amount')} (₽)</label>
             <div class="amount-editor">
               <button type="button" class="btn btn-secondary amount-step-btn" onclick="window.bumpReportAmount(-${AMOUNT_STEP})">-${AMOUNT_STEP}</button>
               <input
@@ -96,13 +97,13 @@ function createEditModal(template, currentAmount, section, categoryCode) {
 
           <div class="form-actions report-modal-actions">
             <button onclick="window.saveReportItem('${section}', '${categoryCode}')" class="btn btn-primary btn-save report-action-btn">
-              <span class="btn-label">💾 Сохранить</span>
+              <span class="btn-label">${t('common.save')}</span>
             </button>
             <button onclick="window.deleteReportItem('${section}', '${categoryCode}')" class="btn btn-danger btn-delete report-action-btn">
-              <span class="btn-label">🗑️ Обнулить</span>
+              <span class="btn-label">${t('report.modal.reset')}</span>
             </button>
             <button onclick="window.closeReportEditModal()" class="btn btn-secondary report-action-btn">
-              <span class="btn-label">✖️ Отмена</span>
+              <span class="btn-label">${t('common.cancel')}</span>
             </button>
           </div>
 
@@ -168,18 +169,19 @@ async function fetchCategoryData(section, categoryCode) {
 
 window.saveReportItem = async function(section, categoryCode) {
   try {
+    const t = window.i18n.t.bind(window.i18n);
     const amountInput = document.getElementById('editAmount');
     const amount = parseFloat(amountInput.value) || 0;
 
     if (amount < 0) {
-      showModalError('Сумма не может быть отрицательной');
+      showModalError(t('report.modal.negativeAmount'));
       return;
     }
 
     const saveBtn = document.querySelector('.btn-save');
     const saveBtnLabel = saveBtn?.querySelector('.btn-label');
     if (saveBtn) saveBtn.disabled = true;
-    if (saveBtnLabel) saveBtnLabel.textContent = '💾 Сохранение...';
+    if (saveBtnLabel) saveBtnLabel.textContent = t('report.modal.saving');
 
     const session = getSession();
     if (!session) throw new Error('No session');
@@ -222,25 +224,26 @@ window.saveReportItem = async function(section, categoryCode) {
     }
 
     console.log('Saved:', categoryCode, amount);
-    showModalSuccess('Сохранено');
+    showModalSuccess(t('report.modal.saved'));
 
     setTimeout(() => {
       window.closeReportEditModal();
       renderFinancialReport(accountId, year);
     }, 500);
   } catch (err) {
+    const t = window.i18n.t.bind(window.i18n);
     console.error('Error saving:', err);
-    showModalError('Ошибка сохранения');
+    showModalError(t('report.modal.saveError'));
 
     const saveBtn = document.querySelector('.btn-save');
     const saveBtnLabel = saveBtn?.querySelector('.btn-label');
     if (saveBtn) saveBtn.disabled = false;
-    if (saveBtnLabel) saveBtnLabel.textContent = '💾 Сохранить';
+    if (saveBtnLabel) saveBtnLabel.textContent = t('common.save');
   }
 };
 
 window.deleteReportItem = async function(section, categoryCode) {
-  const confirmed = confirm('Обнулить эту запись?');
+  const confirmed = confirm(window.i18n.t('report.modal.resetConfirm'));
   if (!confirmed) return;
 
   const amountInput = document.getElementById('editAmount');
@@ -272,64 +275,131 @@ function showModalSuccess(message) {
 function getCategoryTemplate(section, code) {
   const templates = {
     income: [
-      { idx: 1, code: 'A.1', group: 'Найм', label: 'Зарплата #1' },
-      { idx: 2, code: 'A.2', group: 'Найм', label: 'Зарплата #2' },
-      { idx: 3, code: 'A.3', group: 'Найм', label: 'Прочее зарплата' },
-      { idx: 4, code: 'C.1', group: 'Активы', label: 'Бизнес (NET)' },
-      { idx: 5, code: 'C.2', group: 'Активы', label: 'Недвижимость (NET)' },
-      { idx: 6, code: 'C.3', group: 'Активы', label: 'Прочее активы' },
-      { idx: 7, code: 'E.1', group: 'Портфолио', label: 'Банковские продукты' },
-      { idx: 8, code: 'E.2', group: 'Портфолио', label: 'Дивиденды' },
-      { idx: 9, code: 'E.3', group: 'Портфолио', label: 'Роялти' },
-      { idx: 10, code: 'E.4', group: 'Портфолио', label: 'Прочее роялти' }
+      { idx: 1, code: 'A.1', group: 'Employment', label: 'Salary #1' },
+      { idx: 2, code: 'A.2', group: 'Employment', label: 'Salary #2' },
+      { idx: 3, code: 'A.3', group: 'Employment', label: 'Other earned income' },
+      { idx: 4, code: 'C.1', group: 'Assets', label: 'Business (NET)' },
+      { idx: 5, code: 'C.2', group: 'Assets', label: 'Real estate (NET)' },
+      { idx: 6, code: 'C.3', group: 'Assets', label: 'Other passive income' },
+      { idx: 7, code: 'E.1', group: 'Portfolio', label: 'Long-term investing' },
+      { idx: 8, code: 'E.2', group: 'Portfolio', label: 'Investment projects' },
+      { idx: 9, code: 'E.3', group: 'Portfolio', label: 'Other portfolio income' }
     ],
     expenses: [
-      { idx: 1, code: '0.1', group: 'Предварительные', label: 'Инвестиции' },
-      { idx: 2, code: '0.2', group: 'Предварительные', label: 'Сбережения' },
-      { idx: 3, code: '0.3', group: 'Предварительные', label: 'Благотворительность' },
-      { idx: 4, code: '0.4', group: 'Предварительные', label: 'Карман' },
-      { idx: 5, code: '0.5', group: 'Предварительные', label: 'Развлечения' },
-      { idx: 6, code: '0.6', group: 'Предварительные', label: 'Налоги' },
-      { idx: 7, code: '1.1', group: 'Основные', label: 'Питание' },
-      { idx: 8, code: '1.2', group: 'Основные', label: 'Супружество' },
-      { idx: 9, code: '1.3', group: 'Основные', label: 'Жилье (рассрочка/рент + КУ)' },
-      { idx: 10, code: '1.4', group: 'Основные', label: 'Гардероб' },
-      { idx: 11, code: '1.5', group: 'Основные', label: 'Транспорт' },
-      { idx: 12, code: '1.6', group: 'Основные', label: 'Коммуникации' },
-      { idx: 13, code: '1.7', group: 'Основные', label: 'Фитнес' },
-      { idx: 14, code: '1.8', group: 'Основные', label: 'Хобби' },
-      { idx: 15, code: '1.9', group: 'Основные', label: 'Здоровье' },
-      { idx: 16, code: '1.10', group: 'Основные', label: 'Дети' },
-      { idx: 17, code: '1.11', group: 'Основные', label: 'Банковские услуги' },
-      { idx: 18, code: '1.12', group: 'Основные', label: 'Транспортные рассрочки' },
-      { idx: 19, code: '1.13', group: 'Основные', label: 'Образовательные рассрочки' },
-      { idx: 20, code: '1.14', group: 'Основные', label: 'Персональные займы' },
-      { idx: 21, code: '1.15', group: 'Основные', label: 'Прочее задолженности' },
-      { idx: 22, code: '1.16', group: 'Основные', label: 'Прочее расходы' }
+      { idx: 1, code: '0.1', group: 'Preliminary', label: 'Investments' },
+      { idx: 2, code: '0.2', group: 'Preliminary', label: 'Savings' },
+      { idx: 3, code: '0.3', group: 'Preliminary', label: 'Charity' },
+      { idx: 4, code: '0.4', group: 'Preliminary', label: 'Pocket money' },
+      { idx: 5, code: '0.5', group: 'Preliminary', label: 'Entertainment' },
+      { idx: 6, code: '0.6', group: 'Preliminary', label: 'Taxes' },
+      { idx: 7, code: '1.1', group: 'Main', label: 'Food' },
+      { idx: 8, code: '1.2', group: 'Main', label: 'Marriage' },
+      { idx: 9, code: '1.3', group: 'Main', label: 'Housing (installment/rent + utilities)' },
+      { idx: 10, code: '1.4', group: 'Main', label: 'Wardrobe' },
+      { idx: 11, code: '1.5', group: 'Main', label: 'Transport (incl. installments)' },
+      { idx: 12, code: '1.6', group: 'Main', label: 'Communications' },
+      { idx: 13, code: '1.7', group: 'Main', label: 'Fitness' },
+      { idx: 14, code: '1.8', group: 'Main', label: 'Hobbies' },
+      { idx: 15, code: '1.9', group: 'Main', label: 'Health' },
+      { idx: 16, code: '1.10', group: 'Main', label: 'Children' },
+      { idx: 18, code: '1.12', group: 'Main', label: 'Other installments' },
+      { idx: 19, code: '1.13', group: 'Main', label: 'Personal loans' },
+      { idx: 20, code: '1.14', group: 'Main', label: 'Other debts' },
+      { idx: 21, code: '1.15', group: 'Main', label: 'Other expenses' },
+      { idx: 22, code: '1.16', group: 'Main', label: 'Other expenses' }
     ],
     assets: [
-      { idx: 1, code: 'N.1', group: 'Активы', label: 'Банковские счета' },
-      { idx: 2, code: 'N.2', group: 'Активы', label: 'Цифровые активы' },
-      { idx: 3, code: 'N.3', group: 'Активы', label: 'Инвестиционные сертификаты' },
-      { idx: 4, code: 'N.4', group: 'Активы', label: 'Дебиторская задолженность' },
-      { idx: 5, code: 'N.5', group: 'Активы', label: 'Бизнес (оценка, NET)' },
-      { idx: 6, code: 'N.6', group: 'Активы', label: 'Недвижимость (минус рассрочка)' },
-      { idx: 7, code: 'N.7', group: 'Активы', label: 'Прочее активы' },
-      { idx: 8, code: 'P.1', group: 'Роскошь', label: 'Дом' },
-      { idx: 9, code: 'P.2', group: 'Роскошь', label: 'Автомобиль(и)' },
-      { idx: 10, code: 'P.3', group: 'Роскошь', label: 'Прочее роскошь' }
+      { idx: 1, code: 'N.1', group: 'Assets', label: 'Bank accounts' },
+      { idx: 2, code: 'N.2', group: 'Assets', label: 'Digital assets' },
+      { idx: 3, code: 'N.3', group: 'Assets', label: 'Investment certificates' },
+      { idx: 4, code: 'N.4', group: 'Assets', label: 'Accounts receivable' },
+      { idx: 5, code: 'N.5', group: 'Assets', label: 'Business (valuation, NET)' },
+      { idx: 6, code: 'N.6', group: 'Assets', label: 'Real estate (minus installments)' },
+      { idx: 7, code: 'N.7', group: 'Assets', label: 'Other assets' },
+      { idx: 8, code: 'P.1', group: 'Luxury', label: 'Home(s)' },
+      { idx: 9, code: 'P.2', group: 'Luxury', label: 'Car(s)' },
+      { idx: 10, code: 'P.3', group: 'Luxury', label: 'Other luxury' }
     ],
     liabilities: [
-      { idx: 1, code: 'T.1', group: 'Пассивы', label: 'Жилищная рассрочка' },
-      { idx: 2, code: 'T.2', group: 'Пассивы', label: 'Банковские услуги' },
-      { idx: 3, code: 'T.3', group: 'Пассивы', label: 'Транспортные рассрочки' },
-      { idx: 4, code: 'T.4', group: 'Пассивы', label: 'Образовательные рассрочки' },
-      { idx: 5, code: 'T.5', group: 'Пассивы', label: 'Персональные займы' },
-      { idx: 6, code: 'T.6', group: 'Пассивы', label: 'Прочее пассивы' }
+      { idx: 1, code: 'T.1', group: 'Liabilities', label: 'Housing installments' },
+      { idx: 2, code: 'T.2', group: 'Liabilities', label: 'Transport installments' },
+      { idx: 3, code: 'T.3', group: 'Liabilities', label: 'Other installments' },
+      { idx: 4, code: 'T.4', group: 'Liabilities', label: 'Personal loans' },
+      { idx: 5, code: 'T.5', group: 'Liabilities', label: 'Other debts' },
+      { idx: 6, code: 'T.6', group: 'Liabilities', label: 'Other liabilities' }
     ]
   };
 
-  return templates[section]?.find((template) => template.code === code);
+  const lang = window.i18n?.getCurrentLanguage?.() || 'ru';
+  const localize = {
+    Employment: { ru: 'Наемный доход', en: 'Employment' },
+    Assets: { ru: 'Активы', en: 'Assets' },
+    Portfolio: { ru: 'Портфель', en: 'Portfolio' },
+    Preliminary: { ru: 'Предварительные', en: 'Preliminary' },
+    Main: { ru: 'Основные', en: 'Main' },
+    Luxury: { ru: 'Роскошь', en: 'Luxury' },
+    Liabilities: { ru: 'Пассивы', en: 'Liabilities' },
+    'Salary #1': { ru: 'Зарплата #1', en: 'Salary #1' },
+    'Salary #2': { ru: 'Зарплата #2', en: 'Salary #2' },
+    'Other salary': { ru: 'Прочий наемный доход', en: 'Other earned income' },
+    'Other salary income': { ru: 'Прочий наемный доход', en: 'Other earned income' },
+    'Other employment income': { ru: 'Прочий наемный доход', en: 'Other earned income' },
+    'Other earned income': { ru: 'Прочий наемный доход', en: 'Other earned income' },
+    'Business (NET)': { ru: 'Бизнес (NET)', en: 'Business (NET)' },
+    'Real estate (NET)': { ru: 'Недвижимость (NET)', en: 'Real estate (NET)' },
+    'Other assets': { ru: 'Прочие активы', en: 'Other assets' },
+    'Other asset income': { ru: 'Прочий пассивный доход', en: 'Other passive income' },
+    'Other passive income': { ru: 'Прочий пассивный доход', en: 'Other passive income' },
+    'Bank products': { ru: 'Долгосрочное инвестирование', en: 'Long-term investing' },
+    Dividends: { ru: 'Инвестиционные проекты', en: 'Investment projects' },
+    Royalties: { ru: 'Прочий портфельный доход', en: 'Other portfolio income' },
+    'Other royalties': { ru: 'Прочий портфельный доход', en: 'Other portfolio income' },
+    'Long-term investing': { ru: 'Долгосрочное инвестирование', en: 'Long-term investing' },
+    'Investment projects': { ru: 'Инвестиционные проекты', en: 'Investment projects' },
+    'Other portfolio income': { ru: 'Прочий портфельный доход', en: 'Other portfolio income' },
+    Investments: { ru: 'Инвестиции', en: 'Investments' },
+    Savings: { ru: 'Сбережения', en: 'Savings' },
+    Charity: { ru: 'Благотворительность', en: 'Charity' },
+    'Pocket money': { ru: 'Карман', en: 'Pocket money' },
+    Entertainment: { ru: 'Развлечения', en: 'Entertainment' },
+    Taxes: { ru: 'Налоги', en: 'Taxes' },
+    Food: { ru: 'Питание', en: 'Food' },
+    Marriage: { ru: 'Супружество', en: 'Marriage' },
+    'Housing (installment/rent + utilities)': { ru: 'Жилье (рассрочка/рент + КУ)', en: 'Housing (installment/rent + utilities)' },
+    Wardrobe: { ru: 'Гардероб', en: 'Wardrobe' },
+    Transport: { ru: 'Транспорт (вкл. рассрочки)', en: 'Transport (incl. installments)' },
+    'Transport (incl. installments)': { ru: 'Транспорт (вкл. рассрочки)', en: 'Transport (incl. installments)' },
+    Communications: { ru: 'Коммуникации', en: 'Communications' },
+    Fitness: { ru: 'Фитнес', en: 'Fitness' },
+    Hobbies: { ru: 'Хобби', en: 'Hobbies' },
+    Health: { ru: 'Здоровье', en: 'Health' },
+    Children: { ru: 'Дети', en: 'Children' },
+    'Transport installments': { ru: 'Транспорт (вкл. рассрочки)', en: 'Transport (incl. installments)' },
+    'Other installments': { ru: 'Прочие рассрочки', en: 'Other installments' },
+    'Personal loans': { ru: 'Персональные займы', en: 'Personal loans' },
+    'Other debts': { ru: 'Прочие задолженности', en: 'Other debts' },
+    'Other expenses': { ru: 'Прочие расходы', en: 'Other expenses' },
+    'Bank accounts': { ru: 'Банковские счета', en: 'Bank accounts' },
+    'Digital assets': { ru: 'Наличные д/с', en: 'Digital assets' },
+    'Investment certificates': { ru: 'Инвестиционные сертификаты', en: 'Investment certificates' },
+    'Accounts receivable': { ru: 'Дебиторская задолженность', en: 'Accounts receivable' },
+    'Business (valuation, NET)': { ru: 'Бизнес (оценка, NET)', en: 'Business (valuation, NET)' },
+    'Real estate (minus installments)': { ru: 'Недвижимость (минус рассрочка)', en: 'Real estate (minus installments)' },
+    'Home(s)': { ru: 'Дом(а)', en: 'Home(s)' },
+    'Car(s)': { ru: 'Автомобиль(и)', en: 'Car(s)' },
+    'Other luxury': { ru: 'Прочая роскошь', en: 'Other luxury' },
+    'Housing installments': { ru: 'Жилищные рассрочки', en: 'Housing installments' },
+    'Other liabilities': { ru: 'Прочие пассивы', en: 'Other liabilities' }
+  };
+
+  const template = templates[section]?.find((item) => item.code === code);
+  if (!template) return null;
+
+  return {
+    ...template,
+    group: localize[template.group]?.[lang] || template.group,
+    label: localize[template.label]?.[lang] || template.label
+  };
 }
 
 document.addEventListener('keydown', (event) => {

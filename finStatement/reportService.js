@@ -17,7 +17,7 @@ const CATEGORIES_STRUCTURE = {
     { idx: 7, code: "E.1", group: "E", labelKey: "income.E.1" },
     { idx: 8, code: "E.2", group: "E", labelKey: "income.E.2" },
     { idx: 9, code: "E.3", group: "E", labelKey: "income.E.3" },
-    { idx: 10, code: "E.4", group: "E", labelKey: "income.E.4" }
+    
   ],
   
   expenses: [
@@ -37,12 +37,10 @@ const CATEGORIES_STRUCTURE = {
     { idx: 14, code: "1.8", group: "1", labelKey: "expenses.1.8" },
     { idx: 15, code: "1.9", group: "1", labelKey: "expenses.1.9" },
     { idx: 16, code: "1.10", group: "1", labelKey: "expenses.1.10" },
-    { idx: 17, code: "1.11", group: "1", labelKey: "expenses.1.11" },
     { idx: 18, code: "1.12", group: "1", labelKey: "expenses.1.12" },
     { idx: 19, code: "1.13", group: "1", labelKey: "expenses.1.13" },
     { idx: 20, code: "1.14", group: "1", labelKey: "expenses.1.14" },
-    { idx: 21, code: "1.15", group: "1", labelKey: "expenses.1.15" },
-    { idx: 22, code: "1.16", group: "1", labelKey: "expenses.1.16" }
+    { idx: 21, code: "1.15", group: "1", labelKey: "expenses.1.15" }
   ],
   
   assets: [
@@ -113,11 +111,20 @@ export async function getFinancialReport(accountId, year) {
 function mergeWithStructure(structure, firestoreData) {
   return structure.map(item => {
     const match = firestoreData.find(d => d.code === item.code);
+    const transportInstallments = item.code === "1.5"
+      ? firestoreData.find(d => d.code === "1.11")
+      : null;
+    const legacyPortfolioOther = item.code === "E.3"
+      ? firestoreData.find(d => d.code === "E.4")
+      : null;
     
     return {
       ...item,
       label: getLabel(item.labelKey),
-      amount: match ? (Number(match.amount) || 0) : 0,
+      amount:
+        (match ? (Number(match.amount) || 0) : 0) +
+        (transportInstallments ? (Number(transportInstallments.amount) || 0) : 0) +
+        (legacyPortfolioOther ? (Number(legacyPortfolioOther.amount) || 0) : 0),
       id: match?.id || null
     };
   });
