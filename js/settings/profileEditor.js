@@ -117,11 +117,45 @@ function showSuccess(text) {
   const el = byId('profileEditorSuccess');
   if (!el) return;
   el.textContent = text;
-  el.classList.remove('hidden');
+  el.classList.add('hidden');
 }
 
 function hideSuccess() {
   byId('profileEditorSuccess')?.classList.add('hidden');
+}
+
+function ensureProfileToastRail() {
+  let rail = byId('profileToastRail');
+  if (rail) return rail;
+  rail = document.createElement('div');
+  rail.id = 'profileToastRail';
+  rail.className = 'profile-toast-rail';
+  rail.setAttribute('aria-live', 'polite');
+  rail.setAttribute('aria-atomic', 'false');
+  document.body.appendChild(rail);
+  return rail;
+}
+
+function emitProfileToast(kind, text) {
+  if (!text) return;
+  const rail = ensureProfileToastRail();
+  const chip = document.createElement('div');
+  chip.className = `profile-toast-chip profile-toast-chip-${kind === 'error' ? 'error' : 'success'}`;
+  chip.innerHTML = `
+    <span class="profile-toast-icon" aria-hidden="true">${kind === 'error' ? '!' : '✓'}</span>
+    <span class="profile-toast-text"></span>
+  `;
+  chip.querySelector('.profile-toast-text').textContent = text;
+  rail.appendChild(chip);
+
+  requestAnimationFrame(() => chip.classList.add('is-visible'));
+
+  const dismiss = () => {
+    chip.classList.remove('is-visible');
+    window.setTimeout(() => chip.remove(), 220);
+  };
+
+  window.setTimeout(dismiss, kind === 'error' ? 5200 : 4200);
 }
 
 function normalizePhone(phone = '') {
@@ -245,6 +279,26 @@ async function updateAuthProfileServer(payload) {
   }
 }
 
+async function fetchUserProfileDocument(uid) {
+  const session = getSession();
+  const authToken = String(session?.authToken || '');
+  if (!uid || !authToken) return null;
+
+  const response = await fetch(`${API_URL}/api/users/${encodeURIComponent(uid)}?authToken=${encodeURIComponent(authToken)}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      Accept: 'application/json'
+    }
+  });
+
+  if (!response.ok) return null;
+
+  const body = await response.json().catch(() => ({}));
+  if (!body?.success || !body?.userData) return null;
+  return body.userData;
+}
+
 async function ensureAuthUser() {
   ensureFirebaseClients();
   if (authInstance.currentUser) return authInstance.currentUser;
@@ -363,10 +417,12 @@ async function openProfileEditor() {
   hideSuccess();
   state.newPhotoFile = null;
 
+  const userDoc = await fetchUserProfileDocument(user.uid).catch(() => null);
+
   const email = String(user.email || '');
-  const displayName = String(user.displayName || '');
-  const phoneNumber = normalizePhone(String(user.phoneNumber || ''));
-  const photoURL = String(user.photoURL || '');
+  const displayName = String(user.displayName || userDoc?.displayName || '');
+  const phoneNumber = normalizePhone(String(user.phoneNumber || userDoc?.phoneNumber || ''));
+  const photoURL = String(user.photoURL || userDoc?.photoURL || '');
   const hayati = await resolveHayatiIdentity();
 
   byId('profileEditorEmail').value = email;
@@ -403,24 +459,31 @@ function applyEmailVerificationUI(user, emailVerifiedText = '') {
     : t('profileEditor.emailNotVerified', 'Not verified'));
   const badge = byId('profileEditorEmailVerifiedBadge');
   if (badge) {
-    badge.textContent = text;
     badge.classList.toggle('verified', isVerified);
+    badge.setAttribute('data-tooltip', text);
+    badge.setAttribute('aria-label', text);
+    badge.removeAttribute('title');
   }
 
   const verifyBtn = byId('profileEditorVerifyEmailBtn');
   if (verifyBtn) {
     verifyBtn.disabled = false;
     verifyBtn.classList.toggle('hidden', isVerified);
-    verifyBtn.textContent = isVerified
+    const actionText = isVerified
       ? t('profileEditor.emailAlreadyVerified', 'Email verified')
       : t('profileEditor.sendVerification', 'Send verification email');
+    verifyBtn.setAttribute('data-tooltip', actionText);
+    verifyBtn.setAttribute('aria-label', actionText);
+    verifyBtn.removeAttribute('title');
   }
 }
 
 async function refreshProfileEmailVerificationStatus() {
   const user = await ensureAuthUser().catch(() => null);
   if (!user) {
-    showError(t('profileEditor.errorNotAuthorized', 'Authorization required. Please sign in again.'));
+    const message = t('profileEditor.errorNotAuthorized', 'Authorization required. Please sign in again.');
+    showError(message);
+    emitProfileToast('error', message);
     return;
   }
   await user.reload();
@@ -430,7 +493,9 @@ async function refreshProfileEmailVerificationStatus() {
 async function sendProfileEmailVerification() {
   const user = await ensureAuthUser().catch(() => null);
   if (!user) {
-    showError(t('profileEditor.errorNotAuthorized', 'Authorization required. Please sign in again.'));
+    const message = t('profileEditor.errorNotAuthorized', 'Authorization required. Please sign in again.');
+    showError(message);
+    emitProfileToast('error', message);
     return;
   }
   hideError();
@@ -438,23 +503,32 @@ async function sendProfileEmailVerification() {
 
   if (user.emailVerified) {
     applyEmailVerificationUI(user);
-    showSuccess(t('profileEditor.emailAlreadyVerified', 'Email verified'));
+    const message = t('profileEditor.emailAlreadyVerified', 'Email verified');
+    showSuccess(message);
+    emitProfileToast('success', message);
     return;
   }
 
   try {
     await sendEmailVerification(user);
-    showSuccess(t('profileEditor.emailVerificationSent', 'Verification email sent'));
+    const message = t('profileEditor.emailVerificationSent', 'Verification email sent');
+    showSuccess(message);
+    emitProfileToast('success', message);
   } catch (error) {
     const msg = String(error?.message || '');
-    showError(`${t('profileEditor.emailVerificationFailed', 'Failed to send verification email')}: ${msg}`);
+    const message = `${t('profileEditor.emailVerificationFailed', 'Failed to send verification email')}: ${msg}`;
+    showError(message);
+    emitProfileToast('error', message);
   }
 }
 
 async function saveProfileEditor() {
+  if (state.isSaving) return;
   const user = await ensureAuthUser().catch(() => null);
   if (!user) {
-    showError(t('profileEditor.errorNotAuthorized', 'Authorization required. Please sign in again.'));
+    const message = t('profileEditor.errorNotAuthorized', 'Authorization required. Please sign in again.');
+    showError(message);
+    emitProfileToast('error', message);
     return;
   }
 
@@ -463,12 +537,16 @@ async function saveProfileEditor() {
 
   const values = readFormValues();
   if (!values.displayName) {
-    showError(t('profileEditor.errorDisplayNameRequired', 'Display name is required.'));
+    const message = t('profileEditor.errorDisplayNameRequired', 'Display name is required.');
+    showError(message);
+    emitProfileToast('error', message);
     return;
   }
 
   if (!isValidE164(values.phoneNumber)) {
-    showError(t('profileEditor.errorInvalidPhone', 'Phone number must be in E.164 format, example: +79991234567.'));
+    const message = t('profileEditor.errorInvalidPhone', 'Phone number must be in E.164 format, example: +79991234567.');
+    showError(message);
+    emitProfileToast('error', message);
     return;
   }
 
@@ -508,7 +586,9 @@ async function saveProfileEditor() {
     state.newPhotoFile = null;
     const fileLabel = byId('profileEditorPhotoFilename');
     if (fileLabel) fileLabel.textContent = '';
-    showSuccess(t('profileEditor.successSaved', 'Profile updated successfully.'));
+    const message = t('profileEditor.successSaved', 'Profile updated successfully.');
+    showSuccess(message);
+    emitProfileToast('success', message);
 
     try {
       window.dispatchEvent(new CustomEvent('cabinetProfileUpdated', { detail: updatedPayload }));
@@ -518,11 +598,17 @@ async function saveProfileEditor() {
   } catch (error) {
     const raw = String(error?.message || '').trim();
     if (raw.includes('Phone number')) {
-      showError(t('profileEditor.errorInvalidPhone', 'Phone number must be in E.164 format, example: +79991234567.'));
+      const message = t('profileEditor.errorInvalidPhone', 'Phone number must be in E.164 format, example: +79991234567.');
+      showError(message);
+      emitProfileToast('error', message);
     } else if (raw.includes('AUTH_REQUIRED') || raw.includes('AUTH_TOKEN') || raw.includes('INVALID_AUTH_TOKEN')) {
-      showError(t('profileEditor.errorNotAuthorized', 'Authorization required. Please sign in again.'));
+      const message = t('profileEditor.errorNotAuthorized', 'Authorization required. Please sign in again.');
+      showError(message);
+      emitProfileToast('error', message);
     } else {
-      showError(`${t('profileEditor.errorSaveFailed', 'Failed to update profile. Please try again.')}${raw ? ` (${raw})` : ''}`);
+      const message = `${t('profileEditor.errorSaveFailed', 'Failed to update profile. Please try again.')}${raw ? ` (${raw})` : ''}`;
+      showError(message);
+      emitProfileToast('error', message);
     }
     console.error('[profileEditor] save failed:', raw || error);
   } finally {

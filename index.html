@@ -429,9 +429,29 @@
                     <span class="profile-icon-cell" aria-hidden="true">✉️</span>
                     <input id="profileEditorEmail" class="setting-input" type="text" readonly>
                   </div>
-                  <span id="profileEditorEmailVerifiedBadge" class="profile-editor-verified-badge" data-i18n="profileEditor.emailNotVerified">Not verified</span>
-                  <button id="profileEditorVerifyEmailBtn" type="button" class="btn btn-secondary btn-small" onclick="sendProfileEmailVerification()">
-                    <span data-i18n="profileEditor.sendVerification">Verify</span>
+                  <span
+                    id="profileEditorEmailVerifiedBadge"
+                    class="profile-editor-icon-action profile-editor-email-state"
+                    aria-live="polite"
+                    data-tooltip=""
+                  >
+                    <svg class="profile-editor-action-icon profile-editor-action-icon-alert" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path>
+                      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    </svg>
+                  </span>
+                  <button
+                    id="profileEditorVerifyEmailBtn"
+                    type="button"
+                    class="profile-editor-icon-action profile-editor-email-action"
+                    onclick="sendProfileEmailVerification()"
+                    data-tooltip=""
+                  >
+                    <svg class="profile-editor-action-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="m22 2-7 20-4-9-9-4Z"></path>
+                      <path d="M22 2 11 13"></path>
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -461,7 +481,7 @@
               <span id="profileEditorSaveText" data-i18n="profileEditor.save">Save</span>
             </button>
             <button id="profileEditorCancelBtn" type="button" class="btn profile-editor-action-btn profile-editor-action-cancel" onclick="attemptCloseProfileEditor()">
-              <span data-i18n="common.cancel">Cancel</span>
+              <span data-i18n="common.close">Close</span>
             </button>
           </div>
         </div>
@@ -572,6 +592,7 @@
         0 20px 60px rgba(0, 0, 0, 0.5),
         0 0 45px rgba(0, 240, 255, 0.24),
         inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      overflow: visible;
     }
 
     .profile-editor-content .modal-header {
@@ -712,6 +733,7 @@
       flex-wrap: nowrap;
       gap: 8px;
       align-items: center;
+      overflow: visible;
     }
 
     .profile-editor-verify-row > .profile-editor-icon-row {
@@ -719,32 +741,118 @@
       min-width: 0;
     }
 
-    .profile-editor-verify-row #profileEditorVerifyEmailBtn {
-      min-height: 34px;
-      padding: 0 10px;
-      white-space: nowrap;
+    #profileEditorEmail {
+      text-overflow: clip;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       font-size: 12px;
+      line-height: 1.2;
     }
 
-    .profile-editor-verified-badge {
+    #profileEditorEmail::-webkit-scrollbar {
+      display: none;
+    }
+
+    .profile-editor-icon-action {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 34px;
-      padding: 0 8px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 110, 135, 0.45);
-      background: rgba(255, 110, 135, 0.16);
-      color: #ffd2db;
-      font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      background: rgba(0, 240, 255, 0.08);
+      color: #dffbff;
+      box-shadow: inset 0 0 16px rgba(0, 240, 255, 0.08);
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+      flex: 0 0 34px;
     }
 
-    .profile-editor-verified-badge.verified {
-      border-color: rgba(0, 255, 159, 0.45);
-      background: rgba(0, 255, 159, 0.16);
+    .profile-editor-icon-action:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(0, 240, 255, 0.48);
+      box-shadow: inset 0 0 18px rgba(0, 240, 255, 0.16), 0 0 18px rgba(0, 240, 255, 0.1);
+    }
+
+    .profile-editor-icon-action:disabled {
+      opacity: 0.58;
+      cursor: not-allowed;
+    }
+
+    .profile-editor-action-icon {
+      display: block;
+    }
+
+    .profile-editor-action-icon-alert {
+      transform: translateY(-0.5px);
+    }
+
+    .profile-editor-email-state {
+      border-color: rgba(255, 110, 135, 0.4);
+      background: rgba(255, 110, 135, 0.13);
+      color: #ffd2db;
+    }
+
+    .profile-editor-email-state.verified {
+      border-color: rgba(0, 255, 159, 0.42);
+      background: rgba(0, 255, 159, 0.14);
       color: #b7ffdf;
+    }
+
+    .profile-editor-email-state.verified .profile-editor-action-icon-alert {
+      display: none;
+    }
+
+    .profile-editor-email-state::before {
+      content: '';
+      width: 14px;
+      height: 14px;
+      display: none;
+      background: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .profile-editor-email-state.verified::before {
+      display: block;
+    }
+
+    .profile-editor-email-action {
+      cursor: pointer;
+    }
+
+    .profile-editor-icon-action[data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 10px);
+      transform: translateX(-50%) translateY(4px);
+      min-width: max-content;
+      max-width: 220px;
+      padding: 7px 9px;
+      border-radius: 10px;
+      background: rgba(7, 18, 37, 0.95);
+      border: 1px solid rgba(0, 240, 255, 0.28);
+      color: #edfaff;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.3;
+      white-space: normal;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 4;
+    }
+
+    .profile-editor-icon-action[data-tooltip]:hover::after,
+    .profile-editor-icon-action[data-tooltip]:focus-visible::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     .profile-editor-hayati-row {
@@ -841,6 +949,90 @@
         0 0 45px rgba(255, 99, 132, 0.2);
     }
 
+    .profile-toast-rail {
+      position: fixed;
+      left: 22px;
+      bottom: 22px;
+      z-index: 2500;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+      max-width: min(360px, calc(100vw - 32px));
+    }
+
+    .profile-toast-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      min-height: 52px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 240, 255, 0.32);
+      background:
+        linear-gradient(135deg, rgba(12, 27, 49, 0.97), rgba(18, 24, 49, 0.96)),
+        radial-gradient(circle at left center, rgba(0, 240, 255, 0.18), transparent 55%);
+      box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.36),
+        0 0 28px rgba(0, 240, 255, 0.14);
+      color: #edfaff;
+      transform: translateX(-18px);
+      opacity: 0;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      backdrop-filter: blur(14px);
+    }
+
+    .profile-toast-chip.is-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .profile-toast-chip-success {
+      border-color: rgba(0, 255, 191, 0.34);
+      box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.36),
+        0 0 30px rgba(0, 255, 191, 0.18);
+    }
+
+    .profile-toast-chip-error {
+      border-color: rgba(255, 120, 142, 0.34);
+      box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.36),
+        0 0 30px rgba(255, 120, 142, 0.18);
+    }
+
+    .profile-toast-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      flex: 0 0 26px;
+      font-size: 14px;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.08);
+      color: #e9ffff;
+    }
+
+    .profile-toast-chip-success .profile-toast-icon {
+      background: rgba(0, 255, 191, 0.18);
+      color: #9bffe4;
+    }
+
+    .profile-toast-chip-error .profile-toast-icon {
+      background: rgba(255, 120, 142, 0.16);
+      color: #ffd0d8;
+    }
+
+    .profile-toast-text {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: 0.01em;
+    }
+
     @media (max-width: 700px) {
       .profile-editor-layout {
         grid-template-columns: 1fr;
@@ -852,7 +1044,23 @@
       }
 
       .profile-editor-verify-row {
+        display: flex;
         flex-wrap: nowrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .profile-editor-verify-row > .profile-editor-icon-row {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .profile-editor-email-state {
+        flex: 0 0 28px;
+      }
+
+      .profile-editor-email-action {
+        flex: 0 0 28px;
       }
 
       .profile-editor-hayati-row {
@@ -876,6 +1084,38 @@
       .profile-editor-action-btn {
         width: 50%;
         min-width: 0;
+      }
+
+      .profile-toast-rail {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        max-width: none;
+      }
+
+      .profile-editor-icon-action {
+        width: 28px;
+        height: 28px;
+        border-radius: 10px;
+        flex-basis: 28px;
+      }
+
+      .profile-editor-icon-action[data-tooltip]::after {
+        left: 50%;
+        right: auto;
+        top: calc(100% + 8px);
+        transform: translateX(-50%) translateY(4px);
+        max-width: min(180px, calc(100vw - 36px));
+        font-size: 10px;
+      }
+
+      .profile-editor-icon-action[data-tooltip]:hover::after,
+      .profile-editor-icon-action[data-tooltip]:focus-visible::after {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      #profileEditorEmail {
+        font-size: 11px;
       }
     }
   </style>

@@ -52,6 +52,7 @@ export async function renderFinancialReport(accountId, year = new Date().getFull
   try {
     closeMobileExpandedSection();
     console.log(`📊 Rendering financial report: ${accountId}, ${year}`);
+    const t = window.i18n?.t ? window.i18n.t.bind(window.i18n) : (_key, fallback) => fallback || _key;
     
     // Show loading
     const container = document.getElementById('dashboardContent');
@@ -63,7 +64,7 @@ export async function renderFinancialReport(accountId, year = new Date().getFull
     container.innerHTML = `
       <div class="loading-stack financial-report-loading" aria-live="polite" aria-busy="true">
         <div class="spinner"></div>
-        <p class="loading-copy">Загрузка финансового отчета...</p>
+        <p class="loading-copy" data-i18n="report.loading">${t('report.loading', 'Loading financial report...')}</p>
       </div>
     `;
     
