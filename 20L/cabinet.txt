@@ -1,0 +1,3 @@
+первая  реализация началась здесь - C:\dev\2. HayatiBank\website\production\cabinet.hayatibank.ru\20L
+
+но, все-же это - C:\dev\2. HayatiBank\website\development\sales.hayatibank.ru\development - двигатель торговли и кабинет будет лишь поверхностно отражать какие-то цифры. 
