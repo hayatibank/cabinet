@@ -32,7 +32,7 @@ export function renderHYCBalance(balance) {
         class="hyc-logo"
         onerror="this.style.display='none'"
       />
-      <span class="hyc-amount">${formatted} HYC</span>
+      <span class="hyc-amount">${formatted} vHYC</span>
     `;
 
     console.log('[HYC] Balance rendered:', formatted);

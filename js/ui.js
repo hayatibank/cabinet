@@ -121,7 +121,7 @@ function setDocumentTitle(mode = 'auth') {
 function updateCabinetTicker() {
   if (!tickerTextEl) return;
   const tLabel = t('hayatiId.label', 'Hayati ID');
-  const hycLabel = 'Hayati Coin';
+  const hycLabel = 'Hayati vCoin';
   const displayNameLabel = t('cabinet.ticker.displayName', 'Display name');
 
   const escapeHtml = (value = '') => String(value)
@@ -149,7 +149,7 @@ function updateCabinetTicker() {
     pods.push(`<span class="ticker-pod pod-id">${escapeHtml(tLabel)}: ${escapeHtml(tickerState.hayatiId)}${tierChip}</span>`);
   }
   if (tickerState.hycBalance) {
-    pods.push(`<span class="ticker-pod pod-coin">${hycLabel}: ${escapeHtml(tickerState.hycBalance)} HYC</span>`);
+    pods.push(`<span class="ticker-pod pod-coin">${hycLabel}: ${escapeHtml(tickerState.hycBalance)} vHYC</span>`);
   }
 
   tickerTextEl.innerHTML = pods.join('') || '<span class="ticker-pod">-</span>';
